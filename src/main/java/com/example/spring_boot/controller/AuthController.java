@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.example.spring_boot.model.ERole;
-import com.example.spring_boot.model.Role;
-import com.example.spring_boot.model.User;
+import com.example.spring_boot.entity.ERole;
+import com.example.spring_boot.entity.Role;
+import com.example.spring_boot.entity.User;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.LoginRequest;
 import com.example.spring_boot.payload.request.SignupRequest;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/duc/api/auth")
+    @RequestMapping("/duc/api/auth")
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -86,11 +86,16 @@ public class AuthController {
                     .badRequest()
                     .body(new DataObj().setEcode("Error: Email is already in use!"));
         }
+        if (userRepository.existsByPhone(signUpRequest.getPhone())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new DataObj().setEcode("Error: phone is already in use!"));
+        }
 
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),signUpRequest.getPhone());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();

@@ -1,10 +1,12 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("serial")
@@ -21,6 +23,7 @@ public class Size implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @ManyToMany(mappedBy = "size")
-    private Set<Productdetail> productdetail = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "size")
+    private List<Productdetail> productdetails;
 }

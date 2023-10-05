@@ -24,7 +24,7 @@ public class Image implements Serializable {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "idproduct")
-    private Account account;
+    private User  account;
 
     @JsonIgnore
     @OneToMany(mappedBy = "image")

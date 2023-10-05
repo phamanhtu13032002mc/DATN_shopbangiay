@@ -31,14 +31,11 @@ public class HistoryPay implements Serializable {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "id", updatable = true, insertable = false)
+    @JoinColumn(name = "idStrideStylePay", updatable = true, insertable = false)
     private StrideStylePay strideStylePay;
 
 
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "historypay", updatable = false, insertable = false)
-    private Bill bill;
+
 
 
 }

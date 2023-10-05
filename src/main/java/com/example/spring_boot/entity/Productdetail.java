@@ -17,22 +17,26 @@ public class Productdetail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int quantity;
+    private long quantity;
 
     @ManyToOne
-    @JoinColumn(name = "idproduct")
+    @JoinColumn(name = "idproduct",  updatable = false, insertable = false)
     private Product product;
+    @Column(name = "idproduct")
+    private Long idProduct;
+    @ManyToOne
+    @JoinColumn(name = "idproperty", updatable = false, insertable = false)
+    private Property property;
+    @Column(name = "idproperty")
+    private Long idproperty;
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "productdetail")
-    private List<Property> properties;
-
-    @ManyToMany
-    @JoinTable(name = "productdetail",
-            joinColumns = @JoinColumn(name = "productdetail"),
-            inverseJoinColumns = @JoinColumn(name = "size"))
-    private Set<Size> size;
-
+    @ManyToOne
+    @JoinColumn(name = "idSizes", updatable = false, insertable = false)
+    private Size size;
+    @Column(name = "idsize")
+    private Long idsize;
     @JsonIgnore
     @OneToMany(mappedBy = "productdetail")
     private List<OderDetail> oderDetails;
