@@ -89,5 +89,9 @@ public class Bill implements Serializable {
     @JoinColumn(name = "id_historypay", updatable = false, insertable = false)
     private HistoryPay historyPay;
 
+    @ManyToOne
+    @JoinColumn(name = "idvoucher")
+    private Voucher voucher;
+
 
 }
