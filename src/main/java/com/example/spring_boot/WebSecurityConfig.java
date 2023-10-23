@@ -22,10 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableGlobalMethodSecurity(
-        // securedEnabled = true,
-        // jsr250Enabled = true,
         prePostEnabled = true)
-public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
     @Autowired
     UserDetailServiceImpl userDetailsService;
 
@@ -37,10 +35,6 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         return new AuthTokenFilter();
     }
 
-//  @Override
-//  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//  }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -52,12 +46,6 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-//  @Bean
-//  @Override
-//  public AuthenticationManager authenticationManagerBean() throws Exception {
-//    return super.authenticationManagerBean();
-//  }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
@@ -68,25 +56,16 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//  @Override
-//  protected void configure(HttpSecurity http) throws Exception {
-//    http.cors().and().csrf().disable()
-//      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//      .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-//      .antMatchers("/api/test/**").permitAll()
-//      .anyRequest().authenticated();
-//
-//    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//  }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/duc/api/auth/**").permitAll()
-                .antMatchers("duc/api/v1/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll() // Your API authentication endpoints
+                .antMatchers("/api/v1/**").permitAll() // Other API endpoints
+                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**").permitAll() // Swagger resources
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

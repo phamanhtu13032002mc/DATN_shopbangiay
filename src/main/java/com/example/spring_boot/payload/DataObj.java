@@ -1,5 +1,6 @@
 package com.example.spring_boot.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class DataObj {
     private String ecode;
     private String edesc;
     private Object data;
+    @JsonIgnore
     private Object data2;
 
     public DataObj(String ecode, String edesc, Object data) {

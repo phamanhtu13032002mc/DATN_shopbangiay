@@ -23,6 +23,11 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+    @NotBlank
+    @Size( max = 11)
+    private String phone;
+
+    private boolean isDelete = false;
 
     public String getUsername() {
         return username;
@@ -38,6 +43,14 @@ public class SignupRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {

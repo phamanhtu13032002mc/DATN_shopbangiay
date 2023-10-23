@@ -1,6 +1,6 @@
 package com.example.spring_boot.security.service;
 
-import com.example.spring_boot.model.User;
+import com.example.spring_boot.entity.UserEntity;
 import com.example.spring_boot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,10 +18,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
-        return UserDetailImpl.build(user);
+        return UserDetailImpl.build(userEntity);
     }
 
 }
