@@ -1,19 +1,18 @@
 package com.example.spring_boot.security.service;
 
-import com.example.spring_boot.entity.Category;
-import com.example.spring_boot.entity.User;
+import com.example.spring_boot.entity.CategoryEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CategoryService {
-    List<Category> findAllDeleteIsFalse();
-    List<Category> findAll();
+    List<CategoryEntity> findAllDeleteIsFalse();
+    List<CategoryEntity> findAll();
 
-    Category save(Category category);
+    CategoryEntity save(CategoryEntity categoryEntity);
 
     void delete(Long id);
 
-    Optional<Category> findByID(Long id);
+    Optional<CategoryEntity> findByID(Long id);
 
 }

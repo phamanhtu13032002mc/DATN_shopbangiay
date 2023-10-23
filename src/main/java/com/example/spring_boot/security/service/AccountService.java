@@ -1,19 +1,19 @@
 package com.example.spring_boot.security.service;
 
-import com.example.spring_boot.entity.User;
+import com.example.spring_boot.entity.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface AccountService {
-    List<User> findByisDeleteFalse();
+    List<UserEntity> findByisDeleteFalse();
 
-    User save(User user);
+    UserEntity save(UserEntity userEntity);
 
-    Optional<User> findByID(Long id);
+    Optional<UserEntity> findByID(Long id);
 
-    List<User> findByNameLike(String name);
+    List<UserEntity> findByNameLike(String name);
 
-    User delete (Long id);
+    UserEntity delete (Long id);
 
 }

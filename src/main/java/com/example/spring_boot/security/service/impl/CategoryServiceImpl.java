@@ -1,6 +1,6 @@
 package com.example.spring_boot.security.service.impl;
 
-import com.example.spring_boot.entity.Category;
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.repository.CategoryRepository;
 import com.example.spring_boot.security.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,29 +13,29 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
     @Override
-    public List<Category> findAllDeleteIsFalse() {
+    public List<CategoryEntity> findAllDeleteIsFalse() {
         return categoryRepository.findAllByIsDeleteFase();
     }
 
     @Override
-    public List<Category> findAll() {
+    public List<CategoryEntity> findAll() {
         return categoryRepository.findAll();
     }
 
     @Override
-    public Category save(Category category) {
-        return categoryRepository.save(category);
+    public CategoryEntity save(CategoryEntity categoryEntity) {
+        return categoryRepository.save(categoryEntity);
     }
 
     @Override
     public void delete(Long id) {
-        Category category  = categoryRepository.findById(id).get();
-        category.setIsDelete(true);
-        categoryRepository.save(category);
+        CategoryEntity categoryEntity = categoryRepository.findById(id).get();
+        categoryEntity.setIsDelete(true);
+        categoryRepository.save(categoryEntity);
     }
 
     @Override
-    public Optional<Category> findByID(Long id) {
+    public Optional<CategoryEntity> findByID(Long id) {
         return categoryRepository.findById(id);
     }
 }

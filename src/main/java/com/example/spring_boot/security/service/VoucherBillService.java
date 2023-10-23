@@ -1,14 +1,13 @@
 package com.example.spring_boot.security.service;
 
-import com.example.spring_boot.entity.Voucher;
-import com.example.spring_boot.entity.VoucherBill;
+import com.example.spring_boot.entity.VoucherBillEntity;
 
 import java.util.List;
 
 public interface VoucherBillService {
-    List<VoucherBill> findAllDeleteIsFalse();
+    List<VoucherBillEntity> findAllDeleteIsFalse();
 
-    VoucherBill save(VoucherBill voucherBill);
+    VoucherBillEntity save(VoucherBillEntity voucherBillEntity);
 
 
 }
