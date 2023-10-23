@@ -20,7 +20,6 @@ public class CategoryController {
     }
     @GetMapping(value = "/get-by-id/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable("id") long id) {
-
         return new  ResponseEntity(categoryService.findByID(id), HttpStatus.OK);
     }
     @PostMapping(value = "/delete/{id}")

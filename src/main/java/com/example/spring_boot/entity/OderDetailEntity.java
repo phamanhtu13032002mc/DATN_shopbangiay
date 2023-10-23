@@ -26,6 +26,7 @@ public class OderDetailEntity implements Serializable {
     private Double intoMoney;//thành tiền
     private Double downPrice;//giá giảm
     private Long quantity_oder;//số lượng mua
+
     @Column(name = "isDelete")
     @Builder.Default
     private Boolean isDelete = false;

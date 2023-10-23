@@ -21,7 +21,7 @@ public class VoucherController {
     public ResponseEntity<?> saveVoucher(@RequestBody VoucherEntity voucherEntity) {
         return new  ResponseEntity(voucherService.save(voucherEntity), HttpStatus.OK);
     }
-    @PostMapping(value = "update")
+    @PostMapping(value = "/update")
     public ResponseEntity<?> updateVoucher(@RequestBody VoucherEntity voucherEntity) {
         return new  ResponseEntity(voucherService.save(voucherEntity), HttpStatus.OK);
     }
