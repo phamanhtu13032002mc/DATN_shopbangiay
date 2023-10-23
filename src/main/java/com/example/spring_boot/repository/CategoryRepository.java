@@ -1,17 +1,16 @@
 package com.example.spring_boot.repository;
 
-import com.example.spring_boot.entity.Category;
-import com.example.spring_boot.entity.User;
+import com.example.spring_boot.entity.CategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CategoryRepository extends JpaRepository<Category,Long> {
+public interface CategoryRepository extends JpaRepository<CategoryEntity,Long> {
     @Query(value = "SELECT * FROM category WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
-    List<Category> findAllByIsDeleteFase();
+    List<CategoryEntity> findAllByIsDeleteFase();
 
 
-    Optional<Category> findByName(String name);
+    Optional<CategoryEntity> findByName(String name);
 }

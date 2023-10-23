@@ -1,6 +1,6 @@
 package com.example.spring_boot.security.service.impl;
 
-import com.example.spring_boot.entity.Product;
+import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.repository.ProductRepository;
 import com.example.spring_boot.security.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +15,35 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public List<Product> findAll() {
+    public List<ProductEntity> findAll() {
         return productRepository.findAll();
     }
 
     @Override
-    public Product findById(Long id) {
+    public ProductEntity findById(Long id) {
         return productRepository.findById(id).get();
     }
 
     @Override
-    public List<Product> findByNameLike(String name) {
+    public List<ProductEntity> findByNameLike(String name) {
         return null;
     }
 
     @Override
     public void delete(Long id) {
-        Product product = productRepository.findById(id).get();
-        product.setIsDelete(true);
-        productRepository.save(product);
+        ProductEntity productEntity = productRepository.findById(id).get();
+        productEntity.setIsDelete(true);
+        productRepository.save(productEntity);
 
     }
 
     @Override
-    public Product create(Product product) {
-        return productRepository.save(product);
+    public ProductEntity create(ProductEntity productEntity) {
+        return productRepository.save(productEntity);
     }
 
     @Override
-    public List<Product> findAllByIsDeleteFalse() {
+    public List<ProductEntity> findAllByIsDeleteFalse() {
         return productRepository.findAllByIsDeleteFase();
     }
 }

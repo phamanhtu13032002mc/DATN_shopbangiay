@@ -1,15 +1,15 @@
 package com.example.spring_boot.security.service;
-import com.example.spring_boot.entity.Voucher;
+import com.example.spring_boot.entity.VoucherEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface VoucherService {
-    List<Voucher> findAllDeleteIsFalse();
+    List<VoucherEntity> findAllDeleteIsFalse();
 
-    Voucher save(Voucher voucher);
+    VoucherEntity save(VoucherEntity voucherEntity);
 
     void delete(long id);
 
-    Optional<Voucher> findByID(long id);
+    Optional<VoucherEntity> findByID(long id);
 }

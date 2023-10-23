@@ -1,6 +1,6 @@
 package com.example.spring_boot.security.service.impl;
 
-import com.example.spring_boot.entity.User;
+import com.example.spring_boot.entity.UserEntity;
 import com.example.spring_boot.repository.UserRepository;
 import com.example.spring_boot.security.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,31 +20,31 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public List<User> findByisDeleteFalse() {
+    public List<UserEntity> findByisDeleteFalse() {
         return userRepository.findAllByDeleteFalse();
     }
 
     @Override
-    public User save(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public UserEntity save(UserEntity userEntity) {
+        userEntity.setPassword(encoder.encode(userEntity.getPassword()));
+        return userRepository.save(userEntity);
     }
 
     @Override
-    public Optional<User> findByID(Long id) {
+    public Optional<UserEntity> findByID(Long id) {
         return userRepository.findById(id) ;
     }
 
     @Override
-    public List<User> findByNameLike(String name) {
+    public List<UserEntity> findByNameLike(String name) {
         return userRepository.findUserByLike(name);
     }
 
     @Override
-    public User delete(Long id) {
-         User user = userRepository.findById(id).get();
-         user.setDelete(true);
-         userRepository.save(user);
-        return user;
+    public UserEntity delete(Long id) {
+         UserEntity userEntity = userRepository.findById(id).get();
+         userEntity.setDelete(true);
+         userRepository.save(userEntity);
+        return userEntity;
     }
 }

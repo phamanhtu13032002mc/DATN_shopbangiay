@@ -1,9 +1,7 @@
 package com.example.spring_boot.controller.admin;
 
-import com.example.spring_boot.entity.Voucher;
-import com.example.spring_boot.entity.VoucherBill;
+import com.example.spring_boot.entity.VoucherBillEntity;
 import com.example.spring_boot.security.service.VoucherBillService;
-import com.example.spring_boot.security.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,22 +9,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/VoucherBillManager")
+@RequestMapping("/voucher-bill-manager")
 public class VoucherBillController {
     @Autowired
     VoucherBillService voucherBillService;
 
-    @GetMapping(value = "/findAllByIsDeleteFalse")
+    @GetMapping(value = "/find-all")
     public ResponseEntity<?> getVoucherBillList() {
         return new  ResponseEntity(voucherBillService.findAllDeleteIsFalse(), HttpStatus.OK);
     }
-    @PostMapping(value = "VoucherBillSave")
-    public ResponseEntity<?> SaveVoucherBill(@RequestBody VoucherBill voucherBill) {
-        return new  ResponseEntity(voucherBillService.save(voucherBill), HttpStatus.OK);
+    @PostMapping(value = "/save")
+    public ResponseEntity<?> saveVoucherBill(@RequestBody VoucherBillEntity voucherBillEntity) {
+        return new  ResponseEntity(voucherBillService.save(voucherBillEntity), HttpStatus.OK);
     }
-    @PostMapping(value = "VoucherBillUpdate")
-    public ResponseEntity<?> UpdateVoucherBill(@RequestBody VoucherBill voucherBill) {
-        return new  ResponseEntity(voucherBillService.save(voucherBill), HttpStatus.OK);
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> updateVoucherBill(@RequestBody VoucherBillEntity voucherBillEntity) {
+        return new  ResponseEntity(voucherBillService.save(voucherBillEntity), HttpStatus.OK);
     }
 
 

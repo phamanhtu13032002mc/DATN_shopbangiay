@@ -1,7 +1,6 @@
 package com.example.spring_boot.security.service.impl;
 
-import com.example.spring_boot.entity.Category;
-import com.example.spring_boot.entity.Voucher;
+import com.example.spring_boot.entity.VoucherEntity;
 import com.example.spring_boot.repository.VoucherRepository;
 import com.example.spring_boot.security.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +15,24 @@ public class VoucherServieceImpl implements VoucherService {
     VoucherRepository voucherRepository;
 
     @Override
-    public List<Voucher> findAllDeleteIsFalse() {
+    public List<VoucherEntity> findAllDeleteIsFalse() {
         return voucherRepository.findAllByIsDeleteFalse();
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
-        return voucherRepository.save(voucher);
+    public VoucherEntity save(VoucherEntity voucherEntity) {
+        return voucherRepository.save(voucherEntity);
     }
 
     @Override
     public void delete(long id) {
-        Voucher voucher  = voucherRepository.findById(id).get();
-        voucher.setIsDelete(true);
-        voucherRepository.save(voucher);
+        VoucherEntity voucherEntity = voucherRepository.findById(id).get();
+        voucherEntity.setIsDelete(true);
+        voucherRepository.save(voucherEntity);
     }
 
     @Override
-    public Optional<Voucher> findByID(long id) {
+    public Optional<VoucherEntity> findByID(long id) {
         return voucherRepository.findById(id);
     }
 }

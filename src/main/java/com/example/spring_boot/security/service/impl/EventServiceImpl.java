@@ -1,7 +1,6 @@
 package com.example.spring_boot.security.service.impl;
 
-import com.example.spring_boot.entity.Event;
-import com.example.spring_boot.entity.Voucher;
+import com.example.spring_boot.entity.EventEntity;
 import com.example.spring_boot.repository.EventRepossitory;
 import com.example.spring_boot.security.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +15,25 @@ public class EventServiceImpl implements EventService {
     EventRepossitory eventRepossitory;
 
     @Override
-    public List<Event> findAllDeleteIsFalse() {
+    public List<EventEntity> findAllDeleteIsFalse() {
         return eventRepossitory.findAllByIsDeleteFase();
     }
 
     @Override
-    public Event save(Event event) {
-        return eventRepossitory.save(event);
+    public EventEntity save(EventEntity eventEntity) {
+        return eventRepossitory.save(eventEntity);
     }
 
     @Override
     public void delete(long id) {
-        Event event  = eventRepossitory.findById(id).get();
-        event.setIsDelete(true);
-        eventRepossitory.save(event);
+        EventEntity eventEntity = eventRepossitory.findById(id).get();
+        eventEntity.setIsDelete(true);
+        eventRepossitory.save(eventEntity);
 
     }
 
     @Override
-    public Optional<Event> findByID(long id) {
+    public Optional<EventEntity> findByID(long id) {
         return eventRepossitory.findById(id);
     }
 }

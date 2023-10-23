@@ -1,20 +1,19 @@
 package com.example.spring_boot.security.service;
 
-import com.example.spring_boot.entity.Category;
-import com.example.spring_boot.entity.Property;
+import com.example.spring_boot.entity.PropertyEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PropertyService {
-    List<Property> findAll();
+    List<PropertyEntity> findAll();
 
-    Property save(Property property);
+    PropertyEntity save(PropertyEntity propertyEntity);
 
-    List<Property> findAllByIsDeleteFalse();
+    List<PropertyEntity> findAllByIsDeleteFalse();
 
     void delete(Long id);
 
-    Optional<Property> findByID(Long id);
+    Optional<PropertyEntity> findByID(Long id);
 
 }
