@@ -1,11 +1,15 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.ProductEntity;
-import com.example.spring_boot.security.service.ProductService;
+import com.example.spring_boot.payload.request.OderDetailRequest;
+import com.example.spring_boot.payload.request.ProductRequest;
+import com.example.spring_boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -15,9 +19,19 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @GetMapping(value = "/findAllByIsDeleteFalse")
-    public ResponseEntity<?> getUserList() {
-        return new  ResponseEntity(productService.findAllByIsDeleteFalse(), HttpStatus.OK);
+    @GetMapping(value = "/find-all")
+    public ResponseEntity<?> getProductList(ProductRequest productRequest) {
+        return new ResponseEntity(productService.findAll(productRequest), HttpStatus.OK);
+    }
+    @GetMapping("/find-by-id/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+        Optional<ProductEntity> productRequest = productService.findByID(id);
+
+        if (productRequest.isPresent()) {
+            return new ResponseEntity(productRequest.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
+        }
     }
     @GetMapping(value = "/product/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id) {

@@ -1,11 +1,15 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.CategoryEntity;
-import com.example.spring_boot.security.service.CategoryService;
+import com.example.spring_boot.payload.request.CategoryRequest;
+import com.example.spring_boot.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -14,28 +18,20 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
+
     @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getCategoryList() {
-        return new  ResponseEntity(categoryService.findAllDeleteIsFalse(), HttpStatus.OK);
+    public ResponseEntity<?> getCategoryList(CategoryRequest categoryRequest) {
+        return new ResponseEntity(categoryService.findAll(categoryRequest), HttpStatus.OK);
     }
-    @GetMapping(value = "/get-by-id/{id}")
-    public ResponseEntity<?> getCategoryById(@PathVariable("id") long id) {
+    @GetMapping("/find-by-id/{id}")
+    public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
+        Optional<CategoryEntity> categoryRequest = categoryService.findByID(id);
 
-        return new  ResponseEntity(categoryService.findByID(id), HttpStatus.OK);
-    }
-    @PostMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable("id") long id) {
-        categoryService.delete(id);
-        return new  ResponseEntity("successfully", HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/update")
-    public ResponseEntity<?> updateCategory(@RequestBody CategoryEntity categoryEntity) {
-        return new  ResponseEntity(categoryService.save(categoryEntity), HttpStatus.OK);
+        if (categoryRequest.isPresent()) {
+            return new ResponseEntity(categoryRequest.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping(value = "/save")
-    public ResponseEntity<?> saveCategory(@RequestBody CategoryEntity categoryEntity) {
-        return new  ResponseEntity(categoryService.save(categoryEntity), HttpStatus.OK);
-    }
 }

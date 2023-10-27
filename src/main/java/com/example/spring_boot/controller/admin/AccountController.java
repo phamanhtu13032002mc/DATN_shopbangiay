@@ -1,7 +1,7 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.UserEntity;
-import com.example.spring_boot.security.service.AccountService;
+import com.example.spring_boot.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

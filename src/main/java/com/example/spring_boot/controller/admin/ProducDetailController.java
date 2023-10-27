@@ -1,7 +1,8 @@
 package com.example.spring_boot.controller.admin;
 
-import com.example.spring_boot.payload.request.CreateProductDetail;
-import com.example.spring_boot.security.service.ProducDetailService;
+import com.example.spring_boot.payload.request.OderDetailRequest;
+import com.example.spring_boot.payload.request.ProductDetailRequest;
+import com.example.spring_boot.service.ProducDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ public class ProducDetailController {
     ProducDetailService producDetailService;
 
     @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getCategoryList() {
-        return new ResponseEntity(producDetailService.findAllByIsDeleteFalse(), HttpStatus.OK);
+    public ResponseEntity<?> getOderDetailList(ProductDetailRequest productDetailRequest) {
+        return new ResponseEntity(producDetailService.findAll(productDetailRequest), HttpStatus.OK);
     }
 
 

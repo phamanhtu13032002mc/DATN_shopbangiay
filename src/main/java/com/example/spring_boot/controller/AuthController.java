@@ -11,7 +11,7 @@ import com.example.spring_boot.payload.response.MessageResponse;
 import com.example.spring_boot.repository.RoleRepository;
 import com.example.spring_boot.repository.UserRepository;
 import com.example.spring_boot.security.jwt.JwtUtils;
-import com.example.spring_boot.security.service.UserDetailImpl;
+import com.example.spring_boot.service.UserDetailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

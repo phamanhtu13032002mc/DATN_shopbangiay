@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BillEntity implements Serializable {
     @Id
-    private String id;
+    private Long id;
 
     @Column(name = "status")
     private String statusShipping;//tình trạng giao hàng
