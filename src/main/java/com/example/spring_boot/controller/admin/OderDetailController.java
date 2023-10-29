@@ -1,6 +1,6 @@
 package com.example.spring_boot.controller.admin;
 
-import com.example.spring_boot.entity.OderDetailEntity;
+import com.example.spring_boot.entity.OrderDetailEntity;
 import com.example.spring_boot.payload.request.OderDetailRequest;
 import com.example.spring_boot.service.OderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class OderDetailController {
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {
-        Optional<OderDetailEntity> oderDetailRequest = oderDetailService.findByID(id);
+        Optional<OrderDetailEntity> oderDetailRequest = oderDetailService.findByID(id);
 
         if (oderDetailRequest.isPresent()) {
             return new ResponseEntity(oderDetailRequest.get(), HttpStatus.OK);

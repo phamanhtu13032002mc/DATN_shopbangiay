@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @Data
@@ -20,9 +21,9 @@ public class ProductDetailEntity implements Serializable {
     @JoinColumn(name = "id_product",  updatable = false, insertable = false)
     private ProductEntity productEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "id_property", updatable = false, insertable = false)
-    private PropertyEntity propertyEntity;
+
+    @OneToMany(mappedBy = "productDetail")
+    private List<PropertyEntity> propertyEntity;
 
 
     @Column(name = "isDelete")
@@ -31,8 +32,8 @@ public class ProductDetailEntity implements Serializable {
     private Long size;
 
     @ManyToOne
-    @JoinColumn(name = "productDetail")
-    private OderDetailEntity oderDetailEntities;
+    @JoinColumn(name = "orderId")
+    private OrderDetailEntity oderDetailEntities;
 
 
 }
