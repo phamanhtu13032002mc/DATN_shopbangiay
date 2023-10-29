@@ -22,7 +22,7 @@ public class CategoryEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @OneToMany(mappedBy = "categoryEntity")
     @JsonIgnore
+    @OneToMany(mappedBy = "categoryEntity")
     List<ProductEntity> productEntity;
 }
