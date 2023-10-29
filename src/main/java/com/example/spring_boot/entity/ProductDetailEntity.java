@@ -18,7 +18,7 @@ public class ProductDetailEntity implements Serializable {
     private Long quantity;
 
     @ManyToOne
-    @JoinColumn(name = "id_product",  updatable = false, insertable = false)
+    @JoinColumn(name = "id_product", updatable = false, insertable = false)
     private ProductEntity productEntity;
 
 

@@ -1,6 +1,5 @@
 package com.example.spring_boot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -78,7 +77,6 @@ public class BillEntity implements Serializable {
     @Column(name = "id_ward")
     private Long idWard;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "id_history_pay", updatable = false, insertable = false)
     private HistoryPayEntity historyPayEntity;

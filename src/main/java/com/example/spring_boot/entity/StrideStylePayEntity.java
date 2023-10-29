@@ -1,6 +1,5 @@
 package com.example.spring_boot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,7 +19,6 @@ public class StrideStylePayEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "id_customer", updatable = false, insertable = false)
     private CustomerEntity customerEntity;

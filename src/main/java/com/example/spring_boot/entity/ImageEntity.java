@@ -1,11 +1,9 @@
 package com.example.spring_boot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Entity
@@ -21,7 +19,6 @@ public class ImageEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_product")
     private UserEntity account;

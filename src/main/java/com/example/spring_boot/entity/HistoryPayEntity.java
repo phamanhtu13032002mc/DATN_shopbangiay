@@ -1,12 +1,10 @@
 package com.example.spring_boot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Entity
@@ -30,13 +28,9 @@ public class HistoryPayEntity implements Serializable {
 
     private Double amounts;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "id_stride_style_pay", updatable = true, insertable = false)
     private StrideStylePayEntity strideStylePayEntity;
-
-
-
 
 
 }

@@ -19,33 +19,28 @@ public class ProductEntity implements Serializable {
     private Long id;
 
     private String nameProduct;
-
-    private Double price;//giá gốc
-
-    private Double discount;//giảm %
+    private Double price;
+    private Double discount;
 
     @Length(max = 5000)
-    private String description;//mô tả
+    private String description;
 
     @Length(max = 5000)
-    private String descriptionDetail;//mô tả chi tiết
+    private String descriptionDetail;
 
-    private String status;//trạng thái
-
+    private String status;
     private Date date_update;
     private Date date_create;
 
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-
     @OneToMany(mappedBy = "productEntity")
     private List<ImageEntity> idImages;
 
     @ManyToOne
     @JoinColumn(name = "id_category")
+    @JsonIgnore
     private CategoryEntity categoryEntity;
-
-
-
 }
+
