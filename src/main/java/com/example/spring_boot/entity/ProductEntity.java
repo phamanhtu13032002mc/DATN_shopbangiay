@@ -51,4 +51,5 @@ public class ProductEntity implements Serializable {
     @JoinColumn(name = "order_id")
     private OderDetailEntity orderEntity;
 
+
 }
