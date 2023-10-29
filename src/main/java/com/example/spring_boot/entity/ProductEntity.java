@@ -21,6 +21,7 @@ public class ProductEntity implements Serializable {
     private String nameProduct;
     private Double price;
     private Double discount;
+    private String image;
 
     @Length(max = 5000)
     private String description;
@@ -35,12 +36,12 @@ public class ProductEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "productEntity")
     private List<ImageEntity> idImages;
 
     @ManyToOne
     @JoinColumn(name = "id_category")
-    @JsonIgnore
     private CategoryEntity categoryEntity;
 }
 
