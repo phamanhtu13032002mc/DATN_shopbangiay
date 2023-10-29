@@ -1,7 +1,8 @@
 package com.example.spring_boot.controller.admin;
 
-import com.example.spring_boot.entity.VoucherEntity;
-import com.example.spring_boot.security.service.VoucherService;
+
+import com.example.spring_boot.payload.request.VoucherRequest;
+import com.example.spring_boot.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

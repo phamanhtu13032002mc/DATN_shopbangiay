@@ -1,6 +1,5 @@
 package com.example.spring_boot.controller.admin;
 
-import com.example.spring_boot.payload.request.OderDetailRequest;
 import com.example.spring_boot.payload.request.ProductDetailRequest;
 import com.example.spring_boot.service.ProducDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RequestMapping("/product-detail-manager")
-public class ProducDetailController {
+public class ProductDetailController {
     @Autowired
     ProducDetailService producDetailService;
 

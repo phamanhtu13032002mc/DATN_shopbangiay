@@ -37,7 +37,7 @@ public class ProductController {
         if (productRequest.isPresent()) {
             return new ResponseEntity(productRequest.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Product not found for ID: " + id, HttpStatus.NOT_FOUND);
         }
     }
 
