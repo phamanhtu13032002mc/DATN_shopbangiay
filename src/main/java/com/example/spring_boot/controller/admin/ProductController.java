@@ -2,6 +2,7 @@ package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.request.OderDetailRequest;
+import com.example.spring_boot.payload.request.PageableProductRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,13 @@ import java.util.Optional;
 public class ProductController {
     @Autowired
     ProductService productService;
-
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<Page<ProductEntity>> getProductList(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            ProductRequest productRequest) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        Page<ProductEntity> productList = productService.findAll(productRequest, pageRequest);
-        return new ResponseEntity<>(productList, HttpStatus.OK);
-    }
+@PostMapping(value = "/find-all")
+public ResponseEntity<Page<ProductEntity>> getProductList(
+        @RequestBody PageableProductRequest pageableProductRequest) {
+    PageRequest pageRequest = PageRequest.of(pageableProductRequest.getPage(), pageableProductRequest.getSize());
+    Page<ProductEntity> productList = productService.findAll(pageableProductRequest.getProductRequest(), pageRequest);
+    return new ResponseEntity<>(productList, HttpStatus.OK);
+}
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Long id) {
         Optional<ProductEntity> productRequest = productService.findByID(id);
