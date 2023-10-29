@@ -62,9 +62,10 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/v1/**").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll() // Your API authentication endpoints
+                .antMatchers("/api/v1/**").permitAll() // Other API endpoints
+                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**").permitAll() // Swagger resources
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

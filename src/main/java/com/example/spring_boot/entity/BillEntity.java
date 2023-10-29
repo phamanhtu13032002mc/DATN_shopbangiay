@@ -48,8 +48,6 @@ public class BillEntity implements Serializable {
     @OneToMany(mappedBy = "billEntity")
     List<OderDetailEntity> oderDetailEntities;
 
-
-
     @Column(name = "create_at")
     private LocalDate createAt;
 
