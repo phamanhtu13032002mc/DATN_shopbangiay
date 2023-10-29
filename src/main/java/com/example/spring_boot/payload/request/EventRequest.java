@@ -18,5 +18,8 @@ public class EventRequest {
     private LocalDate startDay;
 
     private LocalDate endDay;
+    private int page;
+    private int size;
+    private EventRequest eventRequest;
 
 }

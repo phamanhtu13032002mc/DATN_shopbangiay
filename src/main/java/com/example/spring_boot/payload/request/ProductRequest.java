@@ -31,4 +31,8 @@ public class ProductRequest {
     private Date date_create;
     private String image;//hình ảnh
 
+    private Long page;
+    private Long size;
+
+
 }

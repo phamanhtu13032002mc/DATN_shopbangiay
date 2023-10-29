@@ -1,9 +1,13 @@
 package com.example.spring_boot.controller.admin;
 
+import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.ImageEntity;
+import com.example.spring_boot.payload.request.BillRequest;
 import com.example.spring_boot.payload.request.ImageRequest;
 import com.example.spring_boot.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +21,11 @@ import java.util.Optional;
 public class ImageController {
     @Autowired
     ImageService imageService;
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getImageList(ImageRequest imageRequest) {
-        return new ResponseEntity(imageService.findAll(imageRequest), HttpStatus.OK);
+    @PostMapping(value = "/find-all")
+    public ResponseEntity<Page<ImageEntity>> getImageList(@RequestBody ImageRequest pageableImageRequest) {
+        PageRequest pageRequest = PageRequest.of(pageableImageRequest.getPage(), pageableImageRequest.getSize());
+        Page<ImageEntity> billList = imageService.findAll(pageableImageRequest.getImageRequest(), pageRequest);
+        return new ResponseEntity<>(billList, HttpStatus.OK);
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getImageById(@PathVariable Long id) {

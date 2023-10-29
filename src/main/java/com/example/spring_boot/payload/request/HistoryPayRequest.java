@@ -25,5 +25,8 @@ public class HistoryPayRequest {
     private String title;//nạp tiền vào ví
 
     private Double amounts;
+    private int page;
+    private int size;
+    private HistoryPayRequest historyPayRequest;
 
 }

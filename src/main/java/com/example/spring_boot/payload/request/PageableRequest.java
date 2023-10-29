@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageableProductRequest {
+public class PageableRequest {
         private int page;
         private int size;
         private ProductRequest productRequest;

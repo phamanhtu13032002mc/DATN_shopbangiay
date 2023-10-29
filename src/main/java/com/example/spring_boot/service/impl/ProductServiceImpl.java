@@ -7,6 +7,7 @@ import com.example.spring_boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    @Override
-    public List<ProductEntity> findAll(ProductRequest productRequest) {
-        return productRepository.findAll();
-    }
 
     @Override
     public ProductEntity findById(Long id) {
@@ -29,9 +26,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> findByNameLike(String name) {
-        return null;
+    public Page<ProductEntity> findAllProduct(ProductRequest productRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(productRequest.getPage()), Math.toIntExact(productRequest.getSize()));
+        return productRepository.findAllProduct(productRequest, pageable);
     }
+
 
     @Override
     public void delete(Long id) {
@@ -46,19 +45,10 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(productEntity);
     }
 
-    @Override
-    public List<ProductEntity> findAllByIsDeleteFalse() {
-        return productRepository.findAllByIsDeleteFase();
-    }
 
     @Override
     public Optional<ProductEntity> findByID(Long id) {
         return productRepository.findById(id);
     }
 
-    @Override
-    public Page<ProductEntity> findAll(ProductRequest productRequest, PageRequest pageRequest) {
-        Page<ProductEntity> products = productRepository.findAll(pageRequest);
-        return products;
-    }
 }

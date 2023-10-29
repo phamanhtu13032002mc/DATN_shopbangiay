@@ -5,6 +5,8 @@ import com.example.spring_boot.payload.request.OderDetailRequest;
 import com.example.spring_boot.repository.OderDetailRepository;
 import com.example.spring_boot.service.OderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +18,13 @@ public class OderDetailServiceImpl implements OderDetailService {
     OderDetailRepository oderDetailRepository;
 
     @Override
-    public List<OderDetailEntity> findAll(OderDetailRequest oderDetailRequest) {
-        return oderDetailRepository.findAll();
+    public Optional<OderDetailEntity> findByID(Long id) {
+        return oderDetailRepository.findById(id);
     }
 
     @Override
-    public Optional<OderDetailEntity> findByID(Long id) {
-        return oderDetailRepository.findById(id);
+    public Page<OderDetailEntity> findAll(OderDetailRequest oderDetailRequest, PageRequest pageRequest) {
+        Page<OderDetailEntity> oderDetails = oderDetailRepository.findAll(pageRequest);
+        return oderDetails;
     }
 }

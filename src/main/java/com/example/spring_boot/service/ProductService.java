@@ -9,20 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-
-    List<ProductEntity> findAll(ProductRequest productRequest);
-
     ProductEntity findById(Long id);
 
-    List<ProductEntity> findByNameLike(String name);
-
+    Page<ProductEntity> findAllProduct(ProductRequest productRequest);
     void delete(Long id);
 
     ProductEntity create(ProductEntity productEntity);
 
-    List<ProductEntity> findAllByIsDeleteFalse();
-
     Optional<ProductEntity> findByID(Long id);
 
-    Page<ProductEntity> findAll(ProductRequest productRequest, PageRequest pageRequest);
+
 }

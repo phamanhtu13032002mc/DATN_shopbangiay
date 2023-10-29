@@ -1,10 +1,13 @@
 package com.example.spring_boot.service.impl;
 
 import com.example.spring_boot.entity.CategoryEntity;
+import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.repository.CategoryRepository;
 import com.example.spring_boot.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +19,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryEntity> findAllDeleteIsFalse() {
         return categoryRepository.findAllByIsDeleteFase();
-    }
-
-    @Override
-    public List<CategoryEntity> findAll(CategoryRequest categoryRequest) {
-
-        return categoryRepository.findAll();
     }
 
     @Override
@@ -39,6 +36,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<CategoryEntity> findByID(Long id) {
         return categoryRepository.findById(id);
+    }
+
+    @Override
+    public Page<CategoryEntity> findAll(CategoryRequest categoryRequest, PageRequest pageRequest) {
+        Page<CategoryEntity> category = categoryRepository.findAll(pageRequest);
+        return category;
     }
 
 }

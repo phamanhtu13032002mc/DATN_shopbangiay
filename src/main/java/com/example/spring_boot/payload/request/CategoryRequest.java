@@ -21,5 +21,8 @@ public class CategoryRequest {
     public Double getGender() {
         return gender;
     }
+    private int page;
+    private int size;
+    private CategoryRequest categoryRequest;
 
 }

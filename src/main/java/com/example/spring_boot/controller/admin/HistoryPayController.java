@@ -2,10 +2,13 @@ package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.EventEntity;
 import com.example.spring_boot.entity.HistoryPayEntity;
+import com.example.spring_boot.payload.request.EventRequest;
 import com.example.spring_boot.payload.request.HistoryPayRequest;
 import com.example.spring_boot.payload.request.VoucherRequest;
 import com.example.spring_boot.service.HistoryPayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +23,12 @@ public class HistoryPayController {
     @Autowired
     HistoryPayService historyPayService;
 
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getEventList(HistoryPayRequest historyPayRequest) {
-        return new ResponseEntity(historyPayService.findAll(historyPayRequest), HttpStatus.OK);
+    @PostMapping(value = "/find-all")
+    public ResponseEntity<Page<HistoryPayEntity>> getHistoryPayList(
+            @RequestBody HistoryPayRequest pageableHistoryPayRequest) {
+        PageRequest pageRequest = PageRequest.of(pageableHistoryPayRequest.getPage(), pageableHistoryPayRequest.getSize());
+        Page<HistoryPayEntity> historyPayList = historyPayService.findAll(pageRequest);
+        return new ResponseEntity<>(historyPayList, HttpStatus.OK);
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getHistoryPayById(@PathVariable Long id) {

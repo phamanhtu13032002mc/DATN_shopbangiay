@@ -1,9 +1,12 @@
 package com.example.spring_boot.controller.admin;
 
+import com.example.spring_boot.entity.ImageEntity;
 import com.example.spring_boot.entity.OderDetailEntity;
 import com.example.spring_boot.payload.request.OderDetailRequest;
 import com.example.spring_boot.service.OderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +20,11 @@ import java.util.Optional;
 public class OderDetailController {
     @Autowired
     OderDetailService oderDetailService;
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getOderDetailList(OderDetailRequest oderDetailRequest) {
-        return new ResponseEntity(oderDetailService.findAll(oderDetailRequest), HttpStatus.OK);
+    @PostMapping(value = "/find-all")
+    public ResponseEntity<Page<OderDetailEntity>> getOderDetailList(@RequestBody OderDetailRequest pageableOderDetailRequest) {
+        PageRequest pageRequest = PageRequest.of(pageableOderDetailRequest.getPage(), pageableOderDetailRequest.getSize());
+        Page<OderDetailEntity> oderDetailList = oderDetailService.findAll(pageableOderDetailRequest.getOderDetailRequest(), pageRequest);
+        return new ResponseEntity<>(oderDetailList, HttpStatus.OK);
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {

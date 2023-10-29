@@ -5,6 +5,8 @@ import com.example.spring_boot.payload.request.EventRequest;
 import com.example.spring_boot.repository.EventRepossitory;
 import com.example.spring_boot.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +20,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventEntity> findAllDeleteIsFalse() {
         return eventRepossitory.findAllByIsDeleteFase();
-    }
-
-    @Override
-    public List<EventEntity> findAll(EventRequest eventRequest) {
-        return eventRepossitory.findAll();
     }
 
     @Override
@@ -41,5 +38,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public Optional<EventEntity> findByID(long id) {
         return eventRepossitory.findById(id);
+    }
+
+    @Override
+    public Page<EventEntity> findAll(PageRequest pageRequest) {
+        Page<EventEntity> events = eventRepossitory.findAll(pageRequest);
+        return events;
     }
 }

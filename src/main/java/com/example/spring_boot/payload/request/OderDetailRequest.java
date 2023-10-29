@@ -18,5 +18,8 @@ public class OderDetailRequest {
     private Double downPrice;//giá giảm
 
     private Long quantity_oder;//số lượng mua
+    private int page;
+    private int size;
+    private OderDetailRequest oderDetailRequest;
 
 }

@@ -6,6 +6,8 @@ import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.EventRequest;
 import com.example.spring_boot.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +21,12 @@ import java.util.Optional;
 public class EventController {
     @Autowired
     EventService eventService;
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getEventList(EventRequest eventRequest) {
-        return new ResponseEntity(eventService.findAll(eventRequest), HttpStatus.OK);
+    @PostMapping(value = "/find-all")
+    public ResponseEntity<Page<EventEntity>> getImageList(
+            @RequestBody EventRequest pageableEventRequest) {
+        PageRequest pageRequest = PageRequest.of(pageableEventRequest.getPage(), pageableEventRequest.getSize());
+        Page<EventEntity> eventList = eventService.findAll(pageRequest);
+        return new ResponseEntity<>(eventList, HttpStatus.OK);
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {

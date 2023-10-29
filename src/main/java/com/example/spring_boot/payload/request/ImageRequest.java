@@ -14,4 +14,7 @@ public class ImageRequest {
     private String name;
 
     private String url;
+    private int page;
+    private int size;
+    private ImageRequest imageRequest;
 }
