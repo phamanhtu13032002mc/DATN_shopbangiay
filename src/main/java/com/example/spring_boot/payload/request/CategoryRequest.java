@@ -7,12 +7,11 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequest {
-    @NotBlank
+
     private Long id;
-    @NotBlank
+
     private String name;
 
-    @NotBlank
     private Double gender;
 
     public String getName() {

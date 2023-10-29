@@ -19,27 +19,27 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class BillRequest {
 
-    @NotBlank
+
     private Long id;
     private String status;
-    @NotBlank
+
     private String transport_fee;
-    @NotBlank
+
     private Long voucher_id;
     private Double discount;
     private Double downTotal;
     private Boolean payment;
 
     private Double total;
-    @NotBlank
+
     private String sale_point;
-    @NotBlank
+
     private String address;
 
     private String note;
-    @NotBlank
+
     private LocalDate create_at;
-    @NotBlank
+
     private LocalDate update_at;
 
     private String full_name;

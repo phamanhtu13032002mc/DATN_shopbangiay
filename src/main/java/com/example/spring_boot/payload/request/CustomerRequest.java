@@ -10,17 +10,17 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerRequest {
-    @NotBlank
+
     private String fullName;
 
     private String address;
 
-    @NotBlank
+
     private long phone;
 
 
     private long id_address;
 
-    @NotBlank
+
     private long email;
 }

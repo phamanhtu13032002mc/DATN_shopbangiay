@@ -10,13 +10,13 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OderDetailRequest {
-    @NotBlank
+
     private Double price;//giá gốc
-    @NotBlank
+
     private Double intoMoney;//thành tiền
 
     private Double downPrice;//giá giảm
-    @NotBlank
+
     private Long quantity_oder;//số lượng mua
 
 }

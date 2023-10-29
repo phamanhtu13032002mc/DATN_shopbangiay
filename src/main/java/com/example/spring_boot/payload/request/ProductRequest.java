@@ -12,9 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequest {
-    @NotBlank
+
     private String nameProduct;
-    @NotBlank
+
     private Double price;//giá gốc
 
     private Double discount;//giảm %

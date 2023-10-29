@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Propertyrequest {
+public class PropertyRequest {
     private Long quantity;
 
     private Long idproperty;

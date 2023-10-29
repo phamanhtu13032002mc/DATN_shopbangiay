@@ -10,8 +10,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageRequest {
-    @NotBlank
+
     private String name;
-    @NotBlank
+
     private String url;
 }

@@ -10,6 +10,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StrideStylePayRequest {
-    @NotBlank
+
     private Double surplus;
 }

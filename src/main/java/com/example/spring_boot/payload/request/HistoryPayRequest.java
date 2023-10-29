@@ -11,13 +11,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HistoryPayRequest {
-    @NotBlank
+
     private Long trading_code; //mã giao dịch
 
     private Double surplus;//số dư ví
-    @NotBlank
+
     private String description;//nội dung giao dịch
-    @NotBlank
+
     private LocalDate time;
 
     private Boolean status;

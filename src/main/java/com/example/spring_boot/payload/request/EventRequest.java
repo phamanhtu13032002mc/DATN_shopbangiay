@@ -12,9 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventRequest {
-    @NotBlank
+
     private String name;
-    @NotBlank
+
     private LocalDate startDay;
 
     private LocalDate endDay;

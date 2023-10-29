@@ -10,6 +10,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PropertiesRequest {
-    @NotBlank
+
     private String name;
 }
