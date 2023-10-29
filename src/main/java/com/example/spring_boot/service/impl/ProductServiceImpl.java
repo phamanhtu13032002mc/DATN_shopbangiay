@@ -5,6 +5,8 @@ import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.repository.ProductRepository;
 import com.example.spring_boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,5 +54,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<ProductEntity> findByID(Long id) {
         return productRepository.findById(id);
+    }
+
+    @Override
+    public Page<ProductEntity> findAll(ProductRequest productRequest, PageRequest pageRequest) {
+        Page<ProductEntity> products = productRepository.findAll(pageRequest);
+        return products;
     }
 }
