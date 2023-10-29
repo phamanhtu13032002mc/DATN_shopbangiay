@@ -19,8 +19,7 @@ public class PropertyEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-
     @ManyToOne
     @JoinColumn(name = "productDetail")
-    private ProductDetailEntity productdetail;
+    private ProductDetailEntity productDetail;
 }

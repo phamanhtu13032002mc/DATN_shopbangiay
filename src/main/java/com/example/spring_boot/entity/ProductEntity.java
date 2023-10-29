@@ -34,22 +34,18 @@ public class ProductEntity implements Serializable {
 
     private Date date_update;
     private Date date_create;
-    private String image;//hình ảnh
 
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @ManyToOne
-    @JoinColumn(name = "id_image")
-    private ImageEntity images;
+
+    @OneToMany(mappedBy = "productEntity")
+    private List<ImageEntity> idImages;
 
     @ManyToOne
     @JoinColumn(name = "id_category")
     private CategoryEntity categoryEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private OderDetailEntity orderEntity;
 
 
 }

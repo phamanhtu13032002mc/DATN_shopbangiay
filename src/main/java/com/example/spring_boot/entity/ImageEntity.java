@@ -26,11 +26,8 @@ public class ImageEntity implements Serializable {
     @JoinColumn(name = "id_product")
     private UserEntity account;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "image")
-    List<ProductEntity> productEntities;
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "idproduct")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "id_image")
+    private ProductEntity productEntity;
+
 }

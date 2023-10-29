@@ -1,6 +1,6 @@
 package com.example.spring_boot.service.impl;
 
-import com.example.spring_boot.entity.OderDetailEntity;
+import com.example.spring_boot.entity.OrderDetailEntity;
 import com.example.spring_boot.payload.request.OderDetailRequest;
 import com.example.spring_boot.repository.OderDetailRepository;
 import com.example.spring_boot.service.OderDetailService;
@@ -18,13 +18,13 @@ public class OderDetailServiceImpl implements OderDetailService {
     OderDetailRepository oderDetailRepository;
 
     @Override
-    public Optional<OderDetailEntity> findByID(Long id) {
+    public Optional<OrderDetailEntity> findByID(Long id) {
         return oderDetailRepository.findById(id);
     }
 
     @Override
-    public Page<OderDetailEntity> findAll(OderDetailRequest oderDetailRequest, PageRequest pageRequest) {
-        Page<OderDetailEntity> oderDetails = oderDetailRepository.findAll(pageRequest);
+    public Page<OrderDetailEntity> findAll(OderDetailRequest oderDetailRequest, PageRequest pageRequest) {
+        Page<OrderDetailEntity> oderDetails = oderDetailRepository.findAll(pageRequest);
         return oderDetails;
     }
 }

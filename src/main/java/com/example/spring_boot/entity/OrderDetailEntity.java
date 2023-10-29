@@ -1,6 +1,5 @@
 package com.example.spring_boot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OderDetailEntity implements Serializable {
+public class OrderDetailEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,16 +30,12 @@ public class OderDetailEntity implements Serializable {
     @Builder.Default
     private Boolean isDelete = false;
 
-
-    @OneToMany(mappedBy = "orderEntity")
-    private List<ProductEntity> productEntities;
-
-
     @ManyToOne
     @JoinColumn(name = "id_bill", updatable = false, insertable = false)
     private BillEntity billEntity;
 
-    @Column(name = "id_bill")
-    private String idBill;
+    @OneToMany(mappedBy = "oderDetailEntities")
+    private List<ProductDetailEntity> productDetailEntities;
+
 
 }
