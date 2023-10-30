@@ -1,5 +1,6 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +35,8 @@ public class OrderDetailEntity implements Serializable {
     @JoinColumn(name = "id_bill", updatable = false, insertable = false)
     private BillEntity billEntity;
 
-    @OneToMany(mappedBy = "oderDetailEntities")
+    @OneToMany
+    @JoinColumn(name = "product_id")
     private List<ProductDetailEntity> productDetailEntities;
 
 

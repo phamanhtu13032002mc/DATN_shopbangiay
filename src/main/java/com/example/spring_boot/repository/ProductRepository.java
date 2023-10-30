@@ -8,8 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Objects;
 
 public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
-    @Query(value = "SELECT * FROM product WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE is_delete = 1 ORDER BY id DESC",nativeQuery = true)
     Page<ProductEntity> findAllProduct(ProductRequest productRequest, Pageable pageable);
+
+
 }

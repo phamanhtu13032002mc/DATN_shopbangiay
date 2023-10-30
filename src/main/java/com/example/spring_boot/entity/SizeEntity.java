@@ -1,5 +1,6 @@
 package com.example.spring_boot.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -7,21 +8,20 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "property")
-public class PropertyEntity implements Serializable {
+@Table(name = "size")
+public class SizeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProperty;
+    private Long id;
 
     private String name;
 
     @Column(name = "isDelete")
-    private Boolean isDelete = false;
+    private Boolean isDelete;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "idProperty")
+    @OneToMany(mappedBy = "idSize")
     private List<ProductDetailEntity> productDetailEntities;
 }

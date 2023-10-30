@@ -1,6 +1,7 @@
 package com.example.spring_boot.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class VoucherBillEntity implements Serializable {
     private BillEntity billEntity;
 
 
+    @JsonIgnore
     @OneToOne(mappedBy = "eventEntity")
     private VoucherEntity voucherEntities;
 

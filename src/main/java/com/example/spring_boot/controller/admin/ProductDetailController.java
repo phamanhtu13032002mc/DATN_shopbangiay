@@ -1,7 +1,7 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.payload.request.ProductDetailRequest;
-import com.example.spring_boot.service.ProducDetailService;
+import com.example.spring_boot.service.ProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/product-detail-manager")
 public class ProductDetailController {
     @Autowired
-    ProducDetailService producDetailService;
+    ProductDetailService productDetailService;
 
     @GetMapping(value = "/find-all")
     public ResponseEntity<?> getOderDetailList(ProductDetailRequest productDetailRequest) {
-        return new ResponseEntity(producDetailService.findAll(productDetailRequest), HttpStatus.OK);
+        return new ResponseEntity(productDetailService.findAllProduct(productDetailRequest), HttpStatus.OK);
     }
 
 
     @PostMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteProductDetail(@PathVariable("id") long id) {
-        producDetailService.delete(id);
+        productDetailService.delete(id);
         return new ResponseEntity("successfully", HttpStatus.OK);
     }
 

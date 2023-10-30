@@ -1,5 +1,6 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class CustomerEntity implements Serializable {
     @Column(name = "is_delete")
     private Boolean isDelete = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customerEntity")
     private List<BillEntity> billEntities;
 

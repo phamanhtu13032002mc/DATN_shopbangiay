@@ -1,5 +1,6 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,23 +18,24 @@ public class ProductDetailEntity implements Serializable {
 
     private Long quantity;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_product", updatable = false, insertable = false)
-    private ProductEntity productEntity;
+    private ProductEntity idProduct;
 
 
-    @OneToMany(mappedBy = "productDetail")
-    private List<PropertyEntity> propertyEntity;
+    @ManyToOne
+    @JoinColumn(name = "idProperty")
+    private PropertyEntity idProperty;
 
+    @ManyToOne
+    @JoinColumn(name = "id_size")
+    private SizeEntity idSize;
 
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    private Long size;
 
-    @ManyToOne
-    @JoinColumn(name = "orderId")
-    private OrderDetailEntity oderDetailEntities;
 
 
 }

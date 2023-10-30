@@ -11,9 +11,12 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
     @Query(value = "SELECT * FROM product_detail WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
     List<ProductDetailEntity> findAllByIsDeleteFase();
     @Query(value ="SELECT * FROM product_detail WHERE idsize = ? AND idproperty = ? AND idProduct = ?",nativeQuery = true)
-    Optional<ProductDetailEntity> CheckPrd(Long idsize, long idproperty, Long idProduct);
-
-
+    Optional<ProductDetailEntity> findAllProduct(Long idSize, long idproperty, Long idProduct);
+    @Query("SELECT pd, p, pr " +
+            "FROM ProductDetailEntity pd " +
+            "JOIN pd.idProduct p " +
+            "JOIN pd.idProperty pr")
+    List<Object[]> findAllProductDetail();
 
 
 

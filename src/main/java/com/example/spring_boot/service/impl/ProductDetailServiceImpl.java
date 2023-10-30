@@ -3,26 +3,20 @@ package com.example.spring_boot.service.impl;
 import com.example.spring_boot.entity.ProductDetailEntity;
 import com.example.spring_boot.payload.request.ProductDetailRequest;
 import com.example.spring_boot.repository.ProductDetailRepository;
-import com.example.spring_boot.service.ProducDetailService;
+import com.example.spring_boot.service.ProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProducDetailServiceImpl implements ProducDetailService {
+public class ProductDetailServiceImpl implements ProductDetailService {
     @Autowired
     ProductDetailRepository productDetailRepository;
     @Override
-    public List<ProductDetailEntity> findAll(ProductDetailRequest productDetailRequest) {
-        return productDetailRepository.findAll();
+    public List<Object[]> findAllProduct(ProductDetailRequest productDetailRequest) {
+        return productDetailRepository.findAllProductDetail();
     }
-
-    @Override
-    public List<ProductDetailEntity> findAllByIsDeleteFalse() {
-        return productDetailRepository.findAllByIsDeleteFase();
-    }
-
 
 
     @Override
@@ -31,4 +25,5 @@ public class ProducDetailServiceImpl implements ProducDetailService {
      productdetail.setIsDelete(true);
      productDetailRepository.save(productdetail);
     }
+
 }

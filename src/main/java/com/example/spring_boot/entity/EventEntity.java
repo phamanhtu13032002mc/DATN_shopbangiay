@@ -1,5 +1,6 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -29,9 +30,9 @@ public class EventEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-//	@OneToMany(mappedBy = "event")
-//	private List<ImageEvent> imageevents;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "eventEntity")
     private List<VoucherEntity> voucherEntities;
 
