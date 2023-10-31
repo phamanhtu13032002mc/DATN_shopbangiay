@@ -15,9 +15,10 @@ public class ProductDetailController {
     @Autowired
     ProducDetailService producDetailService;
 
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getOderDetailList(ProductDetailRequest productDetailRequest) {
-        return new ResponseEntity(producDetailService.findAll(productDetailRequest), HttpStatus.OK);
+    @PostMapping(value = "/find-all")
+    public ResponseEntity<?> getProductList(
+            @RequestBody ProductDetailRequest productDetailRequest) {
+        return ResponseEntity.ok(producDetailService.findAllProductDetail(productDetailRequest));
     }
 
 

@@ -24,11 +24,9 @@ public class HistoryPayController {
     HistoryPayService historyPayService;
 
     @PostMapping(value = "/find-all")
-    public ResponseEntity<Page<HistoryPayEntity>> getHistoryPayList(
-            @RequestBody HistoryPayRequest pageableHistoryPayRequest) {
-        PageRequest pageRequest = PageRequest.of(pageableHistoryPayRequest.getPage(), pageableHistoryPayRequest.getSize());
-        Page<HistoryPayEntity> historyPayList = historyPayService.findAll(pageRequest);
-        return new ResponseEntity<>(historyPayList, HttpStatus.OK);
+    public ResponseEntity<?> getHistoryPayList(
+            @RequestBody HistoryPayRequest historyPayRequest) {
+        return ResponseEntity.ok(historyPayService.findAllHistoryPay(historyPayRequest));
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getHistoryPayById(@PathVariable Long id) {

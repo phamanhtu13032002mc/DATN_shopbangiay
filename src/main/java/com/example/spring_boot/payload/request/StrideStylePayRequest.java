@@ -12,4 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class StrideStylePayRequest {
 
     private Double surplus;
+    private Long size;
+    private Long page;
 }

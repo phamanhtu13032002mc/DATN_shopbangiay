@@ -7,6 +7,7 @@ import com.example.spring_boot.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +24,10 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Page<ImageEntity> findAll(ImageRequest imageRequest, PageRequest pageRequest) {
-        Page<ImageEntity> images = imageRepository.findAll(pageRequest);
-        return images;
+    public Page<ImageEntity> findAllImage(ImageRequest imageRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(imageRequest.getPage()), Math.toIntExact(imageRequest.getSize()));
+        return imageRepository.findAllImage(imageRequest, pageable);
     }
+
+
 }

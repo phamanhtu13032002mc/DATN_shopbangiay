@@ -23,4 +23,6 @@ public class CustomerRequest {
 
 
     private long email;
+    private Long size;
+    private Long page;
 }

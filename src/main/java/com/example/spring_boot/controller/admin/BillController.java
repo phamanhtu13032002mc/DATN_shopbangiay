@@ -21,11 +21,11 @@ public class BillController {
     BillService billService;
 
     @PostMapping(value = "/find-all")
-    public ResponseEntity<Page<BillEntity>> getBillList(@RequestBody BillRequest pageableBillRequest) {
-        PageRequest pageRequest = PageRequest.of(pageableBillRequest.getPage(), pageableBillRequest.getSize());
-        Page<BillEntity> billList = billService.findAll(pageableBillRequest.getBillRequest(), pageRequest);
-        return new ResponseEntity<>(billList, HttpStatus.OK);
+    public ResponseEntity<?> getBillList(
+            @RequestBody BillRequest billRequest) {
+        return ResponseEntity.ok(billService.findAllBill(billRequest));
     }
+
 
 
 }

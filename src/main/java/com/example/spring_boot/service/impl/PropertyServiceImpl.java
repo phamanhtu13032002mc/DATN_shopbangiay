@@ -5,6 +5,9 @@ import com.example.spring_boot.payload.request.PropertiesRequest;
 import com.example.spring_boot.repository.PropertyRepository;
 import com.example.spring_boot.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +17,10 @@ import java.util.Optional;
 public class PropertyServiceImpl implements PropertyService {
     @Autowired
     PropertyRepository propertyRepository;
-    @Override
-    public List<PropertyEntity> findAll(PropertiesRequest propertiesRequest) {
-        return propertyRepository.findAll();
-    }
 
     @Override
     public PropertyEntity save(PropertyEntity propertyEntity) {
         return propertyRepository.save(propertyEntity);
-    }
-
-    @Override
-    public List<PropertyEntity> findAllByIsDeleteFalse() {
-        return propertyRepository.findAllByIsDeleteFase();
     }
 
     @Override
@@ -41,5 +35,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Optional<PropertyEntity> findByID(Long id) {
         return propertyRepository.findById(id);
+    }
+
+    @Override
+    public Page<PropertyEntity> findAllProperties(PropertiesRequest propertiesRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(propertiesRequest.getPage()), Math.toIntExact(propertiesRequest.getSize()));
+        return propertyRepository.findAllProperties(propertiesRequest, pageable);
     }
 }

@@ -12,4 +12,7 @@ import javax.validation.constraints.NotBlank;
 public class PropertiesRequest {
 
     private String name;
+    private Long page;
+    private Long size;
+
 }

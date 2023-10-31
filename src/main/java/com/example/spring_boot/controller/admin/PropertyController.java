@@ -20,9 +20,10 @@ public class PropertyController {
     @Autowired
     PropertyService propertyService;
 
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getEventList(PropertiesRequest propertiesRequest) {
-        return new ResponseEntity(propertyService.findAll(propertiesRequest), HttpStatus.OK);
+    @PostMapping(value = "/find-all")
+    public ResponseEntity<?> getPropertyList(
+            @RequestBody PropertiesRequest propertiesRequest) {
+        return ResponseEntity.ok(propertyService.findAllProperties(propertiesRequest));
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {

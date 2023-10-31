@@ -29,4 +29,5 @@ public class ImageEntity implements Serializable {
     @JoinColumn(name = "id_product")
     private ProductEntity productEntity;
 
+
 }

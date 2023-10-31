@@ -13,5 +13,6 @@ import java.util.List;
 
 public interface BillService {
 
-    Page<BillEntity> findAll(BillRequest billRequest, PageRequest pageRequest);
+
+    Page<BillEntity> findAllBill(BillRequest billRequest);
 }

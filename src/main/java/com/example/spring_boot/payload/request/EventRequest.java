@@ -12,14 +12,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventRequest {
-
+    private Long id_event;
     private String name;
 
     private LocalDate startDay;
 
     private LocalDate endDay;
-    private int page;
-    private int size;
-    private EventRequest eventRequest;
+    private Long page;
+    private Long size;
 
 }
