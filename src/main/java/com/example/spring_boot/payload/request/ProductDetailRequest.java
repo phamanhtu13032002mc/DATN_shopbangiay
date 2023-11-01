@@ -11,4 +11,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class ProductDetailRequest {
     private Long quantity;
+    private Long size;
+    private Long page;
+    private Long sizePage;
+
 }

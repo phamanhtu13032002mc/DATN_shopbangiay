@@ -7,20 +7,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequest {
-
-    private Long id;
-
     private String name;
-
     private Double gender;
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getGender() {
-        return gender;
-    }
     private int page;
     private int size;
     private CategoryRequest categoryRequest;

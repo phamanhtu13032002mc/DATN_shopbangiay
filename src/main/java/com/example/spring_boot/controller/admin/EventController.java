@@ -1,16 +1,19 @@
 package com.example.spring_boot.controller.admin;
 
-import com.example.spring_boot.entity.CategoryEntity;
+
 import com.example.spring_boot.entity.EventEntity;
-import com.example.spring_boot.payload.request.CategoryRequest;
+import com.example.spring_boot.payload.DataObj;
+
 import com.example.spring_boot.payload.request.EventRequest;
+
 import com.example.spring_boot.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import java.text.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.Optional;
 
@@ -21,12 +24,11 @@ import java.util.Optional;
 public class EventController {
     @Autowired
     EventService eventService;
+
     @PostMapping(value = "/find-all")
-    public ResponseEntity<Page<EventEntity>> getImageList(
-            @RequestBody EventRequest pageableEventRequest) {
-        PageRequest pageRequest = PageRequest.of(pageableEventRequest.getPage(), pageableEventRequest.getSize());
-        Page<EventEntity> eventList = eventService.findAll(pageRequest);
-        return new ResponseEntity<>(eventList, HttpStatus.OK);
+    public ResponseEntity<?> getEventList(
+            @RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.findAllEvent(eventRequest));
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {
@@ -38,6 +40,21 @@ public class EventController {
             return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
         }
     }
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> createEvent(@RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.create(eventRequest));
+    }
+    @PostMapping ("/delete")
+    public ResponseEntity<?> deteleEvent(@RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.detele(eventRequest));
+    }
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> updateEvent(@RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.update(eventRequest));
+    }
+
+
+
 
 
 

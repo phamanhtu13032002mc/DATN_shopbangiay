@@ -7,6 +7,7 @@ import com.example.spring_boot.service.OderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +24,10 @@ public class OderDetailServiceImpl implements OderDetailService {
     }
 
     @Override
-    public Page<OrderDetailEntity> findAll(OderDetailRequest oderDetailRequest, PageRequest pageRequest) {
-        Page<OrderDetailEntity> oderDetails = oderDetailRepository.findAll(pageRequest);
-        return oderDetails;
+    public Page<OrderDetailEntity> findAllOderDetail(OderDetailRequest oderDetailRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(oderDetailRequest.getPage()), Math.toIntExact(oderDetailRequest.getSize()));
+        return oderDetailRepository.findAllOderDetail(oderDetailRequest, pageable);
     }
+
+
 }

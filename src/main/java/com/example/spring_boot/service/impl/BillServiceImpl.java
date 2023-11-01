@@ -9,6 +9,7 @@ import com.example.spring_boot.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ public class BillServiceImpl implements BillService {
 
 
     @Override
-    public Page<BillEntity> findAll(BillRequest billRequest, PageRequest pageRequest) {
-        Page<BillEntity> bill = billRepository.findAll(pageRequest);
-        return bill;
+    public Page<BillEntity> findAllBill(BillRequest billRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(billRequest.getPage()), Math.toIntExact(billRequest.getSize()));
+        return billRepository.findAllBill(billRequest, pageable);
     }
 }

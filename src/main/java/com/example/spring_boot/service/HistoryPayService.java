@@ -15,5 +15,5 @@ public interface HistoryPayService {
     Optional<HistoryPayEntity> findByID(Long id);
 
 
-    Page<HistoryPayEntity> findAll(PageRequest pageRequest);
+    Page<HistoryPayEntity> findAllHistoryPay(HistoryPayRequest historyPayRequest);
 }

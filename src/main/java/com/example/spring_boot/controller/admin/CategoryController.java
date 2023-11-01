@@ -22,11 +22,9 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping(value = "/find-all")
-    public ResponseEntity<Page<CategoryEntity>> getCategoryList(
-        @RequestBody CategoryRequest pageableCategoryRequest) {
-        PageRequest pageRequest = PageRequest.of(pageableCategoryRequest.getPage(), pageableCategoryRequest.getSize());
-        Page<CategoryEntity> productList = categoryService.findAll(pageableCategoryRequest.getCategoryRequest(), pageRequest);
-        return new ResponseEntity<>(productList, HttpStatus.OK);
+    public ResponseEntity<?> getCategoryList(
+            @RequestBody CategoryRequest categoryRequest) {
+        return ResponseEntity.ok(categoryService.findAllCategory(categoryRequest));
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable Long id) {

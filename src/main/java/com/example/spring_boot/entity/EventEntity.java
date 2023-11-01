@@ -22,7 +22,7 @@ public class EventEntity implements Serializable {
 
     private LocalDate startDay;
 
-    private Date endDay;
+    private LocalDate endDay;
 
 //	@Builder.Default
 //	private Boolean status = false;

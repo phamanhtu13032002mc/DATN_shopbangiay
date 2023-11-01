@@ -12,5 +12,7 @@ public interface OderDetailService{
 
     Optional<OrderDetailEntity> findByID(Long id);
 
-    Page<OrderDetailEntity> findAll(OderDetailRequest oderDetailRequest, PageRequest pageRequest);
+
+
+    Page<OrderDetailEntity> findAllOderDetail(OderDetailRequest oderDetailRequest);
 }

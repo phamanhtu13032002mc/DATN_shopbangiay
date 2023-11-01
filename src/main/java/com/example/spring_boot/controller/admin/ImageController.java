@@ -22,10 +22,9 @@ public class ImageController {
     @Autowired
     ImageService imageService;
     @PostMapping(value = "/find-all")
-    public ResponseEntity<Page<ImageEntity>> getImageList(@RequestBody ImageRequest pageableImageRequest) {
-        PageRequest pageRequest = PageRequest.of(pageableImageRequest.getPage(), pageableImageRequest.getSize());
-        Page<ImageEntity> billList = imageService.findAll(pageableImageRequest.getImageRequest(), pageRequest);
-        return new ResponseEntity<>(billList, HttpStatus.OK);
+    public ResponseEntity<?> getImageList(
+            @RequestBody ImageRequest imageRequest) {
+        return ResponseEntity.ok(imageService.findAllImage(imageRequest));
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getImageById(@PathVariable Long id) {
