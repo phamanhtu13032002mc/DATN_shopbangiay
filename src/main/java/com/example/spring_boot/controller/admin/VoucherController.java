@@ -26,8 +26,16 @@ public class VoucherController {
 
         return new  ResponseEntity(voucherService.findByID(id), HttpStatus.OK);
     }
-    @PostMapping(value = "/create")
-    public ResponseEntity<DataObj> createVoucher(@RequestBody VoucherRequest voucherRequest) {
-        return ResponseEntity.ok(new DataObj(voucherService.create(voucherRequest),"thêm thành công ",true));
-    }
+//    @PostMapping(value = "/create")
+//    public ResponseEntity<DataObj> createVoucher(@RequestBody VoucherRequest voucherRequest) {
+//        return ResponseEntity.ok(new DataObj(voucherService.create(voucherRequest),"thêm thành công ",true));
+//    }
+//    @GetMapping("/delete/{id}")
+//    public ResponseEntity<DataObj> deteleEvent(@PathVariable("id") Long id) {
+//        return ResponseEntity.ok(new DataObj(voucherService.detele(id), "Xóa thành công", true));
+//    }
+//    @PostMapping(value = "/update/{id}")
+//    public ResponseEntity<DataObj> updateEvent(@PathVariable("id") Long id ,@RequestBody VoucherRequest voucherRequest) {
+//        return ResponseEntity.ok(new DataObj(voucherService.update(id,voucherRequest),"update thành công ",true));
+//    }
 }

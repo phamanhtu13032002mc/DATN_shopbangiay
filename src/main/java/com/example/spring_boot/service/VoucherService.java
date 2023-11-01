@@ -17,4 +17,8 @@ public interface VoucherService {
     Page<VoucherEntity> findAllVoucher(VoucherRequest voucherRequest);
 
     VoucherEntity create(VoucherRequest voucherRequest);
+
+    VoucherEntity detele(Long id);
+
+    VoucherEntity update(Long id, VoucherRequest voucherRequest);
 }

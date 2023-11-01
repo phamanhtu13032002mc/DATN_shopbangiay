@@ -25,26 +25,30 @@ public class DataObj {
     private Object data;
     @JsonIgnore
     private Object data2;
-
-    public DataObj(EventEntity ecode, String edesc, Object data) {
-        this.ecode = String.valueOf(ecode);
+    public DataObj(String ecode, String edesc, Object data) {
+        this.ecode = ecode;
         this.edesc = edesc;
         this.data = data;
     }
-
-    public DataObj(String s, String đánhDấuThànhCông, boolean data) {
-    }
-
-    public DataObj(VoucherEntity ecode, String edesc, Object data) {
-        this.ecode = String.valueOf(ecode);
-        this.edesc = edesc;
-        this.data = data;
-    }
-
-
-    public DataObj(List<CategoryRequest> ecode, String edesc, Object data) {
-        this.ecode = String.valueOf(ecode);
-        this.edesc = edesc;
-        this.data = data;
-    }
+//    public DataObj(EventEntity ecode, String edesc, Object data) {
+//        this.ecode = String.valueOf(ecode);
+//        this.edesc = edesc;
+//        this.data = data;
+//    }
+//
+//    public DataObj(String s, String đánhDấuThànhCông, boolean data) {
+//    }
+//
+//    public DataObj(VoucherEntity ecode, String edesc, Object data) {
+//        this.ecode = String.valueOf(ecode);
+//        this.edesc = edesc;
+//        this.data = data;
+//    }
+//
+//
+//    public DataObj(List<CategoryRequest> ecode, String edesc, Object data) {
+//        this.ecode = String.valueOf(ecode);
+//        this.edesc = edesc;
+//        this.data = data;
+//    }
 }

@@ -4,15 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class PropertiesRequest {
-    private Long idProperty;
+@NoArgsConstructor
+public class SizeRequest {
+    private Long id;
     private String name;
-    private Long page;
     private Long size;
-
+    private Long page;
 }

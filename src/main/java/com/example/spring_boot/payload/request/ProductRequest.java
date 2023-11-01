@@ -33,6 +33,8 @@ public class ProductRequest {
 
     private Long page;
     private Long size;
+    private Long idSize;
+    private Long idProperties;
 
 
 }

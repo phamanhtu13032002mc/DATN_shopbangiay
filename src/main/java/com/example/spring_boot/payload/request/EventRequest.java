@@ -14,9 +14,7 @@ import java.util.Date;
 public class EventRequest {
     private Long id_event;
     private String name;
-
     private LocalDate startDay;
-
     private LocalDate endDay;
     private Long page;
     private Long size;

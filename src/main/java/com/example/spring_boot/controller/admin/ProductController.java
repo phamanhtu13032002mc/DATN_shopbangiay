@@ -46,7 +46,6 @@ public class ProductController {
     }
     @GetMapping("/find-id-name-category")
     public ResponseEntity<?> findIdAndNameCategory() {
-
         return ResponseEntity.ok(categoryService.findIdAndNameCategory());
     }
 

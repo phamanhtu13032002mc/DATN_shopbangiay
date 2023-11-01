@@ -41,16 +41,16 @@ public class EventController {
         }
     }
     @PostMapping(value = "/create")
-    public ResponseEntity<DataObj> createEvent(@RequestBody EventRequest eventRequest) {
-        return ResponseEntity.ok(new DataObj(eventService.create(eventRequest),"thêm thành công ",true));
+    public ResponseEntity<?> createEvent(@RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.create(eventRequest));
     }
-    @GetMapping("/delete/{id}")
-    public ResponseEntity<DataObj> deteleEvent(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(new DataObj(eventService.detele(id), "Xóa thành công", true));
+    @PostMapping ("/delete")
+    public ResponseEntity<?> deteleEvent(@RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.detele(eventRequest));
     }
-    @PostMapping(value = "/update/{id}")
-    public ResponseEntity<DataObj> updateEvent(@PathVariable("id") Long id ,@RequestBody EventRequest eventRequest) {
-        return ResponseEntity.ok(new DataObj(eventService.update(id,eventRequest),"thêm thành công ",true));
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> updateEvent(@RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.update(eventRequest));
     }
 
 

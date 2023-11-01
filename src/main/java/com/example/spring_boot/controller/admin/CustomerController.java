@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 
-@RequestMapping("/customer-manager")
+    @RequestMapping("/customer-manager")
 public class CustomerController {
     @Autowired
     CustomerService customerService;

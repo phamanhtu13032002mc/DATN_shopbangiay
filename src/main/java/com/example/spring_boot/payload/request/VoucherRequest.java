@@ -23,7 +23,6 @@ public class VoucherRequest {
     private Double minimumValue;
     private Long size;
     private Long page;
-    private List<EventEntity> events;
-    private List<BillEntity> bills;
+    private Long idEvent;
 
 }

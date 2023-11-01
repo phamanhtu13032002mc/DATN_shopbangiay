@@ -15,4 +15,10 @@ public interface PropertyService {
     Optional<PropertyEntity> findByID(Long id);
 
     Page<PropertyEntity> findAllProperties(PropertiesRequest propertiesRequest);
+
+    Object create(PropertiesRequest propertiesRequest);
+
+    Object detele(PropertiesRequest propertiesRequest);
+
+    Object update(PropertiesRequest propertiesRequest);
 }

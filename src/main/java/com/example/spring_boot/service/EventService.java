@@ -1,6 +1,7 @@
 package com.example.spring_boot.service;
 
 import com.example.spring_boot.entity.EventEntity;
+import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.EventRequest;
 import org.springframework.data.domain.Page;
 
@@ -16,10 +17,10 @@ public interface EventService {
     Page<EventEntity> findAllEvent(EventRequest eventRequest);
 
 
-    EventEntity create(EventRequest eventRequest);
+    DataObj create(EventRequest eventRequest);
 
 
-    EventEntity detele(Long id);
+    DataObj detele(EventRequest eventRequest);
 
-    EventEntity update(Long id, EventRequest eventRequest);
+    DataObj update( EventRequest eventRequest);
 }
