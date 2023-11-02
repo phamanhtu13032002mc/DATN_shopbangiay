@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HistoryPayRequest {
-
+    private Long id_history;
     private Long trading_code; //mã giao dịch
 
     private Double surplus;//số dư ví

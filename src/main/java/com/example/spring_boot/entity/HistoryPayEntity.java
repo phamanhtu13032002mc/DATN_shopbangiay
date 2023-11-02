@@ -28,6 +28,7 @@ public class HistoryPayEntity implements Serializable {
 
     private Double amounts;
 
+
     @OneToOne
     @JoinColumn(name = "id_stride_style_pay", updatable = true, insertable = false)
     private StrideStylePayEntity strideStylePayEntity;

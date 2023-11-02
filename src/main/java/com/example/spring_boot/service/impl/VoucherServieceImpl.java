@@ -1,7 +1,9 @@
 package com.example.spring_boot.service.impl;
 
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.EventEntity;
 import com.example.spring_boot.entity.VoucherEntity;
+import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.VoucherRequest;
 import com.example.spring_boot.repository.VoucherRepository;
 import com.example.spring_boot.service.VoucherService;
@@ -40,48 +42,73 @@ public class VoucherServieceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherEntity create(VoucherRequest voucherRequest) {
+    public Object create(VoucherRequest voucherRequest) {
         try {
-            VoucherEntity voucher = new VoucherEntity();
-            voucher.setName(voucherRequest.getName());
-            voucher.setAmount(voucherRequest.getAmount());
-            voucher.setDiscount(voucherRequest.getDiscount());
-            voucher.setMinimumValue(voucherRequest.getMinimumValue());
-            voucher.setIdEvent(voucherRequest.getIdEvent());
-            return voucherRepository.save(voucher);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi xử lý Voucher");
+            if (voucherRequest.getName() == null){
+                return new DataObj().setEdesc("Name  not null !!!");
+            }
+            if (voucherRequest.getAmount() == null){
+                return new DataObj().setEdesc("amount not null !!!");
+            }
+            if (voucherRequest.getDiscount() == null){
+                return new DataObj().setEdesc("Discount not null !!!");
+            }
+            if (voucherRequest.getMinimumValue() == null){
+                return new DataObj().setEdesc("Minimum Value not null !!!");
+            }
+            if (voucherRequest.getIdEvent() == null){
+                return new DataObj().setEdesc("id_event Value not null !!!");
+            }
+            else {
+                VoucherEntity voucher = new VoucherEntity();
+                voucher.setName(voucherRequest.getName());
+                voucher.setAmount(voucherRequest.getAmount());
+                voucher.setDiscount(voucherRequest.getDiscount());
+                voucher.setMinimumValue(voucherRequest.getMinimumValue());
+                voucher.setIdEvent(voucherRequest.getIdEvent());
+                return new DataObj().setEcode("200").setEdesc("Create Complete").setData(voucherRepository.save(voucher));
+
+            }
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi Voucher");
         }
     }
 
     @Override
-    public VoucherEntity detele(Long id) {
+    public Object detele(VoucherRequest voucherRequest) {
         try {
-            VoucherEntity event = voucherRepository.findById(id).orElseThrow(() -> {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy sự kiện");
-            });
-            event.setIsDelete(true);
-            return voucherRepository.save(event);
-        }catch (Exception e){
+            Optional<VoucherEntity> voucherOptional = voucherRepository.findById(voucherRequest.getId());
+            if (voucherOptional.isEmpty()) {
+                return new DataObj().setEcode("505").setEdesc("ID does not exit !");
+            } else {
+                VoucherEntity voucher = voucherOptional.get();
+                voucher.setIsDelete(true);
+                return new DataObj().setEcode("200").setEdesc("DELETE Complete").setData(voucherRepository.save(voucher));
+            }
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi xóa");
         }
     }
 
     @Override
-    public VoucherEntity update(Long id, VoucherRequest voucherRequest) {
+    public Object update(VoucherRequest voucherRequest) {
         try {
-            VoucherEntity voucher = voucherRepository.findById(id).orElseThrow(() -> {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy sự kiện");
-            });
-            voucher.setName(voucherRequest.getName());
-            voucher.setAmount(voucherRequest.getAmount());
-            voucher.setDiscount(voucherRequest.getDiscount());
-            voucher.setMinimumValue(voucherRequest.getMinimumValue());
-            voucher.setIdEvent(voucherRequest.getIdEvent());
-            return voucherRepository.save(voucher);
-        }catch (Exception e){
+            Optional<VoucherEntity> optionalVoucher = voucherRepository.findById(voucherRequest.getId());
+            if (optionalVoucher.isPresent()) {
+                VoucherEntity voucher = optionalVoucher.get();
+                voucher.setName(voucherRequest.getName());
+                voucher.setAmount(voucherRequest.getAmount());
+                voucher.setDiscount(voucherRequest.getDiscount());
+                voucher.setMinimumValue(voucherRequest.getMinimumValue());
+                voucher.setIdEvent(voucherRequest.getIdEvent());
+                return new DataObj().setEcode("200").setEdesc("Success").setData(voucherRepository.save(voucher));
+            } else {
+                return new DataObj().setEcode("505").setEdesc("ID does not exit !");
+            }
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");
         }
     }
+
 
 }

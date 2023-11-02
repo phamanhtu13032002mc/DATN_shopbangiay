@@ -16,4 +16,6 @@ public interface HistoryPayService {
 
 
     Page<HistoryPayEntity> findAllHistoryPay(HistoryPayRequest historyPayRequest);
+
+
 }

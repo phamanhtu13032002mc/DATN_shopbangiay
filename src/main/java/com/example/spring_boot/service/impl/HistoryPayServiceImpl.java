@@ -1,6 +1,8 @@
 package com.example.spring_boot.service.impl;
 
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.HistoryPayEntity;
+import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.HistoryPayRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.repository.HistoryPayRepository;
@@ -9,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +33,7 @@ public class HistoryPayServiceImpl implements HistoryPayService {
         Pageable pageable = PageRequest.of(Math.toIntExact(historyPayRequest.getPage()), Math.toIntExact(historyPayRequest.getSize()));
         return historyPayRespository.findAllHistoryPay(historyPayRequest, pageable);
     }
+
 
 
 }
