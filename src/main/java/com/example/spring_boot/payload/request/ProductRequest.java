@@ -13,6 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class ProductRequest {
 
+    private Long id;
+
     private String nameProduct;
 
     private Double price;//giá gốc

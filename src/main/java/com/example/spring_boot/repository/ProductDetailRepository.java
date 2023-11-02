@@ -1,6 +1,9 @@
 package com.example.spring_boot.repository;
 
 import com.example.spring_boot.entity.ProductDetailEntity;
+import com.example.spring_boot.payload.request.ProductDetailRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,7 +19,8 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
             "FROM ProductDetailEntity pd " +
             "JOIN pd.idProduct p " +
             "JOIN pd.idProperty pr")
-    List<Object[]> findAllProductDetail();
+    Page<Object[]> findAllProductDetail(ProductDetailRequest productDetailRequest,Pageable pageable);
+
 
 
 
