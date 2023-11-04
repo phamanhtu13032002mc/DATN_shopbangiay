@@ -6,6 +6,8 @@ import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.PageableRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
+import com.example.spring_boot.repository.ProductDetailRepository;
+import com.example.spring_boot.repository.ProductRepository;
 import com.example.spring_boot.service.CategoryService;
 import com.example.spring_boot.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +32,9 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    ProductRepository productRepository;
+
     @PostMapping(value = "/find-all")
     public ResponseEntity<?> getProductList(
             @RequestBody ProductRequest productRequest) {
@@ -51,11 +56,23 @@ public class ProductController {
         return ResponseEntity.ok(categoryService.findIdAndNameCategory());
     }
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestParam(required = false, value = "files") MultipartFile file,
-                                 @RequestPart ProductRequest productRequest) {
+    public ResponseEntity<?> save(@ModelAttribute ProductRequest productRequest) {
 
-        return ResponseEntity.ok(productService.save(file,productRequest));
+        return ResponseEntity.ok(productService.save(productRequest));
 
     }
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@RequestBody ProductRequest productRequest) {
+
+        return ResponseEntity.ok(productService.delete(productRequest));
+
+    }
+
+    @GetMapping("/find-by-name/{id}")
+    public ResponseEntity<?> getProductByName(@PathVariable Long id) {
+
+            return ResponseEntity.ok(productRepository.findByIdProduct(id));
+    }
+
 
 }

@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class ProductEntity implements Serializable {
     private String descriptionDetail;
 
     private String status;
-    private Date date_update;
-    private Date date_create;
+    private LocalDate date_update;
+    private LocalDate date_create;
 
     @Column(name = "isDelete")
     private Boolean isDelete = false;

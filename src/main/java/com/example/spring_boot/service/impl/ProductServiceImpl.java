@@ -1,10 +1,11 @@
 package com.example.spring_boot.service.impl;
 
-import com.example.spring_boot.entity.ProductEntity;
+import com.example.spring_boot.entity.*;
+import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.ProductDetailRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
-import com.example.spring_boot.repository.ProductDetailRepository;
-import com.example.spring_boot.repository.ProductRepository;
+import com.example.spring_boot.repository.*;
+import com.example.spring_boot.service.CategoryService;
 import com.example.spring_boot.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,6 +35,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductDetailRepository productDetailRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+    @Autowired
+    SizeRepository sizeRepository;
+    @Autowired
+    PropertyRepository propertyRepository;
 
 
     @Override
@@ -44,10 +57,20 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public void delete(Long id) {
-        ProductEntity productEntity = productRepository.findById(id).get();
-        productEntity.setIsDelete(true);
-        productRepository.save(productEntity);
+    public DataObj delete(ProductRequest productRequest) {
+        try {
+            ProductEntity productEntity = productRepository.findByIdProduct(productRequest.getId());
+            productEntity.setIsDelete(true);
+            ProductDetailEntity productDetailEntity = productDetailRepository.findByIdProduct(productRequest.getId());
+            productDetailEntity.setIsDelete(true);
+            productDetailRepository.save(productDetailEntity);
+            productRepository.save(productEntity);
+            return new DataObj().setEcode("200").setEdesc("Success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEcode("400").setEdesc("Error");
+        }
 
     }
 
@@ -60,20 +83,91 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String save(MultipartFile file, ProductRequest productRequest) {
+    public DataObj save( ProductRequest productRequest) {
+
         try {
-            if (file != null) {
-                String filename = file.getOriginalFilename();
-                UUID uuid = UUID.randomUUID();
-                filename = uuid + ".jpg";
-                Files.copy(file.getInputStream(), this.root.resolve(filename));
-                productRequest.setImage("http://localhost:8080/image/get/"+ filename);
+            if(productRequest.getId() == null) {
+                DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                ProductEntity product = new ProductEntity();
+                ProductDetailEntity productDetail = new ProductDetailEntity();
+                Optional<CategoryEntity> category;
+                Optional<SizeEntity> size;
+                Optional<PropertyEntity> property;
+                Optional<ProductEntity> productId;
+                ProductDetailEntity productDetailEntity = new ProductDetailEntity();
+                if (productRequest.getImage() != null) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                    String formattedDate = LocalDateTime.now().format(formatter);
+                    String fileName = productRequest.getImage().getOriginalFilename();
+                    fileName = formattedDate + ".jpg";
+                    Files.copy(productRequest.getImage().getInputStream(), this.root.resolve(fileName));
+
+                    product.setImage("http://localhost:8080/image/get/" + fileName);
+                }
+
+                category = categoryRepository.findById(productRequest.getIdCategory());
+                size = sizeRepository.findById(productRequest.getIdSize());
+                property = propertyRepository.findById(productRequest.getIdProperties());
+                // save danh sách product
+                product.setPrice(productRequest.getPrice());
+                product.setDiscount(productRequest.getDiscount());
+                product.setStatus(productRequest.getStatus());
+                product.setNameProduct(productRequest.getNameProduct());
+                product.setDescription(productRequest.getDescription());
+                product.setDescriptionDetail(productRequest.getDescriptionDetail());
+                product.setCategoryEntity(category.get());
+                product.setDate_create(LocalDate.now());
+                ProductEntity entity = productRepository.save(product);
+                productId = productRepository.findByNameProduct(productRequest.getNameProduct());
+                productDetail.setIdProduct(entity);
+                productDetail.setIdProperty(property.get());
+                productDetail.setQuantity(productRequest.getQuantity());
+                productDetail.setIdProperty(property.get());
+                productDetail.setIdSize(size.get());
+                productDetailRepository.save(productDetail);
+                return new DataObj().setEcode("200").setEdesc("Success");
+            }
+            DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            ProductEntity product = productRepository.findByIdProduct(productRequest.getId());
+            ProductDetailEntity productDetail = productDetailRepository.findByIdProduct(productRequest.getId());
+            Optional<CategoryEntity> category;
+            Optional<SizeEntity> size;
+            Optional<PropertyEntity> property;
+            Optional<ProductEntity> productId;
+            ProductDetailEntity productDetailEntity = new ProductDetailEntity();
+            if (productRequest.getImage() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                String formattedDate = LocalDateTime.now().format(formatter);
+                String fileName = productRequest.getImage().getOriginalFilename();
+                fileName = formattedDate + ".jpg";
+                Files.copy(productRequest.getImage().getInputStream(), this.root.resolve(fileName));
+
+                product.setImage("http://localhost:8080/image/get/" + fileName);
             }
 
-            return "data";
+            category = categoryRepository.findById(productRequest.getIdCategory());
+            size = sizeRepository.findById(productRequest.getIdSize());
+            property = propertyRepository.findById(productRequest.getIdProperties());
+            // save danh sách product
+            product.setPrice(productRequest.getPrice());
+            product.setDiscount(productRequest.getDiscount());
+            product.setStatus(productRequest.getStatus());
+            product.setNameProduct(productRequest.getNameProduct());
+            product.setDescription(productRequest.getDescription());
+            product.setDescriptionDetail(productRequest.getDescriptionDetail());
+            product.setCategoryEntity(category.get());
+            product.setDate_create(LocalDate.now());
+            ProductEntity entity = productRepository.save(product);
+            productDetail.setIdProperty(property.get());
+            productDetail.setQuantity(productRequest.getQuantity());
+            productDetail.setIdProperty(property.get());
+            productDetail.setIdSize(size.get());
+            productDetailRepository.save(productDetail);
+            return new DataObj().setEcode("200").setEdesc("Update Success");
         } catch (Exception e) {
             // TODO: handle exception
-            return "lỗi" +e;
+            e.printStackTrace();
+            return  new DataObj().setEcode("400").setEdesc("Error").setData(e);
         }
     }
 
