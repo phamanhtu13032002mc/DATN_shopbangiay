@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OderDetailRequest {
-
+public class OrderDetailRequest {
+    private Long id;
     private Double price;//giá gốc
 
     private Double intoMoney;//thành tiền
@@ -18,8 +16,10 @@ public class OderDetailRequest {
     private Double downPrice;//giá giảm
 
     private Long quantity_oder;//số lượng mua
+    private Long id_bill;
+    private Long product_id;
     private int page;
     private int size;
-    private OderDetailRequest oderDetailRequest;
+    private OrderDetailRequest oderDetailRequest;
 
 }

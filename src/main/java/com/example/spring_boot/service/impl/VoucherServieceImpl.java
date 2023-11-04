@@ -66,6 +66,7 @@ public class VoucherServieceImpl implements VoucherService {
                 voucher.setDiscount(voucherRequest.getDiscount());
                 voucher.setMinimumValue(voucherRequest.getMinimumValue());
                 voucher.setIdEvent(voucherRequest.getIdEvent());
+
                 return new DataObj().setEcode("200").setEdesc("Create Complete").setData(voucherRepository.save(voucher));
 
             }
