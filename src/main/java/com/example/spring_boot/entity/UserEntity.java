@@ -1,14 +1,14 @@
 package com.example.spring_boot.entity;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(	name = "users",
+@Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
@@ -38,7 +38,7 @@ public class UserEntity {
 
     private boolean isDelete = false;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roleEntities = new HashSet<>();

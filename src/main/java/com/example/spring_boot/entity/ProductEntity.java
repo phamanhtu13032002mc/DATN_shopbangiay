@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -19,37 +20,32 @@ public class ProductEntity implements Serializable {
     private Long id;
 
     private String nameProduct;
-
-    private Double price;//giá gốc
-
-    private Double discount;//giảm %
-
-    @Length(max = 5000)
-    private String description;//mô tả
+    private Double price;
+    private Double discount;
+    private String image;
 
     @Length(max = 5000)
-    private String descriptionDetail;//mô tả chi tiết
+    private String description;
 
-    private String status;//trạng thái
+    @Length(max = 5000)
+    private String descriptionDetail;
 
-    private Date date_update;
-    private Date date_create;
-    private String image;//hình ảnh
+    private String status;
+    private LocalDate date_update;
+    private LocalDate date_create;
 
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @ManyToOne
-    @JoinColumn(name = "id_image")
-    private ImageEntity images;
+    @JsonIgnore
+    @OneToMany(mappedBy = "productEntity")
+    private List<ImageEntity> idImages;
 
     @ManyToOne
     @JoinColumn(name = "id_category")
     private CategoryEntity categoryEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private OderDetailEntity orderEntity;
-
-
+    @OneToMany(mappedBy = "idProduct")
+    private List<ProductDetailEntity> productDetailEntities;
 }
+

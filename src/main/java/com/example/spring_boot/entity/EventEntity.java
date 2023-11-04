@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @SuppressWarnings("serial")
 @Data
@@ -23,7 +22,7 @@ public class EventEntity implements Serializable {
 
     private LocalDate startDay;
 
-    private Date endDay;
+    private LocalDate endDay;
 
 //	@Builder.Default
 //	private Boolean status = false;
@@ -31,10 +30,9 @@ public class EventEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "event")
-//	private List<ImageEvent> imageevents;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "eventEntity")
     private List<VoucherEntity> voucherEntities;
 

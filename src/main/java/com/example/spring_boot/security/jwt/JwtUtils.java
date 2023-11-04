@@ -2,7 +2,7 @@ package com.example.spring_boot.security.jwt;
 
 import java.util.Date;
 
-import com.example.spring_boot.security.service.UserDetailImpl;
+import com.example.spring_boot.service.UserDetailImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -17,12 +17,12 @@ public class CategoryEntity implements Serializable {
     private Long id;
 
     private String name;
-
     private Boolean gender;
+
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categoryEntity")
-    List<ProductEntity> productEntities;
-
+    List<ProductEntity> productEntity;
 }

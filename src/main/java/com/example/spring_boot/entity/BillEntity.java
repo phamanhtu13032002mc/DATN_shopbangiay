@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -20,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BillEntity implements Serializable {
     @Id
-    private String id;
+    private Long id;
 
     @Column(name = "status")
     private String statusShipping;//tình trạng giao hàng
@@ -45,8 +44,6 @@ public class BillEntity implements Serializable {
 
     private String note;//ghi chú
 
-    @OneToMany(mappedBy = "billEntity")
-    List<OderDetailEntity> oderDetailEntities;
 
     @Column(name = "create_at")
     private LocalDate createAt;
@@ -81,14 +78,14 @@ public class BillEntity implements Serializable {
     @Column(name = "id_ward")
     private Long idWard;
 
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "id_history_pay", updatable = false, insertable = false)
-    private HistoryPayEntity historyPayEntity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "billEntity")
     private List<VoucherEntity> voucherEntities;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "billEntity")
+    List<OrderDetailEntity> oderDetailEntities;
 
 
 }

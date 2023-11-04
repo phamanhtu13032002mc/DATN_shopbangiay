@@ -6,7 +6,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @SuppressWarnings("serial")
 @Data
@@ -18,11 +17,11 @@ public class VoucherBillEntity implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "id_bill")
     private BillEntity billEntity;
 
 
+    @JsonIgnore
     @OneToOne(mappedBy = "eventEntity")
     private VoucherEntity voucherEntities;
 

@@ -13,5 +13,5 @@ public class CreateProductDetail {
     private Long quantity;
     private Long idpoduct;
     private Long idsize;
-    private List<Propertyrequest> propertyrequest;
+    private List<PropertiesRequest> propertyrequest;
 }

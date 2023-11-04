@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Entity
@@ -21,16 +20,14 @@ public class ImageEntity implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_product")
+    @JoinColumn(name = "id_account")
     private UserEntity account;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "image")
-    List<ProductEntity> productEntities;
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "idproduct")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "id_product")
+    private ProductEntity productEntity;
+
+
 }
