@@ -1,5 +1,6 @@
 package com.example.spring_boot.service.impl;
 
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.EventEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.EventRequest;
@@ -75,19 +76,21 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public DataObj update( EventRequest eventRequest) {
-       try {
-           EventEntity event = eventRepossitory.findById(eventRequest.getId_event()).orElseThrow(() -> {
-               throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy sự kiện");
-           });
-           event.setName(eventRequest.getName());
-           event.setEndDay(eventRequest.getEndDay());
-           event.setStartDay(eventRequest.getStartDay());
-           return new DataObj().setEcode("200").setEdesc("thành công").setData(eventRepossitory.save(event));
-       }catch (Exception e){
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");
-       }
+        try {
+            Optional<EventEntity> optionalEvent = eventRepossitory.findById(eventRequest.getId_event());
+            if (optionalEvent.isPresent()) {
+                EventEntity event = optionalEvent.get();
+                event.setName(eventRequest.getName());
+                event.setStartDay(eventRequest.getStartDay());
+                event.setEndDay(eventRequest.getEndDay());
+                return new DataObj().setEcode("200").setEdesc("Success ").setData(eventRepossitory.save(event));
+            } else {
+                return new DataObj().setEcode("505").setEdesc("ID does not exit !");
+            }
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");
+        }
 
     }
-
 }
 

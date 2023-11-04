@@ -16,14 +16,6 @@ import java.util.List;
 public class ProductDetailServiceImpl implements ProductDetailService {
     @Autowired
     ProductDetailRepository productDetailRepository;
-    @Override
-    public Page<Object[]> findAllProduct(ProductDetailRequest productDetailRequest) {
-        Pageable pageable = PageRequest.of(
-                productDetailRequest.getPage().intValue(),
-                productDetailRequest.getSize().intValue()
-        );
-        return productDetailRepository.findAllProductDetail(productDetailRequest,pageable);
-    }
 
 
 

@@ -7,8 +7,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequest {
+    private Long id;
     private String name;
-    private Double gender;
+    private Boolean gender;
     private int page;
     private int size;
     private CategoryRequest categoryRequest;

@@ -15,11 +15,6 @@ public class ProductDetailController {
     @Autowired
     ProductDetailService productDetailService;
 
-    @PostMapping(value = "/find-all")
-    public ResponseEntity<?> getProductList(@RequestBody  ProductDetailRequest productDetailRequest) {
-        return new ResponseEntity(productDetailService.findAllProduct(productDetailRequest), HttpStatus.OK);
-    }
-
 
 
     @PostMapping(value = "/delete/{id}")

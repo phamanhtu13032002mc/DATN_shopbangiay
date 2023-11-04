@@ -1,11 +1,10 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.OrderDetailEntity;
-import com.example.spring_boot.payload.request.OderDetailRequest;
-import com.example.spring_boot.service.OderDetailService;
+import com.example.spring_boot.payload.request.OrderDetailRequest;
+import com.example.spring_boot.payload.request.VoucherRequest;
+import com.example.spring_boot.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +17,10 @@ import java.util.Optional;
 @RequestMapping("/oder-detail-manager")
 public class OderDetailController {
     @Autowired
-    OderDetailService oderDetailService;
+    OrderDetailService oderDetailService;
     @PostMapping(value = "/find-all")
     public ResponseEntity<?> getOderDetailList(
-            @RequestBody OderDetailRequest oderDetailRequest) {
+            @RequestBody OrderDetailRequest oderDetailRequest) {
         return ResponseEntity.ok(oderDetailService.findAllOderDetail(oderDetailRequest));
     }
     @GetMapping("/find-by-id/{id}")
@@ -33,5 +32,17 @@ public class OderDetailController {
         } else {
             return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
         }
+    }
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> createCategory(@RequestBody OrderDetailRequest oderDetailRequest) {
+        return ResponseEntity.ok(oderDetailService.create(oderDetailRequest));
+    }
+    @PostMapping ("/delete")
+    public ResponseEntity<?> deleteCategory(@RequestBody OrderDetailRequest orderDetailRequest) {
+        return ResponseEntity.ok(oderDetailService.detele(orderDetailRequest));
+    }
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> updateCategory(@RequestBody OrderDetailRequest orderDetailRequest) {
+        return ResponseEntity.ok(oderDetailService.update(orderDetailRequest));
     }
 }

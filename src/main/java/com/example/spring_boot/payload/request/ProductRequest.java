@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +17,6 @@ import java.util.Date;
 public class ProductRequest {
 
     private Long id;
-
     private String nameProduct;
 
     private Double price;//giá gốc
@@ -29,9 +31,13 @@ public class ProductRequest {
 
     private String status;//trạng thái
 
-    private Date date_update;
-    private Date date_create;
-    private String image;//hình ảnh
+    private String date_update;
+    private String date_create;
+    private Long quantity;
+
+    private MultipartFile image;//hình ảnh
+
+         private Long idCategory;
 
     private Long page;
     private Long size;

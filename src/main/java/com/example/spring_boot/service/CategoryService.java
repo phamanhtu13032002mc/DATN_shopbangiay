@@ -21,4 +21,10 @@ public interface CategoryService {
 
 
     List<CategoryResponse> findIdAndNameCategory();
+
+    Object create(CategoryRequest categoryRequest);
+
+    Object detele(CategoryRequest categoryRequest);
+
+    Object update(CategoryRequest categoryRequest);
 }

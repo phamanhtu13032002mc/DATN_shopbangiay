@@ -1,5 +1,6 @@
 package com.example.spring_boot.controller.admin;
 
+import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.CustomerRequest;
 import com.example.spring_boot.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,18 @@ public class CustomerController {
     public ResponseEntity<?> getCustomerList(
             @RequestBody CustomerRequest customerRequest) {
         return ResponseEntity.ok(customerService.findAllCustomer(customerRequest));
+    }
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> createCustomer(@RequestBody CustomerRequest customerRequest) {
+        return ResponseEntity.ok(customerService.create(customerRequest));
+    }
+    @PostMapping ("/delete")
+    public ResponseEntity<?> deleteCustomer(@RequestBody CustomerRequest customerRequest) {
+        return ResponseEntity.ok(customerService.detele(customerRequest));
+    }
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest) {
+        return ResponseEntity.ok(customerService.update(customerRequest));
     }
 
 }

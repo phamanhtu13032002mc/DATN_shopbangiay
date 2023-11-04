@@ -1,7 +1,9 @@
 package com.example.spring_boot.repository;
 
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.PropertyEntity;
 import com.example.spring_boot.payload.request.PropertiesRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +21,10 @@ public interface PropertyRepository extends JpaRepository<PropertyEntity,Long> {
 
     @Query(value = "SELECT * FROM property WHERE is_delete = 0 ORDER BY id_property DESC",nativeQuery = true)
     Page<PropertyEntity> findAllProperties(PropertiesRequest propertiesRequest, Pageable pageable);
+
+
+
+    @Query(value = "select p from PropertyEntity p where p.idProperty =?1 ")
+    List<CategoryEntity> findByPropertyID(Long id);
+
 }

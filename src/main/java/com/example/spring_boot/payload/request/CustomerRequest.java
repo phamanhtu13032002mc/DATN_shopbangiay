@@ -6,23 +6,24 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerRequest {
-
+    private Long id;
     private String fullName;
 
     private String address;
 
 
-    private long phone;
+    private Long phone;
 
 
-    private long id_address;
+    private Long id_address;
 
 
-    private long email;
+    private String email;
     private Long size;
     private Long page;
 }

@@ -36,4 +36,5 @@ public class ImageController {
             return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
         }
     }
+
 }
