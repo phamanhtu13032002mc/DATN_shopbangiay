@@ -8,6 +8,7 @@ import com.example.spring_boot.service.HistoryPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,10 @@ public class HistoryPayServiceImpl implements HistoryPayService {
     }
 
     @Override
-    public Page<HistoryPayEntity> findAll(PageRequest pageRequest) {
-        return null;
+    public Page<HistoryPayEntity> findAllHistoryPay(HistoryPayRequest historyPayRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(historyPayRequest.getPage()), Math.toIntExact(historyPayRequest.getSize()));
+        return historyPayRespository.findAllHistoryPay(historyPayRequest, pageable);
     }
+
 
 }

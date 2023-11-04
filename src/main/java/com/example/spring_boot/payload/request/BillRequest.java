@@ -48,11 +48,10 @@ public class BillRequest {
 
     private String refund;
 
-    @Size(max = 2000)
     private String note_refund;
     private int page;
     private int size;
-    private BillRequest billRequest;
+    private Long idCustomer;
 
 }
 

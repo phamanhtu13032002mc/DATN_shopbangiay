@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PropertiesRequest {
-
+    private Long idProperty;
     private String name;
+    private Long page;
+    private Long size;
+
 }

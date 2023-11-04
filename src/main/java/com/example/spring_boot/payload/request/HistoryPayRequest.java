@@ -27,6 +27,5 @@ public class HistoryPayRequest {
     private Double amounts;
     private int page;
     private int size;
-    private HistoryPayRequest historyPayRequest;
 
 }

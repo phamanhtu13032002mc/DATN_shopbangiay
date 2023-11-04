@@ -2,8 +2,10 @@ package com.example.spring_boot.controller.admin;
 
 
 import com.example.spring_boot.entity.PropertyEntity;
+import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.EventRequest;
 import com.example.spring_boot.payload.request.PropertiesRequest;
+import com.example.spring_boot.payload.request.VoucherRequest;
 import com.example.spring_boot.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,10 @@ public class PropertyController {
     @Autowired
     PropertyService propertyService;
 
-    @GetMapping(value = "/find-all")
-    public ResponseEntity<?> getEventList(PropertiesRequest propertiesRequest) {
-        return new ResponseEntity(propertyService.findAll(propertiesRequest), HttpStatus.OK);
+    @PostMapping(value = "/find-all")
+    public ResponseEntity<?> getPropertyList(
+            @RequestBody PropertiesRequest propertiesRequest) {
+        return ResponseEntity.ok(propertyService.findAllProperties(propertiesRequest));
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {
@@ -33,6 +36,18 @@ public class PropertyController {
         } else {
             return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
         }
+    }
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> createProperty(@RequestBody PropertiesRequest propertiesRequest) {
+        return ResponseEntity.ok(propertyService.create(propertiesRequest));
+    }
+    @PostMapping ("/delete")
+    public ResponseEntity<?> deteleProperty(@RequestBody PropertiesRequest propertiesRequest) {
+        return ResponseEntity.ok(propertyService.detele(propertiesRequest));
+    }
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> updateProperty(@RequestBody PropertiesRequest propertiesRequest) {
+        return ResponseEntity.ok(propertyService.update(propertiesRequest));
     }
 
 

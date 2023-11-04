@@ -5,10 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class PropertyRequest {
-    private Long quantity;
-
-    private Long idproperty;
+@NoArgsConstructor
+public class SizeRequest {
+    private Long id;
+    private String name;
+    private Long size;
+    private Long page;
 }

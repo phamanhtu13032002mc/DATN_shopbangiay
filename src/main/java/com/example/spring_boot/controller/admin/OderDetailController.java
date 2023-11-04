@@ -20,10 +20,9 @@ public class OderDetailController {
     @Autowired
     OderDetailService oderDetailService;
     @PostMapping(value = "/find-all")
-    public ResponseEntity<Page<OrderDetailEntity>> getOderDetailList(@RequestBody OderDetailRequest pageableOderDetailRequest) {
-        PageRequest pageRequest = PageRequest.of(pageableOderDetailRequest.getPage(), pageableOderDetailRequest.getSize());
-        Page<OrderDetailEntity> oderDetailList = oderDetailService.findAll(pageableOderDetailRequest.getOderDetailRequest(), pageRequest);
-        return new ResponseEntity<>(oderDetailList, HttpStatus.OK);
+    public ResponseEntity<?> getOderDetailList(
+            @RequestBody OderDetailRequest oderDetailRequest) {
+        return ResponseEntity.ok(oderDetailService.findAllOderDetail(oderDetailRequest));
     }
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id) {

@@ -12,5 +12,7 @@ public interface ImageService {
 
     Optional<ImageEntity> findByID(Long id);
 
-    Page<ImageEntity> findAll(ImageRequest imageRequest, PageRequest pageRequest);
+
+
+    Page<ImageEntity> findAllImage(ImageRequest imageRequest);
 }
