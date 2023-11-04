@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VoucherRequest {
-
+private Long id;
     private Long amount;
 
     private Double discount;

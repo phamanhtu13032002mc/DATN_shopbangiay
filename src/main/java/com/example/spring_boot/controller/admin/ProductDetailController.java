@@ -1,7 +1,6 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.payload.request.ProductDetailRequest;
-import com.example.spring_boot.service.ProducDetailService;
 import com.example.spring_boot.service.ProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

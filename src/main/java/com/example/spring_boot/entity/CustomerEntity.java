@@ -23,13 +23,13 @@ public class CustomerEntity implements Serializable {
     private String address;
 
     @Column(name = "phone")
-    private long phone;
+    private Long phone;
 
     @Column(name = "id_address")
-    private long id_address;
+    private Long id_address;
 
     @Column(name = "email")
-    private long email;
+    private String email;
 
     @Column(name = "is_delete")
     private Boolean isDelete = false;

@@ -2,7 +2,9 @@ package com.example.spring_boot.controller.admin;
 
 
 import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.EventRequest;
+import com.example.spring_boot.payload.request.PropertiesRequest;
 import com.example.spring_boot.payload.request.VoucherRequest;
 import com.example.spring_boot.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +28,16 @@ public class VoucherController {
 
         return new  ResponseEntity(voucherService.findByID(id), HttpStatus.OK);
     }
-//    @PostMapping(value = "/create")
-//    public ResponseEntity<DataObj> createVoucher(@RequestBody VoucherRequest voucherRequest) {
-//        return ResponseEntity.ok(new DataObj(voucherService.create(voucherRequest),"thêm thành công ",true));
-//    }
-//    @GetMapping("/delete/{id}")
-//    public ResponseEntity<DataObj> deteleEvent(@PathVariable("id") Long id) {
-//        return ResponseEntity.ok(new DataObj(voucherService.detele(id), "Xóa thành công", true));
-//    }
-//    @PostMapping(value = "/update/{id}")
-//    public ResponseEntity<DataObj> updateEvent(@PathVariable("id") Long id ,@RequestBody VoucherRequest voucherRequest) {
-//        return ResponseEntity.ok(new DataObj(voucherService.update(id,voucherRequest),"update thành công ",true));
-//    }
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> createCategory(@RequestBody VoucherRequest voucherRequest) {
+        return ResponseEntity.ok(voucherService.create(voucherRequest));
+    }
+    @PostMapping ("/delete")
+    public ResponseEntity<?> deleteCategory(@RequestBody VoucherRequest voucherRequest) {
+        return ResponseEntity.ok(voucherService.detele(voucherRequest));
+    }
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> updateCategory(@RequestBody VoucherRequest voucherRequest) {
+        return ResponseEntity.ok(voucherService.update(voucherRequest));
+    }
 }
