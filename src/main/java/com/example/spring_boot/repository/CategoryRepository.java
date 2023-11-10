@@ -21,6 +21,9 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity,Long> {
     @Query("SELECT C FROM CategoryEntity C WHERE C.name LIKE %:name%")
     Page<CategoryEntity> findByNameLike(@Param("name") String name,Pageable pageable);
 
+    @Query(value = "select c from CategoryEntity c where c.id =?1 ")
+    List<CategoryEntity> findByCategoryID(Long id);
+
 
 
 }

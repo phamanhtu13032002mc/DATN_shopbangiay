@@ -19,6 +19,12 @@ public interface PropertyRepository extends JpaRepository<PropertyEntity,Long> {
 
     @Query(value = "SELECT * FROM property WHERE is_delete = 0 ORDER BY id_property DESC",nativeQuery = true)
     Page<PropertyEntity> findAllProperties(PropertiesRequest propertiesRequest, Pageable pageable);
+
+
+
+    @Query(value = "select p from PropertyEntity p where p.idProperty =?1 ")
+    List<CategoryEntity> findByPropertyID(Long id);
+
     @Query("SELECT P FROM PropertyEntity P WHERE P.name LIKE %:name%")
     Page<PropertyEntity> findByNameLike(String name, Pageable pageable);
 }

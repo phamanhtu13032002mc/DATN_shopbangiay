@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 public class BillRequest {
 
 
-    private Long id;
+    private Long idBill;
     private String status;
 
     private String transport_fee;
@@ -52,6 +53,8 @@ public class BillRequest {
     private int page;
     private int size;
     private Long idCustomer;
+    private List<ProductDetailRequest> productDetail;
+
 
 }
 
