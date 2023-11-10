@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     @Query(value = "select p from ProductEntity p where p.nameProduct like :name")
     Optional<ProductEntity> findByNameProduct(@Param("name") String name);
 
-    @Query(value = "SELECT * FROM product p WHERE p.id = 1 ",nativeQuery = true)
+    @Query(value = "SELECT * FROM product p WHERE p.id = ? ",nativeQuery = true)
     ProductEntity findByIdProduct(Long id);
 
 

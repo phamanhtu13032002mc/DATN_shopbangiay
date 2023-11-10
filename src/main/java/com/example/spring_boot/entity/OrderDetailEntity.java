@@ -34,9 +34,9 @@ public class OrderDetailEntity implements Serializable {
     @JoinColumn(name = "id_bill", updatable = false, insertable = false)
     private BillEntity billEntity;
 
-    @OneToMany
+    @ManyToOne()
     @JoinColumn(name = "product_id")
-    private List<ProductDetailEntity> productDetailEntities;
+    private ProductDetailEntity productDetailEntities;
 
 
 }

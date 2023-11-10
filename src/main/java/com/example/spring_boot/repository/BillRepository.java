@@ -10,4 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface BillRepository extends JpaRepository<BillEntity, Long> {
     @Query(value = "SELECT * FROM bill WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
     Page<BillEntity> findAllBill(BillRequest billRequest, Pageable pageable);
+
+    @Query(value = "SELECT * FROM bill WHERE id = ?",nativeQuery = true)
+    BillEntity findByidBill(Long id);
 }

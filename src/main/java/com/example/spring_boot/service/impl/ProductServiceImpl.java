@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -109,6 +110,11 @@ public class ProductServiceImpl implements ProductService {
                 size = sizeRepository.findById(productRequest.getIdSize());
                 property = propertyRepository.findById(productRequest.getIdProperties());
                 // save danh sách product
+                long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
+                product.setId(randomNumber);
+                while (productRepository.existsById(product.getId())) {
+                    product.setId(randomNumber);
+                }
                 product.setPrice(productRequest.getPrice());
                 product.setDiscount(productRequest.getDiscount());
                 product.setStatus(productRequest.getStatus());
@@ -118,8 +124,7 @@ public class ProductServiceImpl implements ProductService {
                 product.setCategoryEntity(category.get());
                 product.setDate_create(LocalDate.now());
                 ProductEntity entity = productRepository.save(product);
-                productId = productRepository.findByNameProduct(productRequest.getNameProduct());
-                productDetail.setIdProduct(entity);
+                productDetail.setIdProduct(product);
                 productDetail.setIdProperty(property.get());
                 productDetail.setQuantity(productRequest.getQuantity());
                 productDetail.setIdProperty(property.get());
