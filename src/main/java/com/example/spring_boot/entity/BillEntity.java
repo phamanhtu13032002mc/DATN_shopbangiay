@@ -78,9 +78,6 @@ public class BillEntity implements Serializable {
     @Column(name = "id_ward")
     private Long idWard;
 
-    @OneToOne
-    @JoinColumn(name = "id_history_pay", updatable = false, insertable = false)
-    private HistoryPayEntity historyPayEntity;
 
     @JsonIgnore
     @OneToMany(mappedBy = "billEntity")

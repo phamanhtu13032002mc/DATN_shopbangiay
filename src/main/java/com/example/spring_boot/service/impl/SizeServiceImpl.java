@@ -1,5 +1,6 @@
 package com.example.spring_boot.service.impl;
 
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.PropertyEntity;
 import com.example.spring_boot.entity.SizeEntity;
 import com.example.spring_boot.payload.DataObj;
@@ -71,5 +72,18 @@ public class SizeServiceImpl implements SizeService {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error updating properties");
         }
+    }
+
+    @Override
+    public Object findByNameLike(SizeRequest sizeRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(sizeRequest.getPage()), Math.toIntExact(sizeRequest.getSize()));
+        Page<SizeEntity> sizeEntities = sizeRepository.findByNameLike(sizeRequest.getName(), pageable);
+
+        DataObj dataObj = new DataObj();
+        dataObj.setEcode("200");
+        dataObj.setEdesc("success");
+        dataObj.setData(sizeEntities.getContent());
+
+        return dataObj;
     }
 }

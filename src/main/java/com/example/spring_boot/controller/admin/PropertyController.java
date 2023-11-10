@@ -49,6 +49,10 @@ public class PropertyController {
     public ResponseEntity<?> updateProperty(@RequestBody PropertiesRequest propertiesRequest) {
         return ResponseEntity.ok(propertyService.update(propertiesRequest));
     }
+    @PostMapping(value = "/find-by-name-like")
+    public ResponseEntity<?> findByNameLike(@RequestBody PropertiesRequest propertiesRequest) {
+        return ResponseEntity.ok(propertyService.findByNameLike(propertiesRequest));
+    }
 
 
 

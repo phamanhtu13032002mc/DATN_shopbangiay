@@ -52,6 +52,10 @@ public class EventController {
     public ResponseEntity<?> updateEvent(@RequestBody EventRequest eventRequest) {
         return ResponseEntity.ok(eventService.update(eventRequest));
     }
+    @PostMapping(value = "/find-by-name-like")
+    public ResponseEntity<?> findByNameLike(@RequestBody EventRequest eventRequest) {
+        return ResponseEntity.ok(eventService.findByNameLike(eventRequest));
+    }
 
 
 

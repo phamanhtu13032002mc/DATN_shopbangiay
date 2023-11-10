@@ -32,5 +32,9 @@ public class CustomerController {
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest) {
         return ResponseEntity.ok(customerService.update(customerRequest));
     }
+    @PostMapping(value = "/find-by-name-like")
+    public ResponseEntity<?> findByNameLike(@RequestBody CustomerRequest customerRequest) {
+        return ResponseEntity.ok(customerService.findByNameLike(customerRequest));
+    }
 
 }

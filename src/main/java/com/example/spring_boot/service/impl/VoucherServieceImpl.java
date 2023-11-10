@@ -111,5 +111,18 @@ public class VoucherServieceImpl implements VoucherService {
         }
     }
 
+    @Override
+    public Object findByNameLike(VoucherRequest voucherRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(voucherRequest.getPage()), Math.toIntExact(voucherRequest.getSize()));
+        Page<VoucherEntity> voucherEntities = voucherRepository.findByNameLike(voucherRequest.getName(), pageable);
+
+        DataObj dataObj = new DataObj();
+        dataObj.setEcode("200");
+        dataObj.setEdesc("success");
+        dataObj.setData(voucherEntities.getContent());
+
+        return dataObj;
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.example.spring_boot.service.impl;
 import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.EventEntity;
 import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.EventRequest;
 import com.example.spring_boot.repository.EventRepository;
 import com.example.spring_boot.service.EventService;
@@ -90,6 +91,21 @@ public class EventServiceImpl implements EventService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");
         }
+
+    }
+
+    @Override
+    public Object findByNameLike(EventRequest eventRequest) {
+
+            Pageable pageable = PageRequest.of(Math.toIntExact(eventRequest.getPage()), Math.toIntExact(eventRequest.getSize()));
+            Page<EventEntity> eventEntities = eventRepossitory.findByNameLike(eventRequest.getName(), pageable);
+
+            DataObj dataObj = new DataObj();
+            dataObj.setEcode("200");
+            dataObj.setEdesc("success");
+            dataObj.setData(eventEntities.getContent());
+
+            return dataObj;
 
     }
 }
