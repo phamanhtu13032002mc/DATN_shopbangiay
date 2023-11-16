@@ -91,4 +91,17 @@ public class PropertyServiceImpl implements PropertyService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error updating properties");
         }
     }
+
+    @Override
+    public Object findByNameLike(PropertiesRequest propertiesRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(propertiesRequest.getPage()), Math.toIntExact(propertiesRequest.getSize()));
+        Page<PropertyEntity> propertyEntities = propertyRepository.findByNameLike(propertiesRequest.getName(), pageable);
+
+        DataObj dataObj = new DataObj();
+        dataObj.setEcode("200");
+        dataObj.setEdesc("success");
+        dataObj.setData(propertyEntities.getContent());
+
+        return dataObj;
+    }
 }

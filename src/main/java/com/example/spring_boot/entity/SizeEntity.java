@@ -17,7 +17,7 @@ public class SizeEntity implements Serializable {
     private Long id;
 
     private String name;
-
+    @JsonIgnore
     @Column(name = "isDelete")
     private Boolean isDelete;
 

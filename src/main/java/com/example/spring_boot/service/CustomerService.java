@@ -13,4 +13,6 @@ public interface CustomerService {
     Object detele(CustomerRequest customerRequest);
 
     Object update(CustomerRequest customerRequest);
+
+    Object findByNameLike(CustomerRequest customerRequest);
 }

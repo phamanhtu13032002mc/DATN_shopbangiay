@@ -31,7 +31,7 @@ public class ProductDetailEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_size")
     private SizeEntity idSize;
-
+    @JsonIgnore
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 

@@ -23,4 +23,6 @@ public interface EventService {
     DataObj detele(EventRequest eventRequest);
 
     DataObj update( EventRequest eventRequest);
+
+    Object findByNameLike(EventRequest eventRequest);
 }

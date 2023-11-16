@@ -1,5 +1,6 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class OrderDetailEntity implements Serializable {
     private Double downPrice;//giá giảm
     private Long quantity_oder;//số lượng mua
 
+    @JsonIgnore
     @Column(name = "isDelete")
     @Builder.Default
     private Boolean isDelete = false;

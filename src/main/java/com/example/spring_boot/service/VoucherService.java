@@ -22,4 +22,6 @@ public interface VoucherService {
     Object detele(VoucherRequest voucherRequest);
 
     Object update(VoucherRequest voucherRequest);
+
+    Object findByNameLike(VoucherRequest voucherRequest);
 }

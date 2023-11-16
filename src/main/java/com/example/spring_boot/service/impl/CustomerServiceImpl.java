@@ -3,6 +3,7 @@ package com.example.spring_boot.service.impl;
 import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.CustomerEntity;
 import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.CustomerRequest;
 import com.example.spring_boot.repository.CustomerRepository;
 import com.example.spring_boot.service.CustomerService;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
+
     @Override
     public Page<CustomerEntity> findAllCustomer(CustomerRequest customerRequest) {
         Pageable pageable = PageRequest.of(Math.toIntExact(customerRequest.getPage()), Math.toIntExact(customerRequest.getSize()));
@@ -30,23 +32,21 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Object create(CustomerRequest customerRequest) {
         try {
-            if (customerRequest.getFullName() == null){
+            if (customerRequest.getFullName() == null) {
                 return new DataObj().setEdesc("full name  not null !!!");
             }
-            if (customerRequest.getAddress() == null){
+            if (customerRequest.getAddress() == null) {
                 return new DataObj().setEdesc("address not null !!!");
             }
-            if (customerRequest.getPhone() == null){
+            if (customerRequest.getPhone() == null) {
                 return new DataObj().setEdesc("phone not null !!!");
             }
-            if (customerRequest.getEmail() == null){
+            if (customerRequest.getEmail() == null) {
                 return new DataObj().setEdesc("phone not null !!!");
             }
-            if (customerRequest.getId_address() == null){
+            if (customerRequest.getId_address() == null) {
                 return new DataObj().setEdesc("id_address not null !!!");
-            }
-
-            else {
+            } else {
                 CustomerEntity customer = new CustomerEntity();
                 customer.setFullName(customerRequest.getFullName());
                 customer.setAddress(customerRequest.getAddress());
@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
                 return new DataObj().setEcode("200").setEdesc("Create Complete").setData(customerRepository.save(customer));
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi Customer");
         }
     }
@@ -93,5 +93,19 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");
         }
+    }
+
+    @Override
+    public Object findByNameLike(CustomerRequest customerRequest) {
+
+        Pageable pageable = PageRequest.of(Math.toIntExact(customerRequest.getPage()), Math.toIntExact(customerRequest.getSize()));
+        Page<CustomerEntity> customerEntities = customerRepository.findByNameLike(customerRequest.getFullName(), pageable);
+
+        DataObj dataObj = new DataObj();
+        dataObj.setEcode("200");
+        dataObj.setEdesc("success");
+        dataObj.setData(customerEntities.getContent());
+
+        return dataObj;
     }
 }

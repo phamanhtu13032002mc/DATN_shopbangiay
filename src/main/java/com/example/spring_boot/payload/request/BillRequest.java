@@ -1,5 +1,6 @@
 package com.example.spring_boot.payload.request;
 
+import com.example.spring_boot.entity.CustomerEntity;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
@@ -22,7 +23,7 @@ public class BillRequest {
 
 
     private Long idBill;
-    private String status;
+    private String statusShipping;
 
     private String transport_fee;
 
@@ -43,7 +44,7 @@ public class BillRequest {
 
     private LocalDate update_at;
 
-    private String full_name;
+    private String fullName;
 
     private String phone_number;
 
@@ -54,6 +55,7 @@ public class BillRequest {
     private int size;
     private Long idCustomer;
     private List<ProductDetailRequest> productDetail;
+     private List<CustomerRequest> customerRequests;
 
 
 }
