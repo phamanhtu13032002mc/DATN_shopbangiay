@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
                     productRequest.getPage().intValue(),
                     productRequest.getSize().intValue()
             );
-            return productRepository.findAllProduct(productRequest, pageable);
+            return productRepository.findAllProduct(productRequest.getId(),productRequest.getNameProduct(),productRequest.getCategoryName(), pageable);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
