@@ -20,6 +20,5 @@ public class OrderDetailRequest {
     private Long product_id;
     private int page;
     private int size;
-    private OrderDetailRequest oderDetailRequest;
 
 }

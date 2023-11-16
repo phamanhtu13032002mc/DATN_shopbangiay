@@ -18,14 +18,13 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     ProductDetailRepository productDetailRepository;
 
 
-    @Override
-    public Page<ProductDetailEntity> findAllProductDetail(ProductDetailRequest productDetailRequest) {
-        Pageable pageable = PageRequest.of(Math.toIntExact(productDetailRequest.getPage()), Math.toIntExact(productDetailRequest.getSize()));
-        return productDetailRepository.findAllProductDetail(productDetailRequest, pageable);
-    }
+
 
     @Override
     public void delete(Long id) {
-
+     ProductDetailEntity productdetail = productDetailRepository.findById(id).get();
+     productdetail.setIsDelete(true);
+     productDetailRepository.save(productdetail);
     }
+
 }

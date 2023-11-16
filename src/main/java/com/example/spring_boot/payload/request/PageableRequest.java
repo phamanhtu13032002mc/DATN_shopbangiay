@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class PageableRequest {
         private int page;
         private int size;
-        private ProductRequest productRequest;
 
         // Các getter và setter cho các trường
 

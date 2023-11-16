@@ -21,7 +21,6 @@ public class OrderDetailEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Double price;//giá gốc
     private Double intoMoney;//thành tiền
     private Double downPrice;//giá giảm

@@ -1,16 +1,10 @@
 package com.example.spring_boot.payload.request;
 
-import com.example.spring_boot.entity.CategoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -37,8 +31,8 @@ public class ProductRequest {
     private Long quantity;
 
     private MultipartFile image;//hình ảnh
-
-         private Long idCategory;
+    private Long idCategory;
+    private String categoryName;
 
     private Long page;
     private Long size;
