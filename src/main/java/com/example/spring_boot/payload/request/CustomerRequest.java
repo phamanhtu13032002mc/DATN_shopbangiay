@@ -17,7 +17,7 @@ public class CustomerRequest {
     private String address;
 
 
-    private Long phone;
+    private String phone;
 
 
     private Long id_address;

@@ -21,13 +21,10 @@ public class BillEntity implements Serializable {
     @Id
     private Long id;
 
-    @Column(name = "status")
-    private String statusShipping;//tình trạng giao hàng
+    private EnumShipping statusShipping = EnumShipping.CHUA_XAC_NHAN;//tình trạng giao hàng
 
-    @Column(name = "transport_fee")
     private Double transportFee;//phí vận chuyển
 
-    @Column(name = "voucher_id")
     private Long voucherId;//mã voucher
 
     private Double discount; // giảm giá
@@ -45,38 +42,27 @@ public class BillEntity implements Serializable {
     private String note;//ghi chú
 
 
-    @Column(name = "create_at")
     private LocalDate createAt;
 
-    @Column(name = "update_at")
     private LocalDate updateAts;
 
-    @Column(name = "full_name")
     private String fullName;//họ tên nhận hàng
 
-    @Column(name = "phone_number")
     private String sdt;
 
-    @Column(name = "refund")
-    private String refund;
+    private EnumRefund refund;
 
-    @Column(name = "note_refund")
     @Length(max = 2000)
     private String noteRefund;
 
     @ManyToOne
-    @JoinColumn(name = "id_customer", updatable = false, insertable = false)
+    @JoinColumn(name = "idCustomer")
     private CustomerEntity customerEntity;
 
-
-    @Column(name = "id_customer")
-    private Long idCustomer;
-
-    @Column(name = "isDelete")
     private Boolean isDelete = false;
 
-    @Column(name = "id_ward")
     private Long idWard;
+
 
 
     @JsonIgnore

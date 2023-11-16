@@ -17,6 +17,8 @@ public class ProductDetailRequest {
     private Long idProperty;
     private Long idSize;
     private Boolean isDelete ;
+    private Long quantityBill;
     private Long page;
     private Long size;
+
 }

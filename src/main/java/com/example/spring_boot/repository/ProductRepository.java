@@ -8,33 +8,42 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Repository
 public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
-    @Query("SELECT p " +
+    @Query("SELECT DISTINCT p " +
             "FROM ProductEntity p " +
+            "JOIN p.categoryEntity " +
             "JOIN p.productDetailEntities " +
-            "JOIN CategoryEntity c ON p.id = c.id " +
-            "WHERE p.isDelete = true " +
-            "group by p.id ")
-    Page<Object[]> findAllProduct(ProductRequest productRequest, Pageable pageable);
+            "WHERE (:productId IS NULL OR p.id = :productId) " +
+            "AND (:nameProduct IS NULL OR p.nameProduct = :nameProduct) " +
+            "AND (:nameCate IS NULL OR p.categoryEntity.name = :nameCate) " +
+            "AND p.isDelete = false")
+    Page<Object[]> findAllProduct(
+            @Param("productId") Long productId,
+            @Param("nameProduct") String nameProduct,
+            @Param("nameCate") String nameCate
+            ,Pageable pageable);
 
-    @Query("SELECT p " +
+    @Query("SELECT DISTINCT  p " +
             "FROM ProductEntity p " +
+            "JOIN p.categoryEntity " +
             "JOIN p.productDetailEntities " +
-            "JOIN CategoryEntity c ON p.id = c.id " +
-            "WHERE p.isDelete = true AND p.id = :productId")
-    List<Object[]> findProductById(@Param("productId") Long productId);
+            "WHERE p.isDelete = false AND p.id = :productId")
+    List<ProductEntity> findProductById(@Param("productId") Long productId);
 
 
     @Query(value = "select p from ProductEntity p where p.nameProduct like :name")
     Optional<ProductEntity> findByNameProduct(@Param("name") String name);
 
-    @Query(value = "SELECT * FROM product p WHERE p.id = 1 ",nativeQuery = true)
+    @Query(value = "SELECT * FROM product p WHERE p.id = ? ",nativeQuery = true)
     ProductEntity findByIdProduct(Long id);
+
 
 
 }
