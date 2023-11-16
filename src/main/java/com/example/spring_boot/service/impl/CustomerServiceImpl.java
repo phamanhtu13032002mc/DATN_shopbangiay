@@ -52,7 +52,6 @@ public class CustomerServiceImpl implements CustomerService {
                 customer.setAddress(customerRequest.getAddress());
                 customer.setPhone(customerRequest.getPhone());
                 customer.setEmail(customerRequest.getEmail());
-                customer.setId_address(customerRequest.getId_address());
                 return new DataObj().setEcode("200").setEdesc("Create Complete").setData(customerRepository.save(customer));
 
             }
@@ -87,7 +86,6 @@ public class CustomerServiceImpl implements CustomerService {
                 customer.setAddress(customerRequest.getAddress());
                 customer.setPhone(customerRequest.getPhone());
                 customer.setEmail(customerRequest.getEmail());
-                customer.setId_address(customerRequest.getId_address());
                 return new DataObj().setEcode("200").setEdesc("Success").setData(customerRepository.save(customer));
             } else {
                 return new DataObj().setEcode("505").setEdesc("ID does not exit !");

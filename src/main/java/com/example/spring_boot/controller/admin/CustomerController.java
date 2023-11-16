@@ -2,6 +2,7 @@ package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.CustomerRequest;
+import com.example.spring_boot.repository.CustomerRepository;
 import com.example.spring_boot.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
     @Autowired
     CustomerService customerService;
+    @Autowired
+    CustomerRepository customerRepository;
 
     @PostMapping(value = "/find-all")
     public ResponseEntity<?> getCustomerList(
@@ -31,6 +34,10 @@ public class CustomerController {
     @PostMapping(value = "/update")
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest) {
         return ResponseEntity.ok(customerService.update(customerRequest));
+    }
+    @GetMapping(value = "/find-id-user/{id}")
+    public ResponseEntity<?> findByIdUser(@PathVariable Long id) {
+        return ResponseEntity.ok(customerRepository.findByIdUser(id));
     }
 
 }

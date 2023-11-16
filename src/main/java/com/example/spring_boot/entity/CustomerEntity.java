@@ -23,10 +23,8 @@ public class CustomerEntity implements Serializable {
     private String address;
 
     @Column(name = "phone")
-    private Long phone;
+    private String phone;
 
-    @Column(name = "id_address")
-    private Long id_address;
 
     @Column(name = "email")
     private String email;
@@ -37,6 +35,10 @@ public class CustomerEntity implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "customerEntity")
     private List<BillEntity> billEntities;
+
+    @ManyToOne()
+    @JoinColumn(name = "idUser")
+    private UserEntity userEntity;
 
 
 }
