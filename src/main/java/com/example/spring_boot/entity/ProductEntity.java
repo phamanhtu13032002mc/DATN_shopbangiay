@@ -33,7 +33,7 @@ public class ProductEntity implements Serializable {
     private String status;
     private LocalDate date_update;
     private LocalDate date_create;
-
+    @JsonIgnore
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 

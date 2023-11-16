@@ -1,5 +1,6 @@
 package com.example.spring_boot.repository;
 
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.PropertyEntity;
 import com.example.spring_boot.payload.request.PropertiesRequest;
 import org.springframework.data.domain.Page;

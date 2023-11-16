@@ -1,5 +1,7 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -36,7 +38,7 @@ public class UserEntity {
     @Size(max = 11)
     private String phone;
 
-
+    @JsonIgnore
     private boolean isDelete = false;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

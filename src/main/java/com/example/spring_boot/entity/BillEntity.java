@@ -59,6 +59,7 @@ public class BillEntity implements Serializable {
     @JoinColumn(name = "idCustomer")
     private CustomerEntity customerEntity;
 
+    @JsonIgnore
     private Boolean isDelete = false;
 
     private Long idWard;
