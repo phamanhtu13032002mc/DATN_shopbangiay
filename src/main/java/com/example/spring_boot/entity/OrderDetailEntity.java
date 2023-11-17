@@ -26,16 +26,18 @@ public class OrderDetailEntity implements Serializable {
     private Double downPrice;//giá giảm
     private Long quantity_oder;//số lượng mua
 
+
     @Column(name = "isDelete")
     @Builder.Default
     private Boolean isDelete = false;
 
     @ManyToOne
-    @JoinColumn(name = "id_bill", updatable = false, insertable = false)
     private BillEntity billEntity;
 
+    @Column(name = "idBill")
+    private long idBil;
     @ManyToOne()
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id" ,updatable = false, insertable = false)
     private ProductDetailEntity productDetailEntities;
 
 

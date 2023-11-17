@@ -45,9 +45,10 @@ public class BillController {
         return  ResponseEntity.ok(billService.cancelBillManager(billManager));
     }
     @PostMapping(value = "/confirm-bill-manager")
-    public  ResponseEntity<?> confirmBillManager(@RequestBody BillManager billManager){
-        return  ResponseEntity.ok(billService.confirmBillManager(billManager));
+    public  ResponseEntity<?> confirmBillManager(@RequestBody BillRequest billRequest){
+        return  ResponseEntity.ok(billService.confirmBillManager(billRequest));
     }
+
 
 
 

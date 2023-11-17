@@ -23,5 +23,5 @@ public interface BillService {
 
     DataObj cancelBillManager(BillManager billManager);
 
-    DataObj confirmBillManager(BillManager billManager);
+    DataObj confirmBillManager(BillRequest billRequest);
 }

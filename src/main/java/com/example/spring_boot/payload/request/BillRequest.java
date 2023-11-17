@@ -1,5 +1,6 @@
 package com.example.spring_boot.payload.request;
 
+import com.example.spring_boot.entity.EnumShipping;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
@@ -22,7 +23,7 @@ public class BillRequest {
 
 
     private Long idBill;
-    private String status;
+    private EnumShipping status;
 
     private String transport_fee;
 
@@ -53,7 +54,7 @@ public class BillRequest {
     private int page;
     private int size;
     private Long idCustomer;
-    private List<ProductDetailRequest> productDetail;
+    private List<OrderDetailRequest> orderDetailRequests;
 
 
 }
