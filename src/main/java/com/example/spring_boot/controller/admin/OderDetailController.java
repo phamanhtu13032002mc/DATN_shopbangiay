@@ -34,15 +34,17 @@ public class OderDetailController {
         }
     }
     @PostMapping(value = "/create")
-    public ResponseEntity<?> createCategory(@RequestBody OrderDetailRequest oderDetailRequest) {
+    public ResponseEntity<?> createOrderDetail(@RequestBody OrderDetailRequest oderDetailRequest) {
         return ResponseEntity.ok(oderDetailService.create(oderDetailRequest));
     }
     @PostMapping ("/delete")
-    public ResponseEntity<?> deleteCategory(@RequestBody OrderDetailRequest orderDetailRequest) {
+    public ResponseEntity<?> deleteOrderDetail(@RequestBody OrderDetailRequest orderDetailRequest) {
         return ResponseEntity.ok(oderDetailService.detele(orderDetailRequest));
     }
     @PostMapping(value = "/update")
-    public ResponseEntity<?> updateCategory(@RequestBody OrderDetailRequest orderDetailRequest) {
+    public ResponseEntity<?> updateOrderDetail(@RequestBody OrderDetailRequest orderDetailRequest) {
         return ResponseEntity.ok(oderDetailService.update(orderDetailRequest));
     }
+
+
 }

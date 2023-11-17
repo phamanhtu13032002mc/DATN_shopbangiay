@@ -26,7 +26,7 @@ public class EventEntity implements Serializable {
 
 //	@Builder.Default
 //	private Boolean status = false;
-
+    @JsonIgnore
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 

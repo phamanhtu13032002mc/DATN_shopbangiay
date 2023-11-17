@@ -40,4 +40,8 @@ public class VoucherController {
     public ResponseEntity<?> updateCategory(@RequestBody VoucherRequest voucherRequest) {
         return ResponseEntity.ok(voucherService.update(voucherRequest));
     }
+    @PostMapping(value = "/find-by-name-like")
+    public ResponseEntity<?> findByNameLike(@RequestBody VoucherRequest voucherRequest) {
+        return ResponseEntity.ok(voucherService.findByNameLike(voucherRequest));
+    }
 }

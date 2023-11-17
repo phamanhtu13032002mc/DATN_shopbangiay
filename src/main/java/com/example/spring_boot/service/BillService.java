@@ -13,8 +13,6 @@ import java.util.List;
 public interface BillService {
 
 
-    Page<BillEntity> findAllBill(BillRequest billRequest);
-
     DataObj create(BillRequest billRequest);
 
     DataObj updateBillCustomer(UpdateBillCustomer updateBillCustomer);
@@ -24,4 +22,8 @@ public interface BillService {
     DataObj cancelBillManager(BillManager billManager);
 
     DataObj confirmBillManager(BillManager billManager);
+
+    Object findByNameLike(BillRequest billRequest);
+
+    Object findByDatePhoneStatus(SearchBill searchBill);
 }

@@ -29,6 +29,7 @@ public class CustomerEntity implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @Column(name = "is_delete")
     private Boolean isDelete = false;
 

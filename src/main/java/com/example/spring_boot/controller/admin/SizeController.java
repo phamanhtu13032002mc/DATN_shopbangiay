@@ -33,4 +33,8 @@ public class SizeController {
     public ResponseEntity<?> updateEvent(@RequestBody SizeRequest sizeRequest) {
         return ResponseEntity.ok(sizeService.update(sizeRequest));
     }
+    @PostMapping(value = "/find-by-name-like")
+    public ResponseEntity<?> findByNameLike(@RequestBody SizeRequest sizeRequest) {
+        return ResponseEntity.ok(sizeService.findByNameLike(sizeRequest));
+    }
 }

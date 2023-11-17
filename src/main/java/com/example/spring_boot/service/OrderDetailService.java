@@ -19,4 +19,6 @@ public interface OrderDetailService {
     Object detele(OrderDetailRequest orderDetailRequest);
 
     Object update(OrderDetailRequest orderDetailRequest);
+
+
 }

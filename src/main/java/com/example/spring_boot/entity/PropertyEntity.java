@@ -18,6 +18,7 @@ public class PropertyEntity implements Serializable {
 
     private String name;
 
+    @JsonIgnore
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 

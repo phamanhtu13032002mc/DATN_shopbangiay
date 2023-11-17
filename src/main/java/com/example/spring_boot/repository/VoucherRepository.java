@@ -16,6 +16,8 @@ public interface VoucherRepository extends JpaRepository<VoucherEntity,Long> {
 
     @Query(value = "SELECT * FROM voucher WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
     Page<VoucherEntity> findAllHistoryPay(VoucherRequest voucherRequest, Pageable pageable);
+    @Query("SELECT V FROM VoucherEntity V WHERE V.name LIKE %:name%")
+    Page<VoucherEntity> findByNameLike(String name, Pageable pageable);
 
     @Query(value = "SELECT * FROM voucher vc WHERE vc.id = ?",nativeQuery = true)
     VoucherEntity findByIdVoucher(Long id);
