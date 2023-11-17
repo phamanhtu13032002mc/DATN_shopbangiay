@@ -1,5 +1,6 @@
 package com.example.spring_boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,6 +24,8 @@ public class VoucherEntity implements Serializable {
 
     @Column(name = "minimumValue")
     private Double minimumValue;
+
+    @JsonIgnore
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 

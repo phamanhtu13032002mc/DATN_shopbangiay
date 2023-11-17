@@ -49,5 +49,9 @@ public class CategoryController {
     public ResponseEntity<?> updateCategory(@RequestBody CategoryRequest categoryRequest) {
         return ResponseEntity.ok(categoryService.update(categoryRequest));
     }
+    @PostMapping(value = "/find-by-name-like")
+    public ResponseEntity<?> findByNameLike(@RequestBody CategoryRequest categoryRequest) {
+        return ResponseEntity.ok(categoryService.findByNameLike(categoryRequest));
+    }
 
 }

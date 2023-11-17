@@ -104,5 +104,19 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    @Override
+    public DataObj findByNameLike(CategoryRequest categoryRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(categoryRequest.getPage()), Math.toIntExact(categoryRequest.getSize()));
+        Page<CategoryEntity> categoryPage = categoryRepository.findByNameLike(categoryRequest.getName(), pageable);
+
+        DataObj dataObj = new DataObj();
+        dataObj.setEcode("200");
+        dataObj.setEdesc("success");
+        dataObj.setData(categoryPage.getContent());
+
+        return dataObj;
+    }
+
+
 
 }

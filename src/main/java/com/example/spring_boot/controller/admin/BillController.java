@@ -2,10 +2,7 @@ package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.ProductEntity;
-import com.example.spring_boot.payload.request.BillManager;
-import com.example.spring_boot.payload.request.BillRequest;
-import com.example.spring_boot.payload.request.PageableRequest;
-import com.example.spring_boot.payload.request.UpdateBillCustomer;
+import com.example.spring_boot.payload.request.*;
 import com.example.spring_boot.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,11 +19,6 @@ public class BillController {
     @Autowired
     BillService billService;
 
-    @PostMapping(value = "/find-all")
-    public ResponseEntity<?> getBillList(
-            @RequestBody BillRequest billRequest) {
-        return ResponseEntity.ok(billService.findAllBill(billRequest));
-    }
     @PostMapping(value = "/create-bill")
     public  ResponseEntity<?> createBill(@RequestBody BillRequest billRequest){
         return  ResponseEntity.ok(billService.create(billRequest));
@@ -48,6 +40,18 @@ public class BillController {
     public  ResponseEntity<?> confirmBillManager(@RequestBody BillRequest billRequest){
         return  ResponseEntity.ok(billService.confirmBillManager(billRequest));
     }
+    @PostMapping(value = "/find-by-name-like")
+    public ResponseEntity<?> findByNameLike(
+            @RequestBody BillRequest billRequest) {
+        return ResponseEntity.ok(billService.findByNameLike(billRequest));
+    }
+    @PostMapping(value = "/find-by-date-phone-email-status")
+    public ResponseEntity<?> findByDatePhoneStatus(
+            @RequestBody SearchBill searchBill) {
+        return ResponseEntity.ok(billService.findByDatePhoneStatus(searchBill));
+    }
+
+
 
 
 

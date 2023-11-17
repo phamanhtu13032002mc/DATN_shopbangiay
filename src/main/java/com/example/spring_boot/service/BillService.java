@@ -23,5 +23,9 @@ public interface BillService {
 
     DataObj cancelBillManager(BillManager billManager);
 
-    DataObj confirmBillManager(BillRequest billRequest);
+    DataObj confirmBillManager(BillManager billManager);
+
+    Object findByNameLike(BillRequest billRequest);
+
+    Object findByDatePhoneStatus(SearchBill searchBill);
 }

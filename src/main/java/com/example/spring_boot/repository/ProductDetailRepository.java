@@ -14,8 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductDetailRepository extends JpaRepository<ProductDetailEntity,Long> {
+    @Query(value = "SELECT * FROM product_detail WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
+    List<ProductDetailEntity> findAllByIsDeleteFase();
     @Query(value ="SELECT * FROM product_detail WHERE idsize = ? AND idproperty = ? AND idProduct = ?",nativeQuery = true)
-    Optional<ProductDetailEntity> CheckPrd(Long idsize, long idproperty, Long idProduct);
+    Optional<ProductDetailEntity> findAllProduct(Long idSize, long idproperty, Long idProduct);
+
+
     @Query(value = "SELECT * FROM product_detail WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
     Page<ProductDetailEntity> findAllProductDetail(ProductDetailRequest productDetailRequest, Pageable pageable);
 

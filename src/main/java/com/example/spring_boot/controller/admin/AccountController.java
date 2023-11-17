@@ -28,8 +28,9 @@ public class AccountController {
     public ResponseEntity<?> deleteAccount(@PathVariable("id") long id) {
         return new  ResponseEntity(accountService.delete(id), HttpStatus.OK);
     }
-        @PostMapping(value = "/update/{id}")
+    @PostMapping(value = "/update/{id}")
         public ResponseEntity<?> updateAccount(@RequestBody UserEntity userEntity) {
         return new  ResponseEntity(accountService.save(userEntity), HttpStatus.OK);
     }
+
 }

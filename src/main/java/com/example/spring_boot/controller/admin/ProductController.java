@@ -41,15 +41,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.findAllProduct(productRequest));
     }
 
-    @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable Long id) {
-        Optional<ProductEntity> productRequest = productService.findByID(id);
-
-        if (productRequest.isPresent()) {
-            return new ResponseEntity(productRequest.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity("Product not found for ID: " + id, HttpStatus.NOT_FOUND);
-        }
+    @GetMapping(value = "/find-by-id/{idProduct}")
+    public ResponseEntity<?> findById(@PathVariable Long idProduct){
+        return ResponseEntity.ok(productService.findByIdProduct(idProduct));
     }
     @GetMapping("/find-id-name-category")
     public ResponseEntity<?> findIdAndNameCategory() {

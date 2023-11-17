@@ -27,4 +27,6 @@ public interface CategoryService {
     Object detele(CategoryRequest categoryRequest);
 
     Object update(CategoryRequest categoryRequest);
+
+    Object findByNameLike(CategoryRequest categoryRequest);
 }

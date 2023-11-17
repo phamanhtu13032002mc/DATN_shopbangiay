@@ -17,4 +17,6 @@ public interface SizeService {
     Object detele(SizeRequest sizeRequest);
 
     Object update(SizeRequest sizeRequest);
+
+    Object findByNameLike(SizeRequest sizeRequest);
 }

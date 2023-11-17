@@ -27,6 +27,7 @@ public class OrderDetailEntity implements Serializable {
     private Long quantity_oder;//số lượng mua
 
 
+    @JsonIgnore
     @Column(name = "isDelete")
     @Builder.Default
     private Boolean isDelete = false;

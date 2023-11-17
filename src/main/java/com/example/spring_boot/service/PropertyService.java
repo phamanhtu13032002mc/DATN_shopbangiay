@@ -21,4 +21,6 @@ public interface PropertyService {
     Object detele(PropertiesRequest propertiesRequest);
 
     Object update(PropertiesRequest propertiesRequest);
+
+    Object findByNameLike(PropertiesRequest propertiesRequest);
 }

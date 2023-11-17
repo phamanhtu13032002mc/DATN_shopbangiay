@@ -12,7 +12,10 @@ import java.util.Optional;
 public interface ProductService {
     ProductEntity findById(Long id);
 
-    Page<ProductEntity> findAllProduct(ProductRequest productRequest);
+    Page<Object[]> findAllProduct(ProductRequest productRequest);
+    DataObj findByIdProduct(Long idProduct);
+
+
     DataObj delete(ProductRequest productRequest);
 
 

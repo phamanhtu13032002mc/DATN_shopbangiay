@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -258,6 +260,37 @@ public class BillServiceImpl extends BaseController implements BillService {
 
         }
 
+    }
+
+    @Override
+    public Object findByNameLike(BillRequest billRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(billRequest.getPage()), Math.toIntExact(billRequest.getSize()));
+        Page<Object> billEntities = billRepository.findByNameLike(billRequest.getFullName(), pageable);
+
+        DataObj dataObj = new DataObj();
+        dataObj.setEcode("200");
+        dataObj.setEdesc("success");
+        dataObj.setData(billEntities.getContent());
+        return dataObj;
+
+    }
+
+
+    @Override
+    public Object findByDatePhoneStatus(SearchBill searchBill) {
+
+       try {
+           Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
+           Page<BillEntity> billEntities = billRepository.findAllBill(searchBill.getDateTo(),searchBill.getStartDate(),searchBill.getPhone(),searchBill.getEmail(),searchBill.getStatusShipping(), pageable);
+
+           DataObj dataObj = new DataObj();
+           dataObj.setEcode("200");
+           dataObj.setEdesc("success");
+           dataObj.setData(billEntities.getContent());
+           return dataObj;
+       }catch (Exception e){
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
+       }
     }
 
 
