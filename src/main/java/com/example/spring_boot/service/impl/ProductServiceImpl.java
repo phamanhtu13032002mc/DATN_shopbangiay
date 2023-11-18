@@ -46,7 +46,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     PropertyRepository propertyRepository;
 
-
     @Override
     public ProductEntity findById(Long id) {
         return productRepository.findById(id).get();
@@ -81,13 +80,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public DataObj delete(ProductRequest productRequest) {
+    public DataObj delete(Long idProduct) {
         try {
-            ProductEntity productEntity = productRepository.findByIdProduct(productRequest.getId());
+            ProductEntity productEntity = productRepository.findByIdProduct(idProduct);
             productEntity.setIsDelete(true);
-            ProductDetailEntity productDetailEntity = productDetailRepository.findByIdProduct(productRequest.getId());
-            productDetailEntity.setIsDelete(true);
-            productDetailRepository.save(productDetailEntity);
+//            ProductDetailEntity productDetailEntity = productDetailRepository.findByIdProduct(idProduct);
+//            productDetailEntity.setIsDelete(true);
+//            productDetailRepository.save(productDetailEntity);
             productRepository.save(productEntity);
             return new DataObj().setEcode("200").setEdesc("Success");
 

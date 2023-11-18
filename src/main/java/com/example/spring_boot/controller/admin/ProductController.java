@@ -55,10 +55,10 @@ public class ProductController {
         return ResponseEntity.ok(productService.save(productRequest));
 
     }
-    @PostMapping("/delete")
-    public ResponseEntity<?> delete(@RequestBody ProductRequest productRequest) {
+    @PostMapping("/delete/{idProduct}")
+    public ResponseEntity<?> delete(@PathVariable Long idProduct) {
 
-        return ResponseEntity.ok(productService.delete(productRequest));
+        return ResponseEntity.ok(productService.delete(idProduct));
 
     }
 

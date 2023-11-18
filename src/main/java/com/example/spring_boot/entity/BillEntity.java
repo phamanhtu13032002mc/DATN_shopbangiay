@@ -21,7 +21,7 @@ public class BillEntity implements Serializable {
     @Id
     private Long id;
 
-    private EnumShipping statusShipping = EnumShipping.CHUA_XAC_NHAN;//tình trạng giao hàng
+    private EnumShipping statusShipping;//tình trạng giao hàng
 
     private Double transportFee;//phí vận chuyển
 

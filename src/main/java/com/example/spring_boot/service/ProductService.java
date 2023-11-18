@@ -16,7 +16,7 @@ public interface ProductService {
     DataObj findByIdProduct(Long idProduct);
 
 
-    DataObj delete(ProductRequest productRequest);
+    DataObj delete(Long idProduct);
 
 
     Optional<ProductEntity> findByID(Long id);

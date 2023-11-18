@@ -281,6 +281,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
        try {
            Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
+
            Page<BillEntity> billEntities = billRepository.findAllBill(searchBill.getDateTo(),searchBill.getStartDate(),searchBill.getPhone(),searchBill.getEmail(),searchBill.getStatusShipping(), pageable);
 
            DataObj dataObj = new DataObj();
@@ -289,6 +290,7 @@ public class BillServiceImpl extends BaseController implements BillService {
            dataObj.setData(billEntities.getContent());
            return dataObj;
        }catch (Exception e){
+           e.printStackTrace();
            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
        }
     }
