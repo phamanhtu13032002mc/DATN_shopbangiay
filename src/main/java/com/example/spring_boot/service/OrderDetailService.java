@@ -10,8 +10,6 @@ public interface OrderDetailService {
 
     Optional<OrderDetailEntity> findByID(Long id);
 
-
-
     Page<OrderDetailEntity> findAllOderDetail(OrderDetailRequest oderDetailRequest);
 
     Object create(OrderDetailRequest oderDetailRequest);
