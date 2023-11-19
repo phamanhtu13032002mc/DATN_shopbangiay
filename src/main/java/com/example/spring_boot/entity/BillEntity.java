@@ -68,7 +68,7 @@ public class BillEntity implements Serializable {
     private List<VoucherEntity> voucherEntities;
 
     @OneToMany(mappedBy = "billEntity")
-   private List<OrderDetailEntity> oderDetailEntities;
+    private List<OrderDetailEntity> oderDetailEntities;
 
 
 }

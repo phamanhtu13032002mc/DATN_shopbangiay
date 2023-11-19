@@ -77,7 +77,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderDetailEntity.setPrice(product.getPrice());
                 orderDetailEntity.setDownPrice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
                 orderDetailEntity.setIntoMoney(product.getPrice() - orderDetailEntity.getDownPrice());
-                orderDetailEntity.setIdBil(billEntity.getId());
+                orderDetailEntity.setBillEntity(billEntity);
                 orderdetails.add(orderDetailEntity);
 
             }
