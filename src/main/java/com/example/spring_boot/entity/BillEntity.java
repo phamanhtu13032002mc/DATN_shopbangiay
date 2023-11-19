@@ -31,7 +31,7 @@ public class BillEntity implements Serializable {
 
     private Double downTotal;// giá sau khi giảm
 
-    private Boolean payment;// thanh toán bằng gì flase mua hàng r thanh toán, true thanh toán bằng ví
+    private int payment;// thanh toán bằng gì flase mua hàng r thanh toán, true thanh toán bằng ví
 
     private Double total;//thanh toán
 
@@ -49,8 +49,6 @@ public class BillEntity implements Serializable {
     private String fullName;//họ tên nhận hàng
 
     private String sdt;
-
-    private EnumRefund refund;
 
     @Length(max = 2000)
     private String noteRefund;
