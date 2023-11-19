@@ -13,6 +13,7 @@ import java.util.List;
 public interface BillService {
 
 
+
     DataObj create(BillRequest billRequest);
 
     DataObj updateBillCustomer(UpdateBillCustomer updateBillCustomer);
@@ -21,7 +22,7 @@ public interface BillService {
 
     DataObj cancelBillManager(BillManager billManager);
 
-    DataObj confirmBillManager(BillManager billManager);
+    DataObj confirmBillManager(BillRequest billRequest);
 
     Object findByNameLike(BillRequest billRequest);
 

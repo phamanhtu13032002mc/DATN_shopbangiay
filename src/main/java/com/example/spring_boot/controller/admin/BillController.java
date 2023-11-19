@@ -37,8 +37,8 @@ public class BillController {
         return  ResponseEntity.ok(billService.cancelBillManager(billManager));
     }
     @PostMapping(value = "/confirm-bill-manager")
-    public  ResponseEntity<?> confirmBillManager(@RequestBody BillManager billManager){
-        return  ResponseEntity.ok(billService.confirmBillManager(billManager));
+    public  ResponseEntity<?> confirmBillManager(@RequestBody BillRequest billRequest){
+        return  ResponseEntity.ok(billService.confirmBillManager(billRequest));
     }
     @PostMapping(value = "/find-by-name-like")
     public ResponseEntity<?> findByNameLike(
@@ -50,6 +50,7 @@ public class BillController {
             @RequestBody SearchBill searchBill) {
         return ResponseEntity.ok(billService.findByDatePhoneStatus(searchBill));
     }
+
 
 
 

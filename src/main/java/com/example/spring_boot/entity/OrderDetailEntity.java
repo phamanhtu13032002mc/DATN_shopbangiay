@@ -21,20 +21,22 @@ public class OrderDetailEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Double price;//giá gốc
     private Double intoMoney;//thành tiền
     private Double downPrice;//giá giảm
     private Long quantity_oder;//số lượng mua
 
-    @JsonIgnore
     @Column(name = "isDelete")
     @Builder.Default
     private Boolean isDelete = false;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_bill", updatable = false, insertable = false)
     private BillEntity billEntity;
+
+    @Column(name = "idBill")
+    private long idBil;
 
     @ManyToOne()
     @JoinColumn(name = "product_id")

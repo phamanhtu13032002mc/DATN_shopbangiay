@@ -7,7 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity,Long> {
     @Query(value = "SELECT * FROM orderdetail WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
     Page<OrderDetailEntity> findAllOderDetail(OrderDetailRequest oderDetailRequest, Pageable pageable);
+
+    @Query(value = "SELECT * FROM orderdetail od WHERE od.id = ?",nativeQuery = true)
+    OrderDetailEntity findByidOrOrderById(Long id);
 }
