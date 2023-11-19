@@ -64,8 +64,6 @@ public class BillEntity implements Serializable {
 
     private Long idWard;
 
-
-
     @OneToMany(mappedBy = "billEntity")
     private List<VoucherEntity> voucherEntities;
 

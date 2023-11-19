@@ -4,6 +4,7 @@ import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.CreateProduct;
 import com.example.spring_boot.payload.request.ProductDetailRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.repository.*;
@@ -106,10 +107,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public DataObj save( ProductRequest productRequest) {
+    public DataObj save( CreateProduct createProduct) {
 
         try {
-            if(productRequest.getId() == null) {
+            if(createProduct.getId() == null) {
                 DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 ProductEntity product = new ProductEntity();
                 ProductDetailEntity productDetail = new ProductDetailEntity();
@@ -118,75 +119,75 @@ public class ProductServiceImpl implements ProductService {
                 Optional<PropertyEntity> property;
                 Optional<ProductEntity> productId;
                 ProductDetailEntity productDetailEntity = new ProductDetailEntity();
-                if (productRequest.getImage() != null) {
+                if (createProduct.getImage() != null) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
                     String formattedDate = LocalDateTime.now().format(formatter);
-                    String fileName = productRequest.getImage().getOriginalFilename();
+                    String fileName = createProduct.getImage().getOriginalFilename();
                     fileName = formattedDate + ".jpg";
-                    Files.copy(productRequest.getImage().getInputStream(), this.root.resolve(fileName));
+                    Files.copy(createProduct.getImage().getInputStream(), this.root.resolve(fileName));
 
                     product.setImage("http://localhost:8080/image/get/" + fileName);
                 }
 
-                category = categoryRepository.findById(productRequest.getIdCategory());
-                size = sizeRepository.findById(productRequest.getIdSize());
-                property = propertyRepository.findById(productRequest.getIdProperties());
+                category = categoryRepository.findById(createProduct.getIdCategory());
+                size = sizeRepository.findById(createProduct.getIdSize());
+                property = propertyRepository.findById(createProduct.getIdProperties());
                 // save danh sách product
                 long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
                 product.setId(randomNumber);
                 while (productRepository.existsById(product.getId())) {
                     product.setId(randomNumber);
                 }
-                product.setPrice(productRequest.getPrice());
-                product.setDiscount(productRequest.getDiscount());
-                product.setStatus(productRequest.getStatus());
-                product.setNameProduct(productRequest.getNameProduct());
-                product.setDescription(productRequest.getDescription());
-                product.setDescriptionDetail(productRequest.getDescriptionDetail());
+                product.setPrice(createProduct.getPrice());
+                product.setDiscount(createProduct.getDiscount());
+                product.setStatus(createProduct.getStatus());
+                product.setNameProduct(createProduct.getNameProduct());
+                product.setDescription(createProduct.getDescription());
+                product.setDescriptionDetail(createProduct.getDescriptionDetail());
                 product.setCategoryEntity(category.get());
                 product.setDate_create(LocalDate.now());
                 ProductEntity entity = productRepository.save(product);
                 productDetail.setIdProduct(product);
                 productDetail.setIdProperty(property.get());
-                productDetail.setQuantity(productRequest.getQuantity());
+                productDetail.setQuantity(createProduct.getQuantity());
                 productDetail.setIdProperty(property.get());
                 productDetail.setIdSize(size.get());
                 productDetailRepository.save(productDetail);
                 return new DataObj().setEcode("200").setEdesc("Success");
             }
             DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            ProductEntity product = productRepository.findByIdProduct(productRequest.getId());
-            ProductDetailEntity productDetail = productDetailRepository.findByIdProduct(productRequest.getId());
+            ProductEntity product = productRepository.findByIdProduct(createProduct.getId());
+            ProductDetailEntity productDetail = productDetailRepository.findByIdProduct(createProduct.getId());
             Optional<CategoryEntity> category;
             Optional<SizeEntity> size;
             Optional<PropertyEntity> property;
             Optional<ProductEntity> productId;
             ProductDetailEntity productDetailEntity = new ProductDetailEntity();
-            if (productRequest.getImage() != null) {
+            if (createProduct.getImage() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
                 String formattedDate = LocalDateTime.now().format(formatter);
-                String fileName = productRequest.getImage().getOriginalFilename();
+                String fileName = createProduct.getImage().getOriginalFilename();
                 fileName = formattedDate + ".jpg";
-                Files.copy(productRequest.getImage().getInputStream(), this.root.resolve(fileName));
+                Files.copy(createProduct.getImage().getInputStream(), this.root.resolve(fileName));
 
                 product.setImage("http://localhost:8080/image/get/" + fileName);
             }
 
-            category = categoryRepository.findById(productRequest.getIdCategory());
-            size = sizeRepository.findById(productRequest.getIdSize());
-            property = propertyRepository.findById(productRequest.getIdProperties());
+            category = categoryRepository.findById(createProduct.getIdCategory());
+            size = sizeRepository.findById(createProduct.getIdSize());
+            property = propertyRepository.findById(createProduct.getIdProperties());
             // save danh sách product
-            product.setPrice(productRequest.getPrice());
-            product.setDiscount(productRequest.getDiscount());
-            product.setStatus(productRequest.getStatus());
-            product.setNameProduct(productRequest.getNameProduct());
-            product.setDescription(productRequest.getDescription());
-            product.setDescriptionDetail(productRequest.getDescriptionDetail());
+            product.setPrice(createProduct.getPrice());
+            product.setDiscount(createProduct.getDiscount());
+            product.setStatus(createProduct.getStatus());
+            product.setNameProduct(createProduct.getNameProduct());
+            product.setDescription(createProduct.getDescription());
+            product.setDescriptionDetail(createProduct.getDescriptionDetail());
             product.setCategoryEntity(category.get());
             product.setDate_create(LocalDate.now());
             ProductEntity entity = productRepository.save(product);
             productDetail.setIdProperty(property.get());
-            productDetail.setQuantity(productRequest.getQuantity());
+            productDetail.setQuantity(createProduct.getQuantity());
             productDetail.setIdProperty(property.get());
             productDetail.setIdSize(size.get());
             productDetailRepository.save(productDetail);

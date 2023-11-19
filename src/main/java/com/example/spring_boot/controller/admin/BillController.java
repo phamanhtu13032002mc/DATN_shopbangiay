@@ -20,8 +20,8 @@ public class BillController {
     BillService billService;
 
     @PostMapping(value = "/create-bill")
-    public  ResponseEntity<?> createBill(@RequestBody BillRequest billRequest){
-        return  ResponseEntity.ok(billService.create(billRequest));
+    public  ResponseEntity<?> createBill(@RequestBody CreateBillManger createBillManger){
+        return  ResponseEntity.ok(billService.create(createBillManger));
     }
     @PostMapping(value = "/update-bill-customer")
     public  ResponseEntity<?> updateBillCustomer(@RequestBody UpdateBillCustomer updateBillCustomer){

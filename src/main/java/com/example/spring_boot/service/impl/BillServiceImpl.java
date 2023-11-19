@@ -44,7 +44,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
 
     @Override
-    public DataObj create(BillRequest billRequest) {
+    public DataObj create(CreateBillManger createBillManger) {
         try {
             long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
             CustomerEntity customer = customerRepository.findByIdUser(getAuthUID());
@@ -57,8 +57,8 @@ public class BillServiceImpl extends BaseController implements BillService {
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
             billEntity.setCustomerEntity(customer);
             billEntity.setCreateAt(LocalDate.now());
-            billEntity.setAddress(billRequest.getAddress());
-            List<OrderDetailRequest> orderDetailRequests = billRequest.getOrderDetailRequests();
+            billEntity.setAddress(createBillManger.getAddress());
+            List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
                 ProductDetailEntity productEntity = productDetailRepository.findByIdProductDetail(odr.getProductId());
                 ProductEntity product = productRepository.findByIdProduct(productEntity.getIdProduct().getId());
@@ -81,13 +81,13 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderdetails.add(orderDetailEntity);
 
             }
-            if (billRequest.getVoucherId() != null && billRequest.getVoucherId() != 0) {
-                VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(billRequest.getVoucherId());
+            if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
+                VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(createBillManger.getVoucherId());
                 if (voucherEntity == null) {
                     return new DataObj().setEdesc("400").setEdesc("Không tìm thấy voucher");
 
                 }
-                if (billRequest.getTotal() < 350000L) {
+                if (createBillManger.getTotal() < 350000L) {
                     return new DataObj().setEdesc("400").setEdesc("Hóa Đơn Nhỏ Hơn 350k không thể ap dụng Voucher");
                 }
                 if (voucherEntity.getAmount() <= 0) {
@@ -100,12 +100,12 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
-            billEntity.setSdt(billRequest.getPhoneNumber());
-            billEntity.setTotal(billRequest.getTotal());
+            billEntity.setSdt(createBillManger.getPhoneNumber());
+            billEntity.setTotal(createBillManger.getTotal());
             billEntity.setTransportFee(billEntity.getTransportFee());
-            billEntity.setDownTotal(billRequest.getDownTotal());
-            billEntity.setFullName(billRequest.getFullName());
-            billEntity.setNote(billRequest.getNote());
+            billEntity.setDownTotal(createBillManger.getDownTotal());
+            billEntity.setFullName(createBillManger.getFullName());
+            billEntity.setNote(createBillManger.getNote());
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
             return new DataObj().setEdesc("200").setEcode("success");
