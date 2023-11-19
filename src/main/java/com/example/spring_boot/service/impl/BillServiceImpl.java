@@ -40,12 +40,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Autowired
     ProductRepository productRepository;
 
-    @Override
-    public Page<BillEntity> findAllBill(BillRequest billRequest) {
-        Pageable pageable = PageRequest.of(Math.toIntExact(billRequest.getPage()), Math.toIntExact(billRequest.getSize()));
 
-        return billRepository.findAllBill(billRequest, pageable);
-    }
 
 
     @Override
@@ -86,8 +81,8 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderdetails.add(orderDetailEntity);
 
             }
-            if (billRequest.getVoucher_id() != null && billRequest.getVoucher_id() != 0) {
-                VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(billRequest.getVoucher_id());
+            if (billRequest.getVoucherId() != null && billRequest.getVoucherId() != 0) {
+                VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(billRequest.getVoucherId());
                 if (voucherEntity == null) {
                     return new DataObj().setEdesc("400").setEdesc("Không tìm thấy voucher");
 
@@ -99,13 +94,18 @@ public class BillServiceImpl extends BaseController implements BillService {
                     return new DataObj().setEdesc("400").setEdesc("voucher đã hết hạn");
 
                 }
-                billEntity.setFullName(billRequest.getFull_name());
-                billEntity.setNote(billRequest.getNote());
+
                 billEntity.setDiscount(voucherEntity.getDiscount());
                 billEntity.setVoucherId(voucherEntity.getId());
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
+            billEntity.setSdt(billRequest.getPhoneNumber());
+            billEntity.setTotal(billRequest.getTotal());
+            billEntity.setTransportFee(billEntity.getTransportFee());
+            billEntity.setDownTotal(billRequest.getDownTotal());
+            billEntity.setFullName(billRequest.getFullName());
+            billEntity.setNote(billRequest.getNote());
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
             return new DataObj().setEdesc("200").setEcode("success");

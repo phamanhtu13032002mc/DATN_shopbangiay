@@ -22,24 +22,6 @@ import java.util.Optional;
 public class OrderDetailServiceImpl implements OrderDetailService {
     @Autowired
     OrderDetailRepository oderDetailRepository;
-    @Autowired
-    BillRepository billRepository;
-    @Autowired
-    ProductDetailRepository productDetailRepository;
-
-//    @Override
-//    public Optional<OrderDetailEntity> findByID(Long id) {
-//        return oderDetailRepository.findById(id);
-//    }
-
-//    @Override
-//    public Page<OrderDetailEntity> findAllOderDetail(OrderDetailRequest oderDetailRequest) {
-//        Pageable pageable = PageRequest.of(Math.toIntExact(oderDetailRequest.getPage()), Math.toIntExact(oderDetailRequest.getSize()));
-//        return oderDetailRepository.findAllOderDetail(oderDetailRequest, pageable);
-//    }
-
-
-
     @Override
     public Object detele(OrderDetailRequest orderDetailRequest) {
 
@@ -56,10 +38,4 @@ public class OrderDetailServiceImpl implements OrderDetailService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi xóa");
         }
     }
-
-
-
-
-
-
 }
