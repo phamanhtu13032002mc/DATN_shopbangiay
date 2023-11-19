@@ -4,6 +4,7 @@ import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CategoryRequest;
+import com.example.spring_boot.payload.request.CreateProduct;
 import com.example.spring_boot.payload.request.PageableRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.repository.ProductDetailRepository;
@@ -50,9 +51,9 @@ public class ProductController {
         return ResponseEntity.ok(categoryService.findIdAndNameCategory());
     }
     @PostMapping("/save")
-    public ResponseEntity<?> save(@ModelAttribute ProductRequest productRequest) {
+    public ResponseEntity<?> save(@ModelAttribute CreateProduct createProduct) {
 
-        return ResponseEntity.ok(productService.save(productRequest));
+        return ResponseEntity.ok(productService.save(createProduct));
 
     }
     @PostMapping("/delete/{idProduct}")
