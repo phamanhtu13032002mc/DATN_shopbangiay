@@ -32,13 +32,12 @@ public class OrderDetailEntity implements Serializable {
     private Boolean isDelete = false;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "idBill")
     private BillEntity billEntity;
 
-    @Column(name = "idBill")
-    private long idBil;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductDetailEntity productDetailEntities;
 

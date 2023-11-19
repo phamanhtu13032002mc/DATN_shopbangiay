@@ -77,7 +77,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderDetailEntity.setPrice(product.getPrice());
                 orderDetailEntity.setDownPrice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
                 orderDetailEntity.setIntoMoney(product.getPrice() - orderDetailEntity.getDownPrice());
-                orderDetailEntity.setIdBil(billEntity.getId());
+                orderDetailEntity.setBillEntity(billEntity);
                 orderdetails.add(orderDetailEntity);
 
             }
@@ -295,23 +295,7 @@ public class BillServiceImpl extends BaseController implements BillService {
        }
     }
 
-    @Override
-    public Object findAll(SearchBill searchBill) {
-        try {
-            Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
 
-            Page<Object> billEntities = billRepository.findAll(searchBill, pageable);
-
-            DataObj dataObj = new DataObj();
-            dataObj.setEcode("200");
-            dataObj.setEdesc("success");
-            dataObj.setData(billEntities.getContent());
-            return dataObj;
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
-        }
-    }
 
 
 }

@@ -28,5 +28,4 @@ public interface BillService {
 
     Object findByDatePhoneStatus(SearchBill searchBill);
 
-    Object findAll(SearchBill searchBill);
 }
