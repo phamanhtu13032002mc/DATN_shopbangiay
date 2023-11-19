@@ -262,7 +262,7 @@ public class BillServiceImpl extends BaseController implements BillService {
        try {
            Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
 
-           Page<BillEntity> billEntities = billRepository.findAllBill(searchBill.getDateTo(),searchBill.getStartDate(),searchBill.getPhone(),searchBill.getEmail(),searchBill.getStatusShipping(), pageable);
+           Page<Object> billEntities = billRepository.findAllBill(searchBill.getDateTo(),searchBill.getStartDate(),searchBill.getPhone(),searchBill.getEmail(),searchBill.getStatusShipping(), pageable);
 
            DataObj dataObj = new DataObj();
            dataObj.setEcode("200");

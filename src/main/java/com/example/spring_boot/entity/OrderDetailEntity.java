@@ -31,6 +31,7 @@ public class OrderDetailEntity implements Serializable {
     @Builder.Default
     private Boolean isDelete = false;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_bill", updatable = false, insertable = false)
     private BillEntity billEntity;
