@@ -37,6 +37,7 @@ public class VoucherEntity implements Serializable {
     @Column(name = "id_event")
     private Long idEvent;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_bill")
     private BillEntity billEntity;

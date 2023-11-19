@@ -66,13 +66,11 @@ public class BillEntity implements Serializable {
 
 
 
-    @JsonIgnore
     @OneToMany(mappedBy = "billEntity")
     private List<VoucherEntity> voucherEntities;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "billEntity")
-    List<OrderDetailEntity> oderDetailEntities;
+   private List<OrderDetailEntity> oderDetailEntities;
 
 
 }
