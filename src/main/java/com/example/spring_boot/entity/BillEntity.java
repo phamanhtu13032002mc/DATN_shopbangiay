@@ -62,7 +62,6 @@ public class BillEntity implements Serializable {
     @JsonIgnore
     private Boolean isDelete = false;
 
-    private Long idWard;
 
     @OneToMany(mappedBy = "billEntity")
     private List<VoucherEntity> voucherEntities;
