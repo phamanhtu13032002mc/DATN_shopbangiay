@@ -27,4 +27,6 @@ public interface BillService {
     Object findByNameLike(BillRequest billRequest);
 
     Object findByDatePhoneStatus(SearchBill searchBill);
+
+    Object findAll(SearchBill searchBill);
 }
