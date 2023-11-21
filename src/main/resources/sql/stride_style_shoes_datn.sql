@@ -28,26 +28,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bill` (
-                        `id` bigint(20) NOT NULL,
-                        `address` varchar(255) DEFAULT NULL,
-                        `create_at` date DEFAULT NULL,
-                        `discount` double DEFAULT NULL,
-                        `down_total` double DEFAULT NULL,
-                        `full_name` varchar(255) DEFAULT NULL,
-                        `is_delete` bit(1) DEFAULT NULL,
-                        `note` varchar(255) DEFAULT NULL,
-                        `note_refund` varchar(2000) DEFAULT NULL,
-                        `payment` int(11) DEFAULT NULL,
-                        `sale_point` varchar(255) DEFAULT NULL,
-                        `sdt` varchar(255) DEFAULT NULL,
-                        `status_shipping` int(11) DEFAULT NULL,
-                        `total` double DEFAULT NULL,
-                        `transport_fee` double DEFAULT NULL,
-                        `update_ats` date DEFAULT NULL,
-                        `voucher_id` bigint(20) DEFAULT NULL,
-                        `id_customer` bigint(20) DEFAULT NULL,
-                        `id_ward` bigint(20) DEFAULT NULL,
-                        `refund` int(11) DEFAULT NULL
+  `id` bigint(20) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `create_at` date DEFAULT NULL,
+  `discount` double DEFAULT NULL,
+  `down_total` double DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `is_delete` bit(1) DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `note_refund` varchar(2000) DEFAULT NULL,
+  `payment` int(11) DEFAULT NULL,
+  `sale_point` varchar(255) DEFAULT NULL,
+  `sdt` varchar(255) DEFAULT NULL,
+  `status_shipping` int(11) DEFAULT NULL,
+  `total` double DEFAULT NULL,
+  `transport_fee` double DEFAULT NULL,
+  `update_ats` date DEFAULT NULL,
+  `voucher_id` bigint(20) DEFAULT NULL,
+  `id_customer` bigint(20) DEFAULT NULL,
+  `id_ward` bigint(20) DEFAULT NULL,
+  `refund` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -55,8 +55,8 @@ CREATE TABLE `bill` (
 --
 
 INSERT INTO `bill` (`id`, `address`, `create_at`, `discount`, `down_total`, `full_name`, `is_delete`, `note`, `note_refund`, `payment`, `sale_point`, `sdt`, `status_shipping`, `total`, `transport_fee`, `update_ats`, `voucher_id`, `id_customer`, `id_ward`, `refund`) VALUES
-                                                                                                                                                                                                                                                                              (234543, 'Mộc Châu', '2023-11-18', 500000, NULL, 'Kiên Ngu', b'0', 'Mua Online', NULL, 2, '100', '0867621485', 1, 4900000, 200000, NULL, 2, 3, NULL, NULL),
-                                                                                                                                                                                                                                                                              (567854, 'Hà Nội', '2023-11-18', 100000, NULL, 'Phạm Anh Tú', b'0', 'Mua Online', NULL, 1, '100', '0338583502', 0, 2929000, 200000, NULL, 1, 3, NULL, NULL);
+(234543, 'Mộc Châu', '2023-11-18', 500000, NULL, 'Kiên Ngu', b'0', 'Mua Online', NULL, 2, '100', '0867621485', 1, 4900000, 200000, NULL, 2, 3, NULL, NULL),
+(567854, 'Hà Nội', '2023-11-18', 100000, NULL, 'Phạm Anh Tú', b'0', 'Mua Online', NULL, 1, '100', '0338583502', 0, 2929000, 200000, NULL, 1, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -65,10 +65,10 @@ INSERT INTO `bill` (`id`, `address`, `create_at`, `discount`, `down_total`, `ful
 --
 
 CREATE TABLE `category` (
-                            `id` bigint(20) NOT NULL,
-                            `gender` bit(1) DEFAULT NULL,
-                            `is_delete` bit(1) DEFAULT NULL,
-                            `name` varchar(255) DEFAULT NULL
+  `id` bigint(20) NOT NULL,
+  `gender` bit(1) DEFAULT NULL,
+  `is_delete` bit(1) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -76,9 +76,9 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `gender`, `is_delete`, `name`) VALUES
-                                                                 (1, b'0', b'0', 'Giày Nam'),
-                                                                 (2, b'1', b'0', 'Giày Nữ'),
-                                                                 (3, b'0', b'0', 'Unisex');
+(1, b'0', b'0', 'Giày Nam'),
+(2, b'1', b'0', 'Giày Nữ'),
+(3, b'0', b'0', 'Unisex');
 
 -- --------------------------------------------------------
 
@@ -87,13 +87,13 @@ INSERT INTO `category` (`id`, `gender`, `is_delete`, `name`) VALUES
 --
 
 CREATE TABLE `customer` (
-                            `id` bigint(20) NOT NULL,
-                            `address` varchar(255) DEFAULT NULL,
-                            `email` varchar(255) DEFAULT NULL,
-                            `full_name` varchar(255) DEFAULT NULL,
-                            `is_delete` bit(1) DEFAULT NULL,
-                            `phone` varchar(255) DEFAULT NULL,
-                            `id_user` bigint(20) DEFAULT NULL
+  `id` bigint(20) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `is_delete` bit(1) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `id_user` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -101,9 +101,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `address`, `email`, `full_name`, `is_delete`, `phone`, `id_user`) VALUES
-                                                                                                    (1, 'Tiểu khu 64 thị trấn nông trường Mộc Châu Sơn La', 'tupaph13622@fpt.edu.vn', 'Phạm Anh Tú', b'0', '0338583502', NULL),
-                                                                                                    (2, 'Hà Nội', 'kienntph13809@fpt.edu.vn', 'Nguyễn Trung Kiên', b'0', '0867621485', NULL),
-                                                                                                    (3, 'Hà Nội ', 'phamanhtu132002@gmail.com', 'Phạm Anh Tú', b'0', '0397596018', NULL);
+(1, 'Tiểu khu 64 thị trấn nông trường Mộc Châu Sơn La', 'tupaph13622@fpt.edu.vn', 'Phạm Anh Tú', b'0', '0338583502', NULL),
+(2, 'Hà Nội', 'kienntph13809@fpt.edu.vn', 'Nguyễn Trung Kiên', b'0', '0867621485', NULL),
+(3, 'Hà Nội ', 'phamanhtu132002@gmail.com', 'Phạm Anh Tú', b'0', '0397596018', NULL);
 
 -- --------------------------------------------------------
 
@@ -112,11 +112,11 @@ INSERT INTO `customer` (`id`, `address`, `email`, `full_name`, `is_delete`, `pho
 --
 
 CREATE TABLE `event` (
-                         `id_event` bigint(20) NOT NULL,
-                         `end_day` date DEFAULT NULL,
-                         `is_delete` bit(1) DEFAULT NULL,
-                         `name` varchar(255) DEFAULT NULL,
-                         `start_day` date DEFAULT NULL
+  `id_event` bigint(20) NOT NULL,
+  `end_day` date DEFAULT NULL,
+  `is_delete` bit(1) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `start_day` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -124,8 +124,8 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`id_event`, `end_day`, `is_delete`, `name`, `start_day`) VALUES
-                                                                                  (1, '2023-12-30', b'0', 'giảm giá cho khách hàng mới', '2023-11-16'),
-                                                                                  (2, '2023-12-13', b'0', 'giảm giá', '2023-11-16');
+(1, '2023-12-30', b'0', 'giảm giá cho khách hàng mới', '2023-11-16'),
+(2, '2023-12-13', b'0', 'giảm giá', '2023-11-16');
 
 -- --------------------------------------------------------
 
@@ -134,12 +134,12 @@ INSERT INTO `event` (`id_event`, `end_day`, `is_delete`, `name`, `start_day`) VA
 --
 
 CREATE TABLE `image` (
-                         `id` bigint(20) NOT NULL,
-                         `is_delete` bit(1) DEFAULT NULL,
-                         `name` varchar(255) DEFAULT NULL,
-                         `url` varchar(255) DEFAULT NULL,
-                         `id_account` bigint(20) DEFAULT NULL,
-                         `id_product` bigint(20) DEFAULT NULL
+  `id` bigint(20) NOT NULL,
+  `is_delete` bit(1) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `id_account` bigint(20) DEFAULT NULL,
+  `id_product` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -147,28 +147,28 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`id`, `is_delete`, `name`, `url`, `id_account`, `id_product`) VALUES
-                                                                                       (1, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/00375837-849f-4f17-ba24-d201d27be49b/air-force-1-07-shoes-WrLlWX.png', 1, 1),
-                                                                                       (2, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3cc96f43-47b6-43cb-951d-d8f73bb2f912/air-force-1-07-shoes-WrLlWX.png', 1, 1),
-                                                                                       (3, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/33533fe2-1157-4001-896e-1803b30659c8/air-force-1-07-shoes-WrLlWX.png', 1, 1),
-                                                                                       (4, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a0a300da-2e16-4483-ba64-9815cf0598ac/air-force-1-07-shoes-WrLlWX.png', 1, 1),
-                                                                                       (5, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/120a31b0-efa7-41c7-9a84-87b1e56ab9c3/air-force-1-07-shoes-WrLlWX.png', 1, 1),
-                                                                                       (6, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1c1e5f55-99c2-4522-b398-2352e01ba566/air-force-1-07-shoes-WrLlWX.png', 1, 1),
-                                                                                       (7, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/021d4cdb-916f-4fde-940b-04fdb736530c/air-max-excee-shoe-lPbXqt.png', 1, 2),
-                                                                                       (8, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3b9f4e47-9275-4b13-81b4-340dc55ddb43/air-max-excee-shoe-lPbXqt.png', 1, 2),
-                                                                                       (9, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/22e3a2d3-e6b7-4083-99ed-738491d5e228/air-max-excee-shoe-lPbXqt.png', 1, 2),
-                                                                                       (10, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f2015476-6a8f-4575-80d5-5b006a94e084/air-max-excee-shoe-lPbXqt.png', 1, 2),
-                                                                                       (11, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/59d7825e-f362-4776-ac4a-eeb9086c0772/air-max-excee-shoe-lPbXqt.png', 1, 2),
-                                                                                       (12, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bf143af6-e270-4514-b161-a5540a90cb53/air-max-excee-shoe-lPbXqt.png', 1, 2),
-                                                                                       (13, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3d926f26-ebb9-4270-88e3-d97a5184904d/air-max-excee-shoe-lPbXqt.png', 1, 2),
-                                                                                       (14, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/308e9d66-7c75-4370-868c-5462835744d5/air-max-pulse-shoes-zD62r3.png', 1, 3),
-                                                                                       (15, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/c2a25c9f-9455-43e0-ade7-dc92730e419a/air-max-pulse-shoes-zD62r3.png', 1, 3),
-                                                                                       (16, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/23fce8c3-e5f7-47ed-94d9-b5ac371321f9/air-max-pulse-shoes-zD62r3.png', 1, 3),
-                                                                                       (17, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2034d827-001e-4353-beca-2e2cb5676e55/air-max-pulse-shoes-zD62r3.png', 1, 3),
-                                                                                       (18, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1ee5d2f9-2b4d-4919-8719-d87e7529812f/air-max-pulse-shoes-zD62r3.png', 1, 3),
-                                                                                       (19, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3b6ef4ca-216c-4a73-beb7-601bb6a3d1db/air-max-pulse-shoes-zD62r3.png', 1, 3),
-                                                                                       (20, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/8c8601af-42f2-4008-9e99-2502c7cf8d78/air-max-pulse-shoes-zD62r3.png', 1, 3),
-                                                                                       (21, NULL, 'giày nike', NULL, 1, 21),
-                                                                                       (22, b'0', 'sp1700216540982280956974_1131457350764085_7593548632116725276_n.jpg', 'http://localhost:8080/manager/image/get/sp1700216540982280956974_1131457350764085_7593548632116725276_n.jpg', NULL, 21);
+(1, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/00375837-849f-4f17-ba24-d201d27be49b/air-force-1-07-shoes-WrLlWX.png', 1, 1),
+(2, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3cc96f43-47b6-43cb-951d-d8f73bb2f912/air-force-1-07-shoes-WrLlWX.png', 1, 1),
+(3, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/33533fe2-1157-4001-896e-1803b30659c8/air-force-1-07-shoes-WrLlWX.png', 1, 1),
+(4, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a0a300da-2e16-4483-ba64-9815cf0598ac/air-force-1-07-shoes-WrLlWX.png', 1, 1),
+(5, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/120a31b0-efa7-41c7-9a84-87b1e56ab9c3/air-force-1-07-shoes-WrLlWX.png', 1, 1),
+(6, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1c1e5f55-99c2-4522-b398-2352e01ba566/air-force-1-07-shoes-WrLlWX.png', 1, 1),
+(7, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/021d4cdb-916f-4fde-940b-04fdb736530c/air-max-excee-shoe-lPbXqt.png', 1, 2),
+(8, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3b9f4e47-9275-4b13-81b4-340dc55ddb43/air-max-excee-shoe-lPbXqt.png', 1, 2),
+(9, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/22e3a2d3-e6b7-4083-99ed-738491d5e228/air-max-excee-shoe-lPbXqt.png', 1, 2),
+(10, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f2015476-6a8f-4575-80d5-5b006a94e084/air-max-excee-shoe-lPbXqt.png', 1, 2),
+(11, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/59d7825e-f362-4776-ac4a-eeb9086c0772/air-max-excee-shoe-lPbXqt.png', 1, 2),
+(12, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bf143af6-e270-4514-b161-a5540a90cb53/air-max-excee-shoe-lPbXqt.png', 1, 2),
+(13, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3d926f26-ebb9-4270-88e3-d97a5184904d/air-max-excee-shoe-lPbXqt.png', 1, 2),
+(14, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/308e9d66-7c75-4370-868c-5462835744d5/air-max-pulse-shoes-zD62r3.png', 1, 3),
+(15, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/c2a25c9f-9455-43e0-ade7-dc92730e419a/air-max-pulse-shoes-zD62r3.png', 1, 3),
+(16, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/23fce8c3-e5f7-47ed-94d9-b5ac371321f9/air-max-pulse-shoes-zD62r3.png', 1, 3),
+(17, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2034d827-001e-4353-beca-2e2cb5676e55/air-max-pulse-shoes-zD62r3.png', 1, 3),
+(18, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1ee5d2f9-2b4d-4919-8719-d87e7529812f/air-max-pulse-shoes-zD62r3.png', 1, 3),
+(19, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3b6ef4ca-216c-4a73-beb7-601bb6a3d1db/air-max-pulse-shoes-zD62r3.png', 1, 3),
+(20, b'0', 'Giày Nike', 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/8c8601af-42f2-4008-9e99-2502c7cf8d78/air-max-pulse-shoes-zD62r3.png', 1, 3),
+(21, NULL, 'giày nike', NULL, 1, 21),
+(22, b'0', 'sp1700216540982280956974_1131457350764085_7593548632116725276_n.jpg', 'http://localhost:8080/manager/image/get/sp1700216540982280956974_1131457350764085_7593548632116725276_n.jpg', NULL, 21);
 
 -- --------------------------------------------------------
 
@@ -177,15 +177,15 @@ INSERT INTO `image` (`id`, `is_delete`, `name`, `url`, `id_account`, `id_product
 --
 
 CREATE TABLE `orderdetail` (
-                               `id` bigint(20) NOT NULL,
-                               `down_price` double DEFAULT NULL,
-                               `into_money` double DEFAULT NULL,
-                               `is_delete` bit(1) DEFAULT NULL,
-                               `price` double DEFAULT NULL,
-                               `quantity_oder` bigint(20) DEFAULT NULL,
-                               `id_bill` bigint(20) DEFAULT NULL,
-                               `product_id` bigint(20) DEFAULT NULL,
-                               `bill_entity_id` bigint(20) DEFAULT NULL
+  `id` bigint(20) NOT NULL,
+  `down_price` double DEFAULT NULL,
+  `into_money` double DEFAULT NULL,
+  `is_delete` bit(1) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `quantity_oder` bigint(20) DEFAULT NULL,
+  `id_bill` bigint(20) DEFAULT NULL,
+  `product_id` bigint(20) DEFAULT NULL,
+  `bill_entity_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -193,10 +193,10 @@ CREATE TABLE `orderdetail` (
 --
 
 INSERT INTO `orderdetail` (`id`, `down_price`, `into_money`, `is_delete`, `price`, `quantity_oder`, `id_bill`, `product_id`, `bill_entity_id`) VALUES
-                                                                                                                                                   (1, 100000, 2829000, b'0', 2929000, 1, 567854, 1, 567854),
-                                                                                                                                                   (2, 300000, 2149000, b'0', 2649000, 1, 567854, 2, 567854),
-                                                                                                                                                   (3, 2000000, 2903000, b'0', 28767474, 2, 234543, 5, 234543),
-                                                                                                                                                   (4, 2345234, 23423424, b'0', 512313132, 5, 234543, 4, 234543);
+(1, 100000, 2829000, b'0', 2929000, 1, 567854, 1, 567854),
+(2, 300000, 2149000, b'0', 2649000, 1, 567854, 2, 567854),
+(3, 2000000, 2903000, b'0', 28767474, 2, 234543, 5, 234543),
+(4, 2345234, 23423424, b'0', 512313132, 5, 234543, 4, 234543);
 
 -- --------------------------------------------------------
 
@@ -205,18 +205,18 @@ INSERT INTO `orderdetail` (`id`, `down_price`, `into_money`, `is_delete`, `price
 --
 
 CREATE TABLE `product` (
-                           `id` bigint(20) NOT NULL,
-                           `date_create` date DEFAULT NULL,
-                           `date_update` date DEFAULT NULL,
-                           `description` varchar(5000) DEFAULT NULL,
-                           `description_detail` varchar(5000) DEFAULT NULL,
-                           `discount` double DEFAULT NULL,
-                           `image` varchar(255) DEFAULT NULL,
-                           `is_delete` bit(1) DEFAULT NULL,
-                           `name_product` varchar(255) DEFAULT NULL,
-                           `price` double DEFAULT NULL,
-                           `status` varchar(255) DEFAULT NULL,
-                           `id_category` bigint(20) DEFAULT NULL
+  `id` bigint(20) NOT NULL,
+  `date_create` date DEFAULT NULL,
+  `date_update` date DEFAULT NULL,
+  `description` varchar(5000) DEFAULT NULL,
+  `description_detail` varchar(5000) DEFAULT NULL,
+  `discount` double DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `is_delete` bit(1) DEFAULT NULL,
+  `name_product` varchar(255) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `id_category` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -224,11 +224,11 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `date_create`, `date_update`, `description`, `description_detail`, `discount`, `image`, `is_delete`, `name_product`, `price`, `status`, `id_category`) VALUES
-                                                                                                                                                                                        (1, '2023-11-16', NULL, 'Sự rạng rỡ vẫn tồn tại trong Nike Air Force 1 \'07, phiên bản bóng rổ nguyên bản mang đến sự thay đổi mới mẻ về những gì bạn biết rõ nhất: lớp phủ được khâu bền, lớp hoàn thiện gọn gàng và lượng đèn flash hoàn hảo giúp bạn tỏa sáng.', 'Thông tin chi tiết sản phẩm\r\n\r\nĐế giữa xốp\r\nCác vết thủng ở ngón chân\r\nĐế cao su\r\nMàu sắc hiển thị: Trắng/Trắng\r\nPhong cách: CW2288-111\r\nQuốc gia/Khu vực xuất xứ: Việt Nam, Ấn Độ\r\n\r\nNguồn gốc của lực lượng không quân 1\r\n\r\nRa mắt lần đầu tiên vào năm 1982, AF-1 là đôi giày bóng rổ đầu tiên có Nike Air, tạo nên một cuộc cách mạng trong môn thể thao này đồng thời nhanh chóng thu hút được sự chú ý trên toàn thế giới. Ngày nay, Air Force 1 vẫn giữ nguyên nguồn gốc của nó với lớp đệm mềm mại và đàn hồi đã làm thay đổi lịch sử giày thể thao.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-force-1-07-shoes-WrLlWX.png', b'0', 'Nike Air Force 1 \'07', 2929000, 'còn hàng', 1),
-                                                                                                                                                                                        (2, '2023-11-16', NULL, 'Lấy cảm hứng từ Nike Air Max 90, Nike Air Max Excee là sự tôn vinh nét cổ điển qua lăng kính mới. Những đường nét thon dài và tỷ lệ méo mó ở phía trên mang lại diện mạo của thập niên 90 mà bạn yêu thích trong một không gian mới, hiện đại.', 'Thông tin chi tiết sản phẩm\r\n\r\nMặt trên bằng lưới, da và da lộn với lớp phủ bằng da tổng hợp\r\nKhông nhằm mục đích sử dụng làm Thiết bị bảo hộ cá nhân (PPE)\r\nMàu sắc hiển thị: Trắng/Phantom/Nho hành động/Đen\r\nPhong cách: CD4165-118\r\nQuốc gia/Khu vực xuất xứ: Việt Nam\r\n\r\nNguồn gốc Nike Air Max\r\n\r\nCông nghệ Revolution Air lần đầu tiên được đưa vào giày Nike vào năm 1978. Năm 1987, Air Max 1 ra mắt với công nghệ Air có thể nhìn thấy ở gót chân, mang đến cho người hâm mộ nhiều thứ hơn là chỉ cảm nhận về đệm Air—đột nhiên họ có thể nhìn thấy nó. Kể từ đó, giày Air Max thế hệ tiếp theo đã trở thành điểm nhấn với các vận động viên và nhà sưu tập nhờ mang đến sự kết hợp màu sắc nổi bật và lớp đệm nhẹ, đáng tin cậy.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/5b0e2877-09a4-4cad-8459-9118a5bc4c4f/air-max-excee-shoe-lPbXqt.png', b'0', 'Nike Air Max Excee', 2649000, 'còn hàng', 3),
-                                                                                                                                                                                        (3, '2023-11-16', NULL, 'Pha trộn một phần thành thị với một phần cứng cáp, Air Max Pulse mang đến vẻ ngoài tràn đầy năng lượng cho dòng Air Max mang tính biểu tượng. Nó kết hợp đế giữa được bọc bằng vải và các điểm nhấn kín chân không để nâng cao uy tín trên đường phố. Đệm Nike Air chịu tải điểm—được cải tiến từ Air Max 270 vô cùng sang trọng—mang đến sự thoải mái mà bạn tin tưởng. Hãy mặc chúng với bộ trang phục đẹp nhất của bạn và đạt đến mức tối đa.', 'Thông tin chi tiết sản phẩm\r\n\r\nChi tiết thiết kế phản quang\r\nKhông nhằm mục đích sử dụng làm thiết bị bảo hộ cá nhân (PPE)\r\nMàu sắc hiển thị: Đen/Antraxit/Vàng phẳng/Vàng kim loại\r\nPhong cách: FQ8733-010\r\nQuốc gia/Khu vực xuất xứ: Việt Nam\r\n\r\nNguồn gốc Nike Air Max\r\n\r\nCông nghệ Revolution Air lần đầu tiên được đưa vào giày Nike vào năm 1978. Năm 1987, Air Max 1 ra mắt với công nghệ Air có thể nhìn thấy ở gót chân, mang đến cho người hâm mộ nhiều thứ hơn là chỉ cảm nhận về đệm Air—đột nhiên họ có thể nhìn thấy nó. Kể từ đó, giày Air Max thế hệ tiếp theo đã trở thành điểm nhấn với các vận động viên và nhà sưu tập nhờ mang đến sự kết hợp màu sắc nổi bật và lớp đệm nhẹ, đáng tin cậy.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/0f97608e-ff07-4aff-b338-f86c28ecff8c/air-max-pulse-shoes-zD62r3.png', b'0', 'Nike Air Max Pulse', 4409000, 'còn hàng', 3),
-                                                                                                                                                                                        (4, '2023-11-16', NULL, 'Gặp gỡ người lãnh đạo của gói. Đi trên những đám mây phía trên tiếng ồn, Air Max 1 kết hợp thiết kế vượt thời gian với sự thoải mái có đệm. Với kiểu dáng nhanh nhẹn, tấm chắn bùn gợn sóng và Nike Air, biểu tượng cổ điển này xuất hiện vào năm 1987 và tiếp tục là linh hồn của thương hiệu này cho đến ngày nay.', 'Không khí tối đa 1\r\n\r\nChắc chắn, Air Max 1 khởi đầu là một đôi giày chạy bộ, nhưng bạn không thể kìm hãm sự đổi mới. Được tiếp nhận bởi văn hóa hip-hop, người chạy bộ này với bộ phận Air gây tranh cãi có thể được tìm thấy ở bất cứ đâu từ trung tâm Brooklyn đến đường phố London. Thiết kế tiên tiến và màu sắc nổi bật của nó cho đến ngày nay vẫn được tôn vinh năm này qua năm khác.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f55dfd2e-9130-4b69-b3be-184f039043e2/air-max-1-shoes-ZCSX34.png', b'0', 'Nike Air Max 1', 4109000, 'còn hàng', 3),
-                                                                                                                                                                                        (5, '2023-11-16', NULL, 'Thoải mái, bền bỉ và vượt thời gian—không có lý do gì nó là số 1. Kết cấu cổ điển của thập niên 80 kết hợp với da bền và vải Ripstop để tạo nên kết cấu chắc chắn. Đệm Nike Air mang lại sự thoải mái lâu dài trong khi các chi tiết thiết kế phản chiếu và đế ngoài màu xanh mờ tạo thêm phong cách táo bạo giúp bạn theo dõi dù bạn đang ở trên sân hay đang di chuyển.', 'Thông tin chi tiết sản phẩm\r\n\r\nĐế giữa xốp\r\nCác vết thủng ở ngón chân\r\nChi tiết thiết kế phản quang\r\nKhông nhằm mục đích sử dụng làm thiết bị bảo hộ cá nhân (PPE)\r\nMàu sắc hiển thị: Trắng/Bạc phản chiếu/Xanh công nghiệp/Trắng\r\nPhong cách: FV0383-100\r\nQuốc gia/Khu vực xuất xứ: Indonesia\r\n\r\nLực lượng Không quân 1\r\n\r\nRa mắt lần đầu tiên vào năm 1982 như một thứ không thể thiếu trong bóng rổ, Lực lượng Không quân 1 đã trở thành của riêng mình vào những năm 90. Vẻ ngoài gọn gàng của AF-1 trắng trên nền trắng cổ điển đã được khẳng định từ sân bóng rổ đến đường phố và xa hơn nữa. Tìm thấy nhịp điệu của mình trong văn hóa hip-hop, phát hành các sản phẩm cộng tác và phối màu hạn chế, Air Force 1 đã trở thành đôi giày thể thao mang tính biểu tượng trên toàn cầu. Và với hơn 2.000 lần lặp lại mặt hàng chủ lực này, không thể phủ nhận tác động của nó đối với văn hóa thời trang, âm nhạc và giày thể thao.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bff3d49a-fd0e-4471-8a97-e7973551ddb4/air-force-1-07-shoes-KMT0fF.png', b'0', 'Nike Air Force 1 \'07', 3829000, 'còn hàng', 3),
+(1, '2023-11-16', NULL, 'Sự rạng rỡ vẫn tồn tại trong Nike Air Force 1 \'07, phiên bản bóng rổ nguyên bản mang đến sự thay đổi mới mẻ về những gì bạn biết rõ nhất: lớp phủ được khâu bền, lớp hoàn thiện gọn gàng và lượng đèn flash hoàn hảo giúp bạn tỏa sáng.', 'Thông tin chi tiết sản phẩm\r\n\r\nĐế giữa xốp\r\nCác vết thủng ở ngón chân\r\nĐế cao su\r\nMàu sắc hiển thị: Trắng/Trắng\r\nPhong cách: CW2288-111\r\nQuốc gia/Khu vực xuất xứ: Việt Nam, Ấn Độ\r\n\r\nNguồn gốc của lực lượng không quân 1\r\n\r\nRa mắt lần đầu tiên vào năm 1982, AF-1 là đôi giày bóng rổ đầu tiên có Nike Air, tạo nên một cuộc cách mạng trong môn thể thao này đồng thời nhanh chóng thu hút được sự chú ý trên toàn thế giới. Ngày nay, Air Force 1 vẫn giữ nguyên nguồn gốc của nó với lớp đệm mềm mại và đàn hồi đã làm thay đổi lịch sử giày thể thao.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-force-1-07-shoes-WrLlWX.png', b'0', 'Nike Air Force 1 \'07', 2929000, 'còn hàng', 1),
+(2, '2023-11-16', NULL, 'Lấy cảm hứng từ Nike Air Max 90, Nike Air Max Excee là sự tôn vinh nét cổ điển qua lăng kính mới. Những đường nét thon dài và tỷ lệ méo mó ở phía trên mang lại diện mạo của thập niên 90 mà bạn yêu thích trong một không gian mới, hiện đại.', 'Thông tin chi tiết sản phẩm\r\n\r\nMặt trên bằng lưới, da và da lộn với lớp phủ bằng da tổng hợp\r\nKhông nhằm mục đích sử dụng làm Thiết bị bảo hộ cá nhân (PPE)\r\nMàu sắc hiển thị: Trắng/Phantom/Nho hành động/Đen\r\nPhong cách: CD4165-118\r\nQuốc gia/Khu vực xuất xứ: Việt Nam\r\n\r\nNguồn gốc Nike Air Max\r\n\r\nCông nghệ Revolution Air lần đầu tiên được đưa vào giày Nike vào năm 1978. Năm 1987, Air Max 1 ra mắt với công nghệ Air có thể nhìn thấy ở gót chân, mang đến cho người hâm mộ nhiều thứ hơn là chỉ cảm nhận về đệm Air—đột nhiên họ có thể nhìn thấy nó. Kể từ đó, giày Air Max thế hệ tiếp theo đã trở thành điểm nhấn với các vận động viên và nhà sưu tập nhờ mang đến sự kết hợp màu sắc nổi bật và lớp đệm nhẹ, đáng tin cậy.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/5b0e2877-09a4-4cad-8459-9118a5bc4c4f/air-max-excee-shoe-lPbXqt.png', b'0', 'Nike Air Max Excee', 2649000, 'còn hàng', 3),
+(3, '2023-11-16', NULL, 'Pha trộn một phần thành thị với một phần cứng cáp, Air Max Pulse mang đến vẻ ngoài tràn đầy năng lượng cho dòng Air Max mang tính biểu tượng. Nó kết hợp đế giữa được bọc bằng vải và các điểm nhấn kín chân không để nâng cao uy tín trên đường phố. Đệm Nike Air chịu tải điểm—được cải tiến từ Air Max 270 vô cùng sang trọng—mang đến sự thoải mái mà bạn tin tưởng. Hãy mặc chúng với bộ trang phục đẹp nhất của bạn và đạt đến mức tối đa.', 'Thông tin chi tiết sản phẩm\r\n\r\nChi tiết thiết kế phản quang\r\nKhông nhằm mục đích sử dụng làm thiết bị bảo hộ cá nhân (PPE)\r\nMàu sắc hiển thị: Đen/Antraxit/Vàng phẳng/Vàng kim loại\r\nPhong cách: FQ8733-010\r\nQuốc gia/Khu vực xuất xứ: Việt Nam\r\n\r\nNguồn gốc Nike Air Max\r\n\r\nCông nghệ Revolution Air lần đầu tiên được đưa vào giày Nike vào năm 1978. Năm 1987, Air Max 1 ra mắt với công nghệ Air có thể nhìn thấy ở gót chân, mang đến cho người hâm mộ nhiều thứ hơn là chỉ cảm nhận về đệm Air—đột nhiên họ có thể nhìn thấy nó. Kể từ đó, giày Air Max thế hệ tiếp theo đã trở thành điểm nhấn với các vận động viên và nhà sưu tập nhờ mang đến sự kết hợp màu sắc nổi bật và lớp đệm nhẹ, đáng tin cậy.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/0f97608e-ff07-4aff-b338-f86c28ecff8c/air-max-pulse-shoes-zD62r3.png', b'0', 'Nike Air Max Pulse', 4409000, 'còn hàng', 3),
+(4, '2023-11-16', NULL, 'Gặp gỡ người lãnh đạo của gói. Đi trên những đám mây phía trên tiếng ồn, Air Max 1 kết hợp thiết kế vượt thời gian với sự thoải mái có đệm. Với kiểu dáng nhanh nhẹn, tấm chắn bùn gợn sóng và Nike Air, biểu tượng cổ điển này xuất hiện vào năm 1987 và tiếp tục là linh hồn của thương hiệu này cho đến ngày nay.', 'Không khí tối đa 1\r\n\r\nChắc chắn, Air Max 1 khởi đầu là một đôi giày chạy bộ, nhưng bạn không thể kìm hãm sự đổi mới. Được tiếp nhận bởi văn hóa hip-hop, người chạy bộ này với bộ phận Air gây tranh cãi có thể được tìm thấy ở bất cứ đâu từ trung tâm Brooklyn đến đường phố London. Thiết kế tiên tiến và màu sắc nổi bật của nó cho đến ngày nay vẫn được tôn vinh năm này qua năm khác.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f55dfd2e-9130-4b69-b3be-184f039043e2/air-max-1-shoes-ZCSX34.png', b'0', 'Nike Air Max 1', 4109000, 'còn hàng', 3),
+(5, '2023-11-16', NULL, 'Thoải mái, bền bỉ và vượt thời gian—không có lý do gì nó là số 1. Kết cấu cổ điển của thập niên 80 kết hợp với da bền và vải Ripstop để tạo nên kết cấu chắc chắn. Đệm Nike Air mang lại sự thoải mái lâu dài trong khi các chi tiết thiết kế phản chiếu và đế ngoài màu xanh mờ tạo thêm phong cách táo bạo giúp bạn theo dõi dù bạn đang ở trên sân hay đang di chuyển.', 'Thông tin chi tiết sản phẩm\r\n\r\nĐế giữa xốp\r\nCác vết thủng ở ngón chân\r\nChi tiết thiết kế phản quang\r\nKhông nhằm mục đích sử dụng làm thiết bị bảo hộ cá nhân (PPE)\r\nMàu sắc hiển thị: Trắng/Bạc phản chiếu/Xanh công nghiệp/Trắng\r\nPhong cách: FV0383-100\r\nQuốc gia/Khu vực xuất xứ: Indonesia\r\n\r\nLực lượng Không quân 1\r\n\r\nRa mắt lần đầu tiên vào năm 1982 như một thứ không thể thiếu trong bóng rổ, Lực lượng Không quân 1 đã trở thành của riêng mình vào những năm 90. Vẻ ngoài gọn gàng của AF-1 trắng trên nền trắng cổ điển đã được khẳng định từ sân bóng rổ đến đường phố và xa hơn nữa. Tìm thấy nhịp điệu của mình trong văn hóa hip-hop, phát hành các sản phẩm cộng tác và phối màu hạn chế, Air Force 1 đã trở thành đôi giày thể thao mang tính biểu tượng trên toàn cầu. Và với hơn 2.000 lần lặp lại mặt hàng chủ lực này, không thể phủ nhận tác động của nó đối với văn hóa thời trang, âm nhạc và giày thể thao.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bff3d49a-fd0e-4471-8a97-e7973551ddb4/air-force-1-07-shoes-KMT0fF.png', b'0', 'Nike Air Force 1 \'07', 3829000, 'còn hàng', 3),
 (6, '2023-11-16', NULL, 'Được đường phố khen ngợi vì sự đơn giản và thoải mái cổ điển, Nike Blazer Low \'77 Vintage trở lại với phong cách cổ điển và vẻ ngoài b-ball truyền thống. Với các chi tiết da lộn quyến rũ, thiết kế Swoosh cổ điển và cổ áo siêu mềm, đây là món đồ không thể thiếu trong tủ quần áo sẽ đưa bạn đi khắp mọi nơi.', 'Những lợi ích\r\n\r\nĐược thiết kế ban đầu cho các vòng biểu diễn, Nike Blazer Low mang đến độ bền và sự thoải mái kéo dài. Phiên bản làm lại gần như 1-1 có da sắc nét ở phía trên với da lộn mềm và các chi tiết tổng hợp để tăng độ bền và kiểu dáng cổ điển.\r\nMàu sắc cực kỳ sạch sẽ, đường nét đơn giản và cổ áo có đệm, cắt thấp tạo nên vẻ ngoài bóng bẩy mang lại cảm giác tuyệt vời.\r\nCấu trúc lưu hóa kết hợp đế ngoài với đế giữa để mang lại vẻ ngoài hợp lý, bền bỉ và thoải mái.\r\nĐế ngoài bằng cao su rắn với họa tiết xương cá tăng thêm lực kéo, độ bền và kiểu dáng di sản.\r\nMàu sắc hiển thị: Trắng/Cánh buồm/Đen/Xanh thông\r\nPhong cách: DA6364-115\r\nQuốc gia/Khu vực xuất xứ: Ấn Độ', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f450b123-2c17-48d5-9329-cc4c87dd604c/blazer-low-77-vintage-shoes-5Gw9TZ.png', b'0', 'Nike Blazer Low \'77 Vintage', 2499000, 'còn hàng ', 3),
 (7, '2023-11-16', NULL, 'Được thiết kế dành cho gỗ cứng nhưng lại được ưa chuộng trên đường phố, biểu tượng bóng rổ của thập niên 80 trở lại với các chi tiết cổ điển và sự tinh tế của những chiếc vòng quay cổ điển. Da bền và vải Ripstop được kết hợp với các chi tiết thiết kế phản chiếu và đế ngoài màu xanh mờ tạo nên kết cấu chắc chắn giúp bạn đối mặt với các điều kiện khắc nghiệt. Và cổ áo có đệm, cổ thấp cho phép bạn mang trò chơi của mình đi bất cứ đâu—một cách thoải mái.', 'Thông tin chi tiết sản phẩm\r\n\r\nChi tiết thiết kế phản quang\r\nKhông nhằm mục đích sử dụng làm thiết bị bảo hộ cá nhân (PPE)\r\nMàu sắc hiển thị: Antraxit/Xám mát/Xanh công nghiệp/Bạch kim nguyên chất\r\nPhong cách: FV0384-001\r\nQuốc gia/Khu vực xuất xứ: Indonesia\r\n\r\nNike Dunk\r\n\r\nRa đời từ một loạt sự kết hợp, hack và thời hạn chặt chẽ, Nike Dunk đã có mặt trên sân bóng rổ của trường đại học trong mùa giải \'85–\'86. Trong khi các thiết kế \'College Colours\' ban đầu giúp người hâm mộ trung thành với trường phái của họ thì Dunk lại không chứng tỏ được sự phổ biến. Nhưng chính sự thiếu phổ biến của đôi giày thể thao khiêm tốn này—và đế phẳng, bám chắc—đã giúp nó thu hút những người trượt ván. Nhiều thập kỷ sau, món đồ được yêu thích hàng ngày này tiếp tục được ưa chuộng với vô số màu sắc, chứng tỏ tầm ảnh hưởng của nó là không thể phủ nhận.', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/938273c4-d731-4fe6-b2c7-1a75002a1536/dunk-low-shoes-Knf0qX.png', b'0', 'Nike Dunk Low', 3829000, 'còn hàng ', 1),
 (8, '2023-11-16', NULL, 'Được tạo ra cho gỗ cứng nhưng lại được ưa chuộng trên đường phố, biểu tượng b-ball của thập niên 80 trở lại với chất liệu cổ điển và những chiếc vòng cầu kỳ tinh tế. Mang phong cách cổ điển trở lại đường phố, cổ áo có đệm giúp bạn mang trò chơi của mình đi bất cứ đâu—một cách thoải mái.', 'Nike Dunk\r\n\r\nTừ ván rổ cho đến ván trượt, tầm ảnh hưởng của Nike Dunk là không thể phủ nhận. Mặc dù được giới thiệu là giày bóng rổ vào năm 1985, đế phẳng và bám chắc của nó là sự lựa chọn hoàn hảo cho cộng đồng thể thao bị lãng quên—vận động viên trượt băng. Khám phá một nền văn hóa nhóm khao khát sự sáng tạo cũng như chức năng, Dunk đã cho ra đời vô số màu sắc trong hàng thập kỷ tiếp tục thu hút linh hồn của những người trượt ván từ bờ biển này sang bờ biển khác.\r\n\r\n', NULL, 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/35cd473e-b388-4de0-83f5-8a8f3287eef6/dunk-low-retro-shoes-Zc0601.png', b'0', 'Nike Dunk Low Retro Premium', 3519000, 'còn hàng ', 1),
