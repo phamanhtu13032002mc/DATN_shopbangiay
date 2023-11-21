@@ -2,6 +2,7 @@ package com.example.spring_boot.service;
 
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.CategoryEntity;
+import com.example.spring_boot.entity.OrderDetailEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;

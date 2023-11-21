@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface OrderDetailService {
 
-
+    Page<OrderDetailEntity> findByIdBill(OrderDetailRequest orderDetailRequest);
 
 
     Object detele(OrderDetailRequest orderDetailRequest);

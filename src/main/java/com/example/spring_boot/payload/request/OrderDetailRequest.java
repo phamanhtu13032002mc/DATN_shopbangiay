@@ -22,7 +22,9 @@ public class OrderDetailRequest {
     private String productName;
     private String  image;
     private  double price;
-    private int size;
+    private Long size;
+    private Long page;
     private String property;
     private long  quantity;
+    private long  idBill;
 }

@@ -38,4 +38,18 @@ public class OrderDetailServiceImpl implements OrderDetailService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi xóa");
         }
     }
+    @Override
+    public Page<OrderDetailEntity> findByIdBill(OrderDetailRequest orderDetailRequest) {
+
+        try {
+            Pageable pageable = PageRequest.of(
+                    orderDetailRequest.getPage().intValue(),
+                    orderDetailRequest.getSize().intValue()
+            );
+            return oderDetailRepository.findByIdBill(orderDetailRequest.getIdBill(), pageable);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }

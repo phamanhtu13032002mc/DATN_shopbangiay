@@ -17,7 +17,8 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity,L
     @Query(value = "SELECT * FROM orderdetail od WHERE od.id = ?",nativeQuery = true)
     OrderDetailEntity findByidOrOrderById(Long id);
 
-    @Query(value = "SELECT U FROM OrderDetailEntity U WHERE  OrderDetailEntity.billEntity = :idBill")
-    List<Object> findByIdBill (@Param("idBill") Long idBill);
+//    @Query(value = "SELECT U FROM OrderDetailEntity U WHERE U.billEntity = :idBill")
+    @Query(value = "SELECT * FROM orderdetail WHERE orderdetail.id_bill = ?",nativeQuery = true)
+    Page<OrderDetailEntity> findByIdBill (@Param("idBill") Long idBill,Pageable pageable);
 
 }

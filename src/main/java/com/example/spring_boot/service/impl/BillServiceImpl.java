@@ -32,8 +32,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     OrderDetailRepository orderDetailRepository;
     @Autowired
     ProductDetailRepository productDetailRepository;
-    @Autowired
-    ObjectMapper objectMapper;
+
 
     @Autowired
     VoucherRepository voucherRepository;

@@ -4,6 +4,7 @@ import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.request.*;
 import com.example.spring_boot.service.BillService;
+import com.example.spring_boot.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class BillController {
     @Autowired
     BillService billService;
+    @Autowired
+    OrderDetailService orderDetailService;
 
     @PostMapping(value = "/create-bill")
     public  ResponseEntity<?> createBill(@RequestBody CreateBillManger createBillManger){
@@ -50,6 +53,11 @@ public class BillController {
     public ResponseEntity<?> findByDatePhoneStatus(
             @RequestBody SearchBill searchBill) {
         return ResponseEntity.ok(billService.findByDatePhoneStatus(searchBill));
+    }
+    @PostMapping(value = "/find-by-idBill")
+    public ResponseEntity<?> findByIdBill(
+            @RequestBody OrderDetailRequest orderDetailRequest) {
+        return ResponseEntity.ok(orderDetailService.findByIdBill(orderDetailRequest));
     }
 
 
