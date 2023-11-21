@@ -47,7 +47,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     public DataObj create(CreateBillManger createBillManger) {
         try {
             long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
-            CustomerEntity customer = customerRepository.findByIdUser(getAuthUID());
+            Optional<CustomerEntity> customer = customerRepository.findById(createBillManger.getIdCustomer());
             BillEntity billEntity = new BillEntity();
             billEntity.setId(randomNumber);
             while (billRepository.existsById(billEntity.getId())) {
@@ -55,7 +55,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
             }
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
-            billEntity.setCustomerEntity(customer);
+            billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
             billEntity.setAddress(createBillManger.getAddress());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
@@ -100,6 +100,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
+            billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
             billEntity.setSdt(createBillManger.getPhoneNumber());
             billEntity.setTotal(createBillManger.getTotal());
             billEntity.setTransportFee(billEntity.getTransportFee());

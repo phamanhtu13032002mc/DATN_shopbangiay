@@ -29,7 +29,7 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "FROM BillEntity b " +
             "JOIN b.oderDetailEntities " +
             "LEFT JOIN b.voucherEntities "  +
-            "JOIN b.customerEntity  " +
+            "LEFT JOIN b.customerEntity  " +
             "WHERE  (:startDate IS NULL OR  b.createAt >= :startDate ) " +
             "AND (:dateTo IS NULL OR  b.createAt <= :dateTo )"+
             "AND (:phone IS NULL OR b.customerEntity.phone = :phone)"+

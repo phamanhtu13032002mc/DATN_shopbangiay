@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 19, 2023 lúc 09:29 AM
--- Phiên bản máy phục vụ: 10.4.24-MariaDB
--- Phiên bản PHP: 7.4.29
+-- Thời gian đã tạo: Th10 21, 2023 lúc 11:31 AM
+-- Phiên bản máy phục vụ: 10.4.28-MariaDB
+-- Phiên bản PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,8 @@ CREATE TABLE `bill` (
   `is_delete` bit(1) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
   `note_refund` varchar(2000) DEFAULT NULL,
-  `payment` int(11) DEFAULT NULL,
+  `payment` bit(1) DEFAULT NULL,
+  `refund` int(11) DEFAULT NULL,
   `sale_point` varchar(255) DEFAULT NULL,
   `sdt` varchar(255) DEFAULT NULL,
   `status_shipping` int(11) DEFAULT NULL,
@@ -45,18 +46,16 @@ CREATE TABLE `bill` (
   `transport_fee` double DEFAULT NULL,
   `update_ats` date DEFAULT NULL,
   `voucher_id` bigint(20) DEFAULT NULL,
-  `id_customer` bigint(20) DEFAULT NULL,
-  `id_ward` bigint(20) DEFAULT NULL,
-  `refund` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id_customer` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `bill`
 --
 
-INSERT INTO `bill` (`id`, `address`, `create_at`, `discount`, `down_total`, `full_name`, `is_delete`, `note`, `note_refund`, `payment`, `sale_point`, `sdt`, `status_shipping`, `total`, `transport_fee`, `update_ats`, `voucher_id`, `id_customer`, `id_ward`, `refund`) VALUES
-(234543, 'Mộc Châu', '2023-11-18', 500000, NULL, 'Kiên Ngu', b'0', 'Mua Online', NULL, 2, '100', '0867621485', 1, 4900000, 200000, NULL, 2, 3, NULL, NULL),
-(567854, 'Hà Nội', '2023-11-18', 100000, NULL, 'Phạm Anh Tú', b'0', 'Mua Online', NULL, 1, '100', '0338583502', 0, 2929000, 200000, NULL, 1, 3, NULL, NULL);
+INSERT INTO `bill` (`id`, `address`, `create_at`, `discount`, `down_total`, `full_name`, `is_delete`, `note`, `note_refund`, `payment`, `refund`, `sale_point`, `sdt`, `status_shipping`, `total`, `transport_fee`, `update_ats`, `voucher_id`, `id_customer`) VALUES
+(234543, 'Mộc Châu', '2023-11-18', 500000, NULL, 'Kiên Ngu', b'0', 'Mua Online', NULL, b'1', NULL, '100', '0867621485', 1, 4900000, 200000, NULL, 2, 3),
+(567854, 'Hà Nội', '2023-11-18', 100000, NULL, 'Phạm Anh Tú', b'0', 'Mua Online', NULL, b'1', NULL, '100', '0338583502', 0, 2929000, 200000, NULL, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -69,7 +68,7 @@ CREATE TABLE `category` (
   `gender` bit(1) DEFAULT NULL,
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `category`
@@ -94,7 +93,7 @@ CREATE TABLE `customer` (
   `is_delete` bit(1) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `id_user` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `customer`
@@ -117,7 +116,7 @@ CREATE TABLE `event` (
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `start_day` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `event`
@@ -140,7 +139,7 @@ CREATE TABLE `image` (
   `url` varchar(255) DEFAULT NULL,
   `id_account` bigint(20) DEFAULT NULL,
   `id_product` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `image`
@@ -184,19 +183,18 @@ CREATE TABLE `orderdetail` (
   `price` double DEFAULT NULL,
   `quantity_oder` bigint(20) DEFAULT NULL,
   `id_bill` bigint(20) DEFAULT NULL,
-  `product_id` bigint(20) DEFAULT NULL,
-  `bill_entity_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `product_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `orderdetail`
 --
 
-INSERT INTO `orderdetail` (`id`, `down_price`, `into_money`, `is_delete`, `price`, `quantity_oder`, `id_bill`, `product_id`, `bill_entity_id`) VALUES
-(1, 100000, 2829000, b'0', 2929000, 1, 567854, 1, 567854),
-(2, 300000, 2149000, b'0', 2649000, 1, 567854, 2, 567854),
-(3, 2000000, 2903000, b'0', 28767474, 2, 234543, 5, 234543),
-(4, 2345234, 23423424, b'0', 512313132, 5, 234543, 4, 234543);
+INSERT INTO `orderdetail` (`id`, `down_price`, `into_money`, `is_delete`, `price`, `quantity_oder`, `id_bill`, `product_id`) VALUES
+(1, 100000, 2829000, b'0', 2929000, 1, 567854, 1),
+(2, 300000, 2149000, b'0', 2649000, 1, 567854, 2),
+(3, 2000000, 2903000, b'0', 28767474, 2, 234543, 5),
+(4, 2345234, 23423424, b'0', 512313132, 5, 234543, 4);
 
 -- --------------------------------------------------------
 
@@ -217,7 +215,7 @@ CREATE TABLE `product` (
   `price` double DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `id_category` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `product`
@@ -259,7 +257,7 @@ CREATE TABLE `product_detail` (
   `id_product` bigint(20) DEFAULT NULL,
   `id_property` bigint(20) DEFAULT NULL,
   `id_size` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `product_detail`
@@ -297,7 +295,7 @@ CREATE TABLE `property` (
   `id_property` bigint(20) NOT NULL,
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `property`
@@ -322,7 +320,7 @@ INSERT INTO `property` (`id_property`, `is_delete`, `name`) VALUES
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `name` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `roles`
@@ -343,7 +341,7 @@ CREATE TABLE `size` (
   `id` bigint(20) NOT NULL,
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `size`
@@ -372,7 +370,7 @@ CREATE TABLE `users` (
   `password` varchar(120) DEFAULT NULL,
   `phone` varchar(11) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
@@ -392,7 +390,7 @@ INSERT INTO `users` (`id`, `email`, `is_delete`, `password`, `phone`, `username`
 CREATE TABLE `user_roles` (
   `user_id` bigint(20) NOT NULL,
   `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `user_roles`
@@ -418,14 +416,14 @@ CREATE TABLE `voucher` (
   `minimum_value` double DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `id_bill` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `voucher`
 --
 
 INSERT INTO `voucher` (`id`, `amount`, `discount`, `id_event`, `is_delete`, `minimum_value`, `name`, `id_bill`) VALUES
-(1, 4, 300000, 1, b'0', 500000, '500 giảm 300', NULL),
+(1, 4, 300000, 1, b'0', 500000, '500 giảm 300', 567854),
 (2, 3, 100000, 2, b'0', 300000, '300 giảm 100', NULL);
 
 -- --------------------------------------------------------
@@ -437,7 +435,7 @@ INSERT INTO `voucher` (`id`, `amount`, `discount`, `id_event`, `is_delete`, `min
 CREATE TABLE `voucherbill` (
   `id` bigint(20) NOT NULL,
   `id_bill` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -483,8 +481,7 @@ ALTER TABLE `image`
 ALTER TABLE `orderdetail`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK10wu65rsj42intbo9hwa2tmqe` (`id_bill`),
-  ADD KEY `FKeltonm2iefs6sykatyg117ve1` (`product_id`),
-  ADD KEY `FK6dxy1hlefyp9wd9be0g3wpktv` (`bill_entity_id`);
+  ADD KEY `FKeltonm2iefs6sykatyg117ve1` (`product_id`);
 
 --
 -- Chỉ mục cho bảng `product`
@@ -660,7 +657,6 @@ ALTER TABLE `image`
 --
 ALTER TABLE `orderdetail`
   ADD CONSTRAINT `FK10wu65rsj42intbo9hwa2tmqe` FOREIGN KEY (`id_bill`) REFERENCES `bill` (`id`),
-  ADD CONSTRAINT `FK6dxy1hlefyp9wd9be0g3wpktv` FOREIGN KEY (`bill_entity_id`) REFERENCES `bill` (`id`),
   ADD CONSTRAINT `FKeltonm2iefs6sykatyg117ve1` FOREIGN KEY (`product_id`) REFERENCES `product_detail` (`id`);
 
 --

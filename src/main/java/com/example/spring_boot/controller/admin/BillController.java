@@ -21,6 +21,7 @@ public class BillController {
 
     @PostMapping(value = "/create-bill")
     public  ResponseEntity<?> createBill(@RequestBody CreateBillManger createBillManger){
+
         return  ResponseEntity.ok(billService.create(createBillManger));
     }
     @PostMapping(value = "/update-bill-customer")
@@ -50,8 +51,6 @@ public class BillController {
             @RequestBody SearchBill searchBill) {
         return ResponseEntity.ok(billService.findByDatePhoneStatus(searchBill));
     }
-
-
 
 
 
