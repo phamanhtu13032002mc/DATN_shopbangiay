@@ -54,10 +54,9 @@ public class BillController {
             @RequestBody SearchBill searchBill) {
         return ResponseEntity.ok(billService.findByDatePhoneStatus(searchBill));
     }
-    @PostMapping(value = "/find-by-idBill")
-    public ResponseEntity<?> findByIdBill(
-            @RequestBody OrderDetailRequest orderDetailRequest) {
-        return ResponseEntity.ok(orderDetailService.findByIdBill(orderDetailRequest));
+    @GetMapping(value = "/find-by-id_bill/{idBill}")
+    public ResponseEntity<?> findByIdBill(@PathVariable("idBill") Long idBill){
+        return ResponseEntity.ok(billService.findByIdBill(idBill));
     }
 
 

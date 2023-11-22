@@ -1,15 +1,11 @@
 package com.example.spring_boot.service.impl;
 
-import com.example.spring_boot.controller.AuthController;
 import com.example.spring_boot.controller.BaseController;
 import com.example.spring_boot.entity.*;
-
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.BillService;
-import com.example.spring_boot.service.UserDetailImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -38,8 +37,6 @@ public class BillServiceImpl extends BaseController implements BillService {
     VoucherRepository voucherRepository;
     @Autowired
     ProductRepository productRepository;
-
-
 
 
     @Override
@@ -218,7 +215,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             if (billRequest.getOrderDetailRequests() != null) {
                 List<OrderDetailRequest> orderDetail = billRequest.getOrderDetailRequests();
                 for (OrderDetailRequest orderDetailRequest : orderDetail) {
-                    if (orderDetailRequest.getOrderDetailId() != 0 ) {
+                    if (orderDetailRequest.getOrderDetailId() != 0) {
                         OrderDetailEntity orderDetailUpdate = orderDetailRepository.findByidOrOrderById(orderDetailRequest.getOrderDetailId());
                         ProductDetailEntity productDetailEntity = orderDetailUpdate.getProductDetailEntities();
                         if (productDetailEntity.getQuantity() < orderDetailRequest.getQuantity()) {
@@ -253,7 +250,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             billRepository.save(billEntity);
 
             return new DataObj().setEdesc("200").setEcode("Cập nhật đơn hàng thành công");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEdesc("400").setEcode("Lỗi Cập nhật đơn hàng");
 
@@ -275,30 +272,45 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     }
 
-
     @Override
     public Object findByDatePhoneStatus(SearchBill searchBill) {
 
-       try {
-           Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
+        try {
+            Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
 
-           Page<Object> billEntities = billRepository.findAllBill(
-                   searchBill.getDateTo(),searchBill.getStartDate(),searchBill.getPhone(),searchBill.getEmail(),searchBill.getStatusShipping(),
-                   pageable);
-           DataObj dataObj = new DataObj();
-           dataObj.setEcode("200");
-           dataObj.setEdesc("success");
-           dataObj.setData(billEntities.getContent());
-           return dataObj;
-       }catch (Exception e){
-           e.printStackTrace();
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
-       }
+            Page<Object> billEntities = billRepository.findAllBill(
+                    searchBill.getDateTo(), searchBill.getStartDate(), searchBill.getPhone(), searchBill.getEmail(), searchBill.getStatusShipping(),
+                    pageable);
+            DataObj dataObj = new DataObj();
+            dataObj.setEcode("200");
+            dataObj.setEdesc("success");
+            dataObj.setData(billEntities);
+            return dataObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
+        }
+
+
     }
 
-
-
-
+    @Override
+    public Object findByIdBill(Long idBill) {
+        try {
+            Object billById = billRepository.findBillById(idBill);
+            if (billById == null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy bill");
+            }
+             return billById;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi tìm bill theo id");
+        }
+    }
 }
+
+
+
+
 
 

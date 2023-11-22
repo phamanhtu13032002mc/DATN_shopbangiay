@@ -17,9 +17,6 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     @Autowired
     ProductDetailRepository productDetailRepository;
 
-
-
-
     @Override
     public void delete(Long id) {
      ProductDetailEntity productdetail = productDetailRepository.findById(id).get();

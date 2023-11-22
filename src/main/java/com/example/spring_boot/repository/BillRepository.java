@@ -41,6 +41,15 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
     );
 
 
+    @Query(value = "SELECT b " +
+            "FROM BillEntity b " +
+            "JOIN b.oderDetailEntities " +
+            "LEFT JOIN b.voucherEntities "  +
+            "LEFT JOIN b.customerEntity  " +
+            "WHERE  "+
+            "b.id = :idBill")
+    Object findBillById(Long idBill);
+
 
 
 }

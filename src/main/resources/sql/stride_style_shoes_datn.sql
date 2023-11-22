@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 21, 2023 lúc 11:31 AM
--- Phiên bản máy phục vụ: 10.4.28-MariaDB
--- Phiên bản PHP: 8.0.28
+-- Thời gian đã tạo: Th10 21, 2023 lúc 03:40 PM
+-- Phiên bản máy phục vụ: 10.4.24-MariaDB
+-- Phiên bản PHP: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,7 +47,7 @@ CREATE TABLE `bill` (
   `update_ats` date DEFAULT NULL,
   `voucher_id` bigint(20) DEFAULT NULL,
   `id_customer` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `bill`
@@ -68,7 +68,7 @@ CREATE TABLE `category` (
   `gender` bit(1) DEFAULT NULL,
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `category`
@@ -93,7 +93,7 @@ CREATE TABLE `customer` (
   `is_delete` bit(1) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `id_user` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `customer`
@@ -116,7 +116,7 @@ CREATE TABLE `event` (
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `start_day` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `event`
@@ -139,7 +139,7 @@ CREATE TABLE `image` (
   `url` varchar(255) DEFAULT NULL,
   `id_account` bigint(20) DEFAULT NULL,
   `id_product` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `image`
@@ -184,7 +184,7 @@ CREATE TABLE `orderdetail` (
   `quantity_oder` bigint(20) DEFAULT NULL,
   `id_bill` bigint(20) DEFAULT NULL,
   `product_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `orderdetail`
@@ -215,7 +215,7 @@ CREATE TABLE `product` (
   `price` double DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `id_category` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `product`
@@ -257,7 +257,7 @@ CREATE TABLE `product_detail` (
   `id_product` bigint(20) DEFAULT NULL,
   `id_property` bigint(20) DEFAULT NULL,
   `id_size` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `product_detail`
@@ -265,25 +265,315 @@ CREATE TABLE `product_detail` (
 
 INSERT INTO `product_detail` (`id`, `is_delete`, `quantity`, `id_product`, `id_property`, `id_size`) VALUES
 (1, b'0', 10, 1, 1, 1),
-(2, b'0', 10, 2, 2, 2),
-(3, NULL, 10, 3, 3, 3),
-(4, NULL, 10, 4, 4, 4),
-(5, NULL, 10, 5, 5, 5),
-(6, NULL, 10, 6, 6, 6),
-(7, NULL, 10, 7, 7, 7),
-(8, NULL, 10, 8, 8, 6),
-(9, NULL, 10, 9, 1, 3),
-(10, NULL, 10, 10, 2, 4),
-(11, NULL, 10, 11, 3, 1),
-(12, NULL, 10, 12, 1, 5),
-(13, NULL, 10, 13, 4, 6),
-(14, NULL, 10, 14, 1, 1),
-(15, NULL, 10, 15, 5, 7),
-(16, NULL, 10, 16, 6, 4),
-(17, NULL, 10, 17, 7, 2),
-(18, NULL, 10, 18, 1, 6),
-(19, NULL, 10, 19, 3, 1),
-(20, NULL, 10, 20, 2, 7);
+(2, b'0', 10, 1, 1, 2),
+(3, b'0', 10, 1, 1, 3),
+(4, b'0', 10, 1, 1, 4),
+(5, b'0', 10, 1, 1, 5),
+(6, b'0', 10, 1, 1, 6),
+(7, b'0', 10, 1, 1, 7),
+(8, b'0', 10, 1, 1, 8),
+(9, b'0', 10, 1, 1, 3),
+(10, b'0', 10, 1, 2, 1),
+(11, b'0', 10, 1, 2, 2),
+(12, b'0', 10, 1, 2, 3),
+(13, b'0', 10, 1, 2, 4),
+(14, b'0', 10, 1, 2, 5),
+(15, b'0', 10, 1, 2, 6),
+(16, b'0', 10, 1, 2, 7),
+(17, b'0', 10, 1, 2, 8),
+(18, b'0', 10, 1, 3, 1),
+(19, b'0', 10, 1, 3, 2),
+(20, b'0', 10, 1, 3, 3),
+(21, b'0', 10, 1, 3, 4),
+(22, b'0', 10, 1, 3, 5),
+(23, b'0', 10, 1, 3, 6),
+(24, b'0', 10, 1, 3, 7),
+(25, b'0', 10, 1, 3, 8),
+(26, b'0', 10, 1, 4, 1),
+(27, b'0', 10, 1, 4, 2),
+(28, b'0', 10, 1, 4, 3),
+(29, b'0', 10, 1, 4, 4),
+(30, b'0', 10, 1, 4, 5),
+(31, b'0', 10, 1, 4, 6),
+(32, b'0', 10, 1, 4, 7),
+(33, b'0', 10, 1, 4, 8),
+(34, b'0', 10, 1, 5, 1),
+(35, b'0', 10, 1, 5, 2),
+(36, b'0', 10, 1, 5, 3),
+(37, b'0', 10, 1, 5, 4),
+(38, b'0', 10, 1, 5, 5),
+(39, b'0', 10, 1, 5, 6),
+(40, b'0', 10, 1, 5, 7),
+(41, b'0', 10, 1, 5, 8),
+(42, b'0', 10, 1, 6, 1),
+(43, b'0', 10, 1, 6, 2),
+(44, b'0', 10, 1, 6, 3),
+(45, b'0', 10, 1, 6, 4),
+(46, b'0', 10, 1, 6, 5),
+(47, b'0', 10, 1, 6, 6),
+(48, b'0', 10, 1, 6, 7),
+(49, b'0', 10, 1, 6, 8),
+(50, b'0', 10, 1, 7, 1),
+(51, b'0', 10, 1, 7, 2),
+(52, b'0', 10, 1, 7, 3),
+(53, b'0', 10, 1, 7, 4),
+(54, b'0', 10, 1, 7, 5),
+(55, b'0', 10, 1, 7, 6),
+(56, b'0', 10, 1, 7, 7),
+(57, b'0', 10, 1, 7, 8),
+(58, b'0', 10, 1, 8, 1),
+(59, b'0', 10, 1, 8, 2),
+(60, b'0', 10, 1, 8, 3),
+(61, b'0', 10, 1, 8, 4),
+(62, b'0', 10, 1, 8, 5),
+(63, b'0', 10, 1, 8, 6),
+(64, b'0', 10, 1, 8, 7),
+(65, b'0', 10, 1, 8, 8),
+(66, b'0', 10, 2, 1, 1),
+(67, b'0', 10, 2, 1, 2),
+(68, b'0', 10, 2, 1, 3),
+(69, b'0', 10, 2, 1, 4),
+(70, b'0', 10, 2, 1, 5),
+(71, b'0', 10, 2, 1, 6),
+(72, b'0', 10, 2, 1, 7),
+(73, b'0', 10, 2, 1, 8),
+(74, b'0', 10, 2, 2, 1),
+(75, b'0', 10, 2, 2, 2),
+(76, b'0', 10, 2, 2, 3),
+(77, b'0', 10, 2, 2, 4),
+(78, b'0', 10, 2, 2, 5),
+(79, b'0', 10, 2, 2, 6),
+(80, b'0', 10, 2, 2, 7),
+(81, b'0', 10, 2, 2, 8),
+(82, b'0', 10, 2, 3, 1),
+(83, b'0', 10, 2, 3, 2),
+(84, b'0', 10, 2, 3, 3),
+(85, b'0', 10, 2, 3, 4),
+(86, b'0', 10, 2, 3, 5),
+(87, b'0', 10, 2, 3, 6),
+(88, b'0', 10, 2, 3, 7),
+(89, b'0', 10, 2, 3, 8),
+(90, b'0', 10, 2, 4, 1),
+(91, b'0', 10, 2, 4, 2),
+(92, b'0', 10, 2, 4, 3),
+(93, b'0', 10, 2, 4, 4),
+(94, b'0', 10, 2, 4, 5),
+(95, b'0', 10, 2, 4, 6),
+(96, b'0', 10, 2, 4, 7),
+(97, b'0', 10, 2, 4, 8),
+(98, b'0', 10, 2, 5, 1),
+(99, b'0', 10, 2, 5, 2),
+(100, b'0', 10, 2, 5, 3),
+(101, b'0', 10, 2, 5, 4),
+(102, b'0', 10, 2, 5, 5),
+(103, b'0', 10, 2, 5, 6),
+(104, b'0', 10, 2, 5, 7),
+(105, b'0', 10, 2, 5, 8),
+(106, b'0', 10, 2, 6, 1),
+(107, b'0', 10, 2, 6, 2),
+(108, b'0', 10, 2, 6, 3),
+(109, b'0', 10, 2, 6, 4),
+(110, b'0', 10, 2, 6, 5),
+(111, b'0', 10, 2, 6, 6),
+(112, b'0', 10, 2, 6, 7),
+(113, b'0', 10, 2, 6, 8),
+(114, b'0', 10, 2, 7, 1),
+(115, b'0', 10, 2, 7, 2),
+(116, b'0', 10, 2, 7, 3),
+(117, b'0', 10, 2, 7, 4),
+(118, b'0', 10, 2, 7, 5),
+(119, b'0', 10, 2, 7, 6),
+(120, b'0', 10, 2, 7, 7),
+(121, b'0', 10, 2, 7, 8),
+(122, b'0', 10, 2, 8, 1),
+(123, b'0', 10, 2, 8, 2),
+(124, b'0', 10, 2, 8, 3),
+(125, b'0', 10, 2, 8, 4),
+(126, b'0', 10, 2, 8, 5),
+(127, b'0', 10, 2, 8, 6),
+(128, b'0', 10, 2, 8, 7),
+(129, b'0', 10, 2, 8, 8),
+(130, b'0', 10, 3, 1, 1),
+(131, b'0', 10, 3, 1, 2),
+(132, b'0', 10, 3, 1, 3),
+(133, b'0', 10, 3, 1, 4),
+(134, b'0', 10, 3, 1, 5),
+(135, b'0', 10, 3, 1, 6),
+(136, b'0', 10, 3, 1, 7),
+(137, b'0', 10, 3, 1, 8),
+(138, b'0', 10, 3, 2, 1),
+(139, b'0', 10, 3, 2, 2),
+(140, b'0', 10, 3, 2, 3),
+(141, b'0', 10, 3, 2, 4),
+(142, b'0', 10, 3, 2, 5),
+(143, b'0', 10, 3, 2, 6),
+(144, b'0', 10, 3, 2, 7),
+(145, b'0', 10, 3, 2, 8),
+(146, b'0', 10, 3, 3, 1),
+(147, b'0', 10, 3, 3, 2),
+(148, b'0', 10, 3, 3, 3),
+(149, b'0', 10, 3, 3, 4),
+(150, b'0', 10, 3, 3, 5),
+(151, b'0', 10, 3, 3, 6),
+(152, b'0', 10, 3, 3, 7),
+(153, b'0', 10, 3, 3, 8),
+(154, b'0', 10, 3, 4, 1),
+(155, b'0', 10, 3, 4, 2),
+(156, b'0', 10, 3, 4, 3),
+(157, b'0', 10, 3, 4, 4),
+(158, b'0', 10, 3, 4, 5),
+(159, b'0', 10, 3, 4, 6),
+(160, b'0', 10, 3, 4, 7),
+(161, b'0', 10, 3, 4, 8),
+(162, b'0', 10, 3, 5, 1),
+(163, b'0', 10, 3, 5, 2),
+(164, b'0', 10, 3, 5, 3),
+(165, b'0', 10, 3, 5, 4),
+(166, b'0', 10, 3, 5, 5),
+(167, b'0', 10, 3, 5, 6),
+(168, b'0', 10, 3, 5, 7),
+(169, b'0', 10, 3, 5, 8),
+(170, b'0', 10, 3, 6, 1),
+(171, b'0', 10, 3, 6, 2),
+(172, b'0', 10, 3, 6, 3),
+(173, b'0', 10, 3, 6, 4),
+(174, b'0', 10, 3, 6, 5),
+(175, b'0', 10, 3, 6, 6),
+(176, b'0', 10, 3, 6, 7),
+(177, b'0', 10, 3, 6, 8),
+(178, b'0', 10, 3, 7, 1),
+(179, b'0', 10, 3, 7, 2),
+(180, b'0', 10, 3, 7, 3),
+(181, b'0', 10, 3, 7, 4),
+(182, b'0', 10, 3, 7, 5),
+(183, b'0', 10, 3, 7, 6),
+(184, b'0', 10, 3, 7, 7),
+(185, b'0', 10, 3, 7, 8),
+(186, b'0', 10, 3, 8, 1),
+(187, b'0', 10, 3, 8, 2),
+(188, b'0', 10, 3, 8, 3),
+(189, b'0', 10, 3, 8, 4),
+(190, b'0', 10, 3, 8, 5),
+(191, b'0', 10, 3, 8, 6),
+(192, b'0', 10, 3, 8, 7),
+(193, b'0', 10, 3, 8, 8),
+(194, b'0', 10, 4, 1, 1),
+(195, b'0', 10, 4, 1, 2),
+(196, b'0', 10, 4, 1, 3),
+(197, b'0', 10, 4, 1, 4),
+(198, b'0', 10, 4, 1, 5),
+(199, b'0', 10, 4, 1, 6),
+(200, b'0', 10, 4, 1, 7),
+(201, b'0', 10, 4, 1, 8),
+(202, b'0', 10, 4, 2, 1),
+(203, b'0', 10, 4, 2, 2),
+(204, b'0', 10, 4, 2, 3),
+(205, b'0', 10, 4, 2, 4),
+(206, b'0', 10, 4, 2, 5),
+(207, b'0', 10, 4, 2, 6),
+(208, b'0', 10, 4, 2, 7),
+(209, b'0', 10, 4, 2, 8),
+(210, b'0', 10, 4, 3, 1),
+(211, b'0', 10, 4, 3, 2),
+(212, b'0', 10, 4, 3, 3),
+(213, b'0', 10, 4, 3, 4),
+(214, b'0', 10, 4, 3, 5),
+(215, b'0', 10, 4, 3, 6),
+(216, b'0', 10, 4, 3, 7),
+(217, b'0', 10, 4, 3, 8),
+(218, b'0', 10, 4, 4, 1),
+(219, b'0', 10, 4, 4, 2),
+(220, b'0', 10, 4, 4, 3),
+(221, b'0', 10, 4, 4, 4),
+(222, b'0', 10, 4, 4, 5),
+(223, b'0', 10, 4, 4, 6),
+(224, b'0', 10, 4, 4, 7),
+(225, b'0', 10, 4, 4, 8),
+(226, b'0', 10, 4, 5, 1),
+(227, b'0', 10, 4, 5, 2),
+(228, b'0', 10, 4, 5, 3),
+(229, b'0', 10, 4, 5, 4),
+(230, b'0', 10, 4, 5, 5),
+(231, b'0', 10, 4, 5, 6),
+(232, b'0', 10, 4, 5, 7),
+(233, b'0', 10, 4, 5, 8),
+(234, b'0', 10, 4, 6, 1),
+(235, b'0', 10, 4, 6, 2),
+(236, b'0', 10, 4, 6, 3),
+(237, b'0', 10, 4, 6, 4),
+(238, b'0', 10, 4, 6, 5),
+(239, b'0', 10, 4, 6, 6),
+(240, b'0', 10, 4, 6, 7),
+(241, b'0', 10, 4, 6, 8),
+(242, b'0', 10, 4, 7, 1),
+(243, b'0', 10, 4, 7, 2),
+(244, b'0', 10, 4, 7, 3),
+(245, b'0', 10, 4, 7, 4),
+(246, b'0', 10, 4, 7, 5),
+(247, b'0', 10, 4, 7, 6),
+(248, b'0', 10, 4, 7, 7),
+(249, b'0', 10, 4, 7, 8),
+(250, b'0', 10, 4, 8, 1),
+(251, b'0', 10, 4, 8, 2),
+(252, b'0', 10, 4, 8, 3),
+(253, b'0', 10, 4, 8, 4),
+(254, b'0', 10, 4, 8, 5),
+(255, b'0', 10, 4, 8, 6),
+(256, b'0', 10, 4, 8, 7),
+(257, b'0', 10, 4, 8, 8),
+(258, b'0', 10, 5, 1, 1),
+(259, b'0', 10, 5, 1, 2),
+(260, b'0', 10, 5, 1, 3),
+(261, b'0', 10, 5, 1, 4),
+(262, b'0', 10, 5, 1, 5),
+(263, b'0', 10, 5, 1, 6),
+(264, b'0', 10, 5, 1, 7),
+(265, b'0', 10, 5, 1, 8),
+(266, b'0', 10, 5, 2, 1),
+(267, b'0', 10, 5, 2, 2),
+(268, b'0', 10, 5, 2, 3),
+(269, b'0', 10, 5, 2, 4),
+(270, b'0', 10, 5, 2, 5),
+(271, b'0', 10, 5, 2, 6),
+(272, b'0', 10, 5, 2, 7),
+(273, b'0', 10, 5, 2, 8),
+(274, b'0', 10, 5, 3, 1),
+(275, b'0', 10, 5, 3, 2),
+(276, b'0', 10, 5, 3, 3),
+(277, b'0', 10, 5, 3, 4),
+(278, b'0', 10, 5, 3, 5),
+(279, b'0', 10, 5, 3, 6),
+(280, b'0', 10, 5, 3, 7),
+(281, b'0', 10, 5, 3, 8),
+(282, b'0', 10, 5, 4, 1),
+(283, b'0', 10, 5, 4, 2),
+(284, b'0', 10, 5, 4, 3),
+(285, b'0', 10, 5, 4, 4),
+(286, b'0', 10, 5, 4, 5),
+(287, b'0', 10, 5, 4, 6),
+(288, b'0', 10, 5, 4, 7),
+(289, b'0', 10, 5, 4, 8),
+(290, b'0', 10, 5, 5, 1),
+(291, b'0', 10, 5, 5, 2),
+(292, b'0', 10, 5, 5, 3),
+(293, b'0', 10, 5, 5, 4),
+(294, b'0', 10, 5, 5, 5),
+(295, b'0', 10, 5, 5, 6),
+(296, b'0', 10, 5, 5, 7),
+(297, b'0', 10, 5, 5, 8),
+(298, b'0', 10, 5, 5, 1),
+(299, b'0', 10, 5, 5, 2),
+(300, b'0', 10, 5, 5, 3),
+(301, b'0', 10, 5, 5, 4),
+(302, b'0', 10, 5, 5, 5),
+(303, b'0', 10, 5, 5, 6),
+(304, b'0', 10, 5, 5, 7),
+(305, b'0', 10, 5, 5, 8),
+(306, b'0', 10, 5, 5, 1),
+(307, b'0', 10, 5, 5, 2),
+(308, b'0', 10, 5, 5, 3),
+(309, b'0', 10, 5, 5, 4),
+(310, b'0', 10, 5, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -295,20 +585,20 @@ CREATE TABLE `property` (
   `id_property` bigint(20) NOT NULL,
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `property`
 --
 
 INSERT INTO `property` (`id_property`, `is_delete`, `name`) VALUES
-(1, b'0', 'xanh'),
-(2, b'0', 'đỏ'),
-(3, b'0', 'tím'),
-(4, b'0', 'vàng'),
-(5, b'0', 'hồng'),
-(6, b'0', 'nâu'),
-(7, b'0', 'đen'),
+(1, b'0', 'Xanh'),
+(2, b'0', 'Đỏ'),
+(3, b'0', 'Tím'),
+(4, b'0', 'Vàng'),
+(5, b'0', 'Hồng'),
+(6, b'0', 'Nâu'),
+(7, b'0', 'Đen'),
 (8, b'0', 'tím');
 
 -- --------------------------------------------------------
@@ -320,7 +610,7 @@ INSERT INTO `property` (`id_property`, `is_delete`, `name`) VALUES
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `name` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `roles`
@@ -341,7 +631,7 @@ CREATE TABLE `size` (
   `id` bigint(20) NOT NULL,
   `is_delete` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `size`
@@ -370,7 +660,7 @@ CREATE TABLE `users` (
   `password` varchar(120) DEFAULT NULL,
   `phone` varchar(11) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
@@ -390,7 +680,7 @@ INSERT INTO `users` (`id`, `email`, `is_delete`, `password`, `phone`, `username`
 CREATE TABLE `user_roles` (
   `user_id` bigint(20) NOT NULL,
   `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `user_roles`
@@ -416,7 +706,7 @@ CREATE TABLE `voucher` (
   `minimum_value` double DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `id_bill` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `voucher`
@@ -435,7 +725,7 @@ INSERT INTO `voucher` (`id`, `amount`, `discount`, `id_event`, `is_delete`, `min
 CREATE TABLE `voucherbill` (
   `id` bigint(20) NOT NULL,
   `id_bill` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -591,7 +881,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT cho bảng `product_detail`
 --
 ALTER TABLE `product_detail`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=311;
 
 --
 -- AUTO_INCREMENT cho bảng `property`

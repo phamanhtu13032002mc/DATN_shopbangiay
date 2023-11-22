@@ -29,4 +29,5 @@ public interface BillService {
 
     Object findByDatePhoneStatus(SearchBill searchBill);
 
+    Object findByIdBill(Long idBill);
 }
