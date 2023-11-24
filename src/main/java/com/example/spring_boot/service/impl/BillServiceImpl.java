@@ -33,7 +33,8 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Autowired
     ProductDetailRepository productDetailRepository;
 
-
+    @Autowired
+    EmailServiceImpl emailService;
     @Autowired
     VoucherRepository voucherRepository;
     @Autowired
@@ -108,6 +109,10 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setNote(createBillManger.getNote());
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
+            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
+            if (customer.get().getEmail() != null) {
+                emailService.sendCreateBill(customerEntity, billEntity);
+            }
             return new DataObj().setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();

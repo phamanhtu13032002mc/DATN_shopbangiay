@@ -1,6 +1,7 @@
 package com.example.spring_boot.service;
 
 import com.example.spring_boot.entity.OrderDetailEntity;
+import com.example.spring_boot.payload.request.CustomerRequest;
 import com.example.spring_boot.payload.request.OrderDetailRequest;
 import org.springframework.data.domain.Page;
 
@@ -12,7 +13,6 @@ public interface OrderDetailService {
 
 
     Object detele(OrderDetailRequest orderDetailRequest);
-
 
 
 

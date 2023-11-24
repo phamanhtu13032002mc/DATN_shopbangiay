@@ -2,6 +2,7 @@ package com.example.spring_boot.service.impl;
 
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.CustomerRequest;
 import com.example.spring_boot.payload.request.OrderDetailRequest;
 import com.example.spring_boot.repository.BillRepository;
 import com.example.spring_boot.repository.OrderDetailRepository;
@@ -38,6 +39,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi xóa");
         }
     }
+
     @Override
     public Page<OrderDetailEntity> findByIdBill(OrderDetailRequest orderDetailRequest) {
 
