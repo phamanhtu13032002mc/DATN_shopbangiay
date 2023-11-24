@@ -18,8 +18,7 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     @Query("SELECT DISTINCT p " +
             "FROM ProductEntity p " +
-            "JOIN p.categoryEntity " +
-            "JOIN p.productDetailEntities " +
+
             "WHERE (:productId IS NULL OR p.id = :productId) " +
             "AND (:nameProduct IS NULL OR p.nameProduct = :nameProduct) " +
             "AND (:nameCate IS NULL OR p.categoryEntity.name = :nameCate) " +
