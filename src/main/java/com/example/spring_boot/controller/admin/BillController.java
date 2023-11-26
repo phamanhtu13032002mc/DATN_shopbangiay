@@ -5,6 +5,7 @@ import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.request.*;
 import com.example.spring_boot.service.BillService;
 import com.example.spring_boot.service.OrderDetailService;
+import com.example.spring_boot.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,8 @@ public class BillController {
     BillService billService;
     @Autowired
     OrderDetailService orderDetailService;
+    @Autowired
+    EmailServiceImpl emailService;
 
     @PostMapping(value = "/create-bill")
     public  ResponseEntity<?> createBill(@RequestBody CreateBillManger createBillManger){
@@ -57,6 +60,15 @@ public class BillController {
     @GetMapping(value = "/find-by-id_bill/{idBill}")
     public ResponseEntity<?> findByIdBill(@PathVariable("idBill") Long idBill){
         return ResponseEntity.ok(billService.findByIdBill(idBill));
+    }
+    @PostMapping(value = "/send-mail")
+    public ResponseEntity<?> sendMail(@RequestBody CustomerRequest customerRequest) {
+        try {
+            emailService.sendCreateBill(customerRequest);
+            return ResponseEntity.ok("Email sent successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email.");
+        }
     }
 
 
