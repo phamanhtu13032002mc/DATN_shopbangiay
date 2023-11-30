@@ -59,6 +59,7 @@ public class ProductServiceImpl implements ProductService {
                     productRequest.getPage().intValue(),
                     productRequest.getSize().intValue()
             );
+
             return productRepository.findAllProduct(productRequest.getId(),productRequest.getNameProduct(),productRequest.getCategoryName(), pageable);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -106,6 +107,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id);
     }
 
+
     @Override
     public DataObj save( CreateProduct createProduct) {
 
@@ -147,7 +149,8 @@ public class ProductServiceImpl implements ProductService {
                 product.setCategoryEntity(category.get());
                 product.setDate_create(LocalDate.now());
                 ProductEntity entity = productRepository.save(product);
-                productDetail.setIdProduct(product);
+                //sai the nay ma bao dung a Kien
+                productDetail.setIdProduct(entity);
                 productDetail.setIdProperty(property.get());
                 productDetail.setQuantity(createProduct.getQuantity());
                 productDetail.setIdProperty(property.get());

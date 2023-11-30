@@ -16,11 +16,11 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
-    @Query("SELECT DISTINCT p " +
+    @Query("SELECT p " +
             "FROM ProductEntity p " +
             "WHERE (:productId IS NULL OR p.id = :productId) " +
-            "AND (:nameProduct IS NULL OR p.nameProduct = :nameProduct) " +
-            "AND (:nameCate IS NULL OR p.categoryEntity.name = :nameCate) " +
+            "AND (:nameProduct IS NULL OR p.nameProduct LIKE CONCAT('%', :nameProduct, '%')) " +
+            "AND (:nameCate IS NULL OR p.categoryEntity.name LIKE CONCAT('%', :nameCate, '%')) " +
             "AND p.isDelete = false")
     Page<Object[]> findAllProduct(
             @Param("productId") Long productId,

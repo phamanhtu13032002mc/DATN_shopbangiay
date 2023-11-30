@@ -15,14 +15,16 @@ public class ProductDetailController {
     @Autowired
     ProductDetailService productDetailService;
 
-
-
     @PostMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteProductDetail(@PathVariable("id") long id) {
         productDetailService.delete(id);
         return new ResponseEntity("successfully", HttpStatus.OK);
     }
 
+    @PostMapping("/find-list-product")
+    public ResponseEntity<?> findProductDetail(@RequestBody ProductDetailRequest productDetailRequest) {
+        return ResponseEntity.ok(productDetailService.findProductDetailByProduct(productDetailRequest));
+    }
 
 
-}
+    }
