@@ -17,4 +17,6 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity,Long> {
     Page<CustomerEntity> findByNameLike(String name,Pageable pageable);
     @Query(value = "SELECT * FROM customer  cs WHERE cs.id_user = ?",nativeQuery = true)
     CustomerEntity findByIdUser(Long id);
+    @Query(value = "SELECT * FROM customer WHERE customer.email = ? AND customer.is_delete = false",nativeQuery = true)
+    CustomerEntity findByEmail(String email);
 }

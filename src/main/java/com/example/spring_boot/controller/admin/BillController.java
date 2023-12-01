@@ -67,7 +67,9 @@ public class BillController {
             emailService.sendCreateBill(customerRequest);
             return ResponseEntity.ok("Email sent successfully.");
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email.");
+
         }
     }
 

@@ -48,25 +48,20 @@ public class EmailServiceImpl {
     }
     public void sendCreateBill(CustomerRequest customerRequest)
             throws UnsupportedEncodingException, MessagingException {
-        // Convert CustomerRequest to CustomerEntity if needed
-        CustomerEntity customerEntity = convertToCustomerEntity(customerRequest);
 
-        // Now you can use customerEntity in your existing logic
-        // ...
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
         helper.setFrom("contact@shopme.com", "Stride Style Shoes");
-        helper.setTo(customerEntity.getEmail());
+        helper.setTo(customerRequest.getEmail());
 
         String subject = "Đã tạo đơn hàng!";
-        String content = "<p>Xin chào <b>" + customerEntity.getFullName() + "!</b></p>"
+        String content = "<p>Xin chào <b>" + customerRequest.getFullName() + "!</b></p>"
                 + "<p>Đơn hàng của bạn đã được tạo!</p>"
                 + "<p>Thông tin đơn hàng.</p>"
                 + "<br>"
-                + "<p>Họ tên người nhận: <b>" + customerEntity.getFullName() + "</b></p>"
-                + "<p>Địa chỉ nhận hàng: <b>" + customerEntity.getAddress() + "</b></p>"
+                + "<p>Họ tên người nhận: <b>" + customerRequest.getFullName() + "</b></p>"
+                + "<p>Địa chỉ nhận hàng: <b>" + customerRequest.getAddress() + "</b></p>"
                 + "<br>"
                 + "<p><u>Mọi thắc mắc vui lòng liên hệ:</u> stridestyleshoes@gmail.com</p>";
 
