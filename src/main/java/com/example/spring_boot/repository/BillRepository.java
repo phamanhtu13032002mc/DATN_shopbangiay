@@ -73,4 +73,6 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "AND (:statusShipping IS NULL OR b.statusShipping = :statusShipping)"+
             "GROUP BY b.id")
     Page<BillEntity> findAllBill(LocalDate dateTo, LocalDate startDate, String phone, String email, EnumShipping statusShipping, Pageable pageable);
+
+    Page<BillEntity> findAllBillByIdCustomer(int idCustomer, Pageable pageable);
 }

@@ -50,6 +50,11 @@ public class BillController {
             @RequestBody SearchBill searchBill) {
         return ResponseEntity.ok(billService.findByDatePhoneStatus(searchBill));
     }
+    @PostMapping(value = "/find-all-by-id-customer")
+    public ResponseEntity<?> findAllByIdCustomer(
+            @RequestBody FindIdByCustomer findIdByCustomer) {
+        return ResponseEntity.ok(billService.findAllByIdCustomer(findIdByCustomer));
+    }
 
 
 
