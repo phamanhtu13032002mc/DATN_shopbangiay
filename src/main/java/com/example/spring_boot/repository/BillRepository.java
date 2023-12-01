@@ -2,18 +2,17 @@ package com.example.spring_boot.repository;
 
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.EnumShipping;
-import com.example.spring_boot.payload.request.BillRequest;
-import com.example.spring_boot.payload.request.SearchBill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 
 public interface BillRepository extends JpaRepository<BillEntity, Long> {
 
-    @Query(value = "SELECT * FROM bill WHERE id = ?",nativeQuery = true)
+    @Query(value = "SELECT * FROM bill WHERE id = ?", nativeQuery = true)
     BillEntity findByidBill(Long id);
 
     @Query(value = "SELECT b, v, c, o FROM BillEntity b " +
@@ -25,31 +24,35 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
     Page<Object> findByNameLike(String name, Pageable pageable);
 
 
-    @Query(value = "SELECT b " +
+    @Query("SELECT b " +
             "FROM BillEntity b " +
             "JOIN b.oderDetailEntities " +
-            "LEFT JOIN b.voucherEntities "  +
+            "LEFT JOIN b.voucherEntities " +
             "LEFT JOIN b.customerEntity  " +
-            "WHERE  (:startDate IS NULL OR  b.createAt >= :startDate ) " +
-            "AND (:dateTo IS NULL OR  b.createAt <= :dateTo )"+
-            "AND (:phone IS NULL OR b.customerEntity.phone = :phone)"+
-            "AND (:email IS NULL OR b.customerEntity.email = :email)"+
-            "AND (:statusShipping IS NULL OR b.statusShipping = :statusShipping)"+
+            "WHERE (:startDate IS NULL OR b.createAt = :startDate) " +
+            "AND (:phone IS NULL OR b.sdt LIKE CONCAT('%', :phone, '%')) " +
+            "AND (:email IS NULL OR b.fullName LIKE CONCAT('%', :email, '%')) " +
+            "AND (:statusShipping IS NULL OR b.statusShipping = :statusShipping) " +
+            "AND (:payment IS NULL OR b.payment = :payment) " +
             "GROUP BY b.id")
     Page<Object> findAllBill(
-            LocalDate dateTo, LocalDate startDate, String phone, String email, String statusShipping, Pageable pageable
+            @Param("startDate") LocalDate startDate,
+            @Param("phone") String phone,
+            @Param("email") String email,
+            @Param("statusShipping") EnumShipping statusShipping,
+            @Param("payment") Integer payment,
+            Pageable pageable
     );
 
 
     @Query(value = "SELECT b " +
             "FROM BillEntity b " +
             "JOIN b.oderDetailEntities " +
-            "LEFT JOIN b.voucherEntities "  +
+            "LEFT JOIN b.voucherEntities " +
             "LEFT JOIN b.customerEntity  " +
-            "WHERE  "+
+            "WHERE  " +
             "b.id = :idBill")
     Object findBillById(Long idBill);
-
 
 
 }

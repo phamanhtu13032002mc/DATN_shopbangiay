@@ -15,7 +15,8 @@ public class SearchBill {
     private LocalDate dateTo;
     private String phone;
     private String email;
-    private String statusShipping;
+    private Integer payment;
+    private EnumShipping statusShipping;
     private int page;
     private int size;
 

@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDetailRequest {
     private long   orderDetailId;
-
     private long   productId;
     private String productName;
     private String  image;

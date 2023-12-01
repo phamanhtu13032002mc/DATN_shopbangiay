@@ -45,6 +45,7 @@ public class ProductEntity implements Serializable {
     @JoinColumn(name = "id_category")
     private CategoryEntity categoryEntity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "idProduct")
     private List<ProductDetailEntity> productDetailEntities;
 }

@@ -13,4 +13,5 @@ public class ProductDetailRequest {
     private Long page;
     private Long size;
 
+    private Long productId;
 }

@@ -49,6 +49,7 @@ public class BillEntity implements Serializable {
     private String fullName;//họ tên nhận hàng
 
     private String sdt;
+    private Boolean salesStatus;
 
     @Length(max = 2000)
     private String noteRefund;

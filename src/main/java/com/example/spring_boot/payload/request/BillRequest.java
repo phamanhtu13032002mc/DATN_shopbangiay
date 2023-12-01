@@ -31,6 +31,7 @@ public class BillRequest {
     private Double discount;
     private Double downTotal;
     private Boolean payment;
+    private Boolean salesStatus;
 
     private Double total;
 

@@ -1,7 +1,11 @@
 package com.example.spring_boot.service;
 
+import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.UrlVnpayRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface VnPayService {
-      String getUrlVnp(UrlVnpayRequest urlVnpayRequest);
+      DataObj getUrlVnp(UrlVnpayRequest urlVnpayRequest);
+      DataObj ReturnURL(HttpServletRequest request);
 }
