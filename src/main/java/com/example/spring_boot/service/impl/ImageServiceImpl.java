@@ -1,6 +1,9 @@
 package com.example.spring_boot.service.impl;
 
+import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.ImageEntity;
+import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.FindImageByIdPrdRequest;
 import com.example.spring_boot.payload.request.ImageRequest;
 import com.example.spring_boot.repository.ImageRepository;
 import com.example.spring_boot.service.ImageService;
@@ -27,6 +30,19 @@ public class ImageServiceImpl implements ImageService {
     public Page<ImageEntity> findAllImage(ImageRequest imageRequest) {
         Pageable pageable = PageRequest.of(Math.toIntExact(imageRequest.getPage()), Math.toIntExact(imageRequest.getSize()));
         return imageRepository.findAllImage(imageRequest, pageable);
+    }
+
+    @Override
+    public Object findImageByIdProduct(FindImageByIdPrdRequest findImageByIdPrdRequest) {
+        Pageable pageable = PageRequest.of(Math.toIntExact(findImageByIdPrdRequest.getPage()), Math.toIntExact(findImageByIdPrdRequest.getSize()));
+        Page<ImageEntity> imageEntities = imageRepository.findByNameLike(findImageByIdPrdRequest.getIdProduct(), pageable);
+
+        DataObj dataObj = new DataObj();
+        dataObj.setEcode("200");
+        dataObj.setEdesc("success");
+        dataObj.setData(imageEntities.getContent());
+
+        return dataObj;
     }
 
 

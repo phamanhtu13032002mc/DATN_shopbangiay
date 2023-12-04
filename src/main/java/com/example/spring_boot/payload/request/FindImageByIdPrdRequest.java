@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindIdByCustomer {
-    private Long id_customer;
+public class FindImageByIdPrdRequest {
+    private Long idProduct;
     private int page;
     private int size;
 }

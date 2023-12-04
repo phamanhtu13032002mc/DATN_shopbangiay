@@ -26,6 +26,6 @@ public interface PropertyRepository extends JpaRepository<PropertyEntity,Long> {
     @Query(value = "select p from PropertyEntity p where p.idProperty =?1 ")
     List<CategoryEntity> findByPropertyID(Long id);
 
-    @Query("SELECT P FROM PropertyEntity P WHERE P.name LIKE %:name%")
+    @Query("SELECT P FROM PropertyEntity P WHERE :name IS NULL OR P.name LIKE %:name%")
     Page<PropertyEntity> findByNameLike(String name, Pageable pageable);
 }
