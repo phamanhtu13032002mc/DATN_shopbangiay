@@ -28,4 +28,6 @@ public interface PropertyRepository extends JpaRepository<PropertyEntity,Long> {
 
     @Query("SELECT P FROM PropertyEntity P WHERE :name IS NULL OR P.name LIKE %:name%")
     Page<PropertyEntity> findByNameLike(String name, Pageable pageable);
+
+    boolean existsByName(String name);
 }

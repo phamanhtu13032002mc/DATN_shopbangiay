@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface ImageService {
 
+
+
     Optional<ImageEntity> findByID(Long id);
 
 
@@ -18,4 +20,6 @@ public interface ImageService {
     Page<ImageEntity> findAllImage(ImageRequest imageRequest);
 
     Object findImageByIdProduct(FindImageByIdPrdRequest findImageByIdPrdRequest);
+
+    Object deleteImagesByProductId(Long idProduct);
 }

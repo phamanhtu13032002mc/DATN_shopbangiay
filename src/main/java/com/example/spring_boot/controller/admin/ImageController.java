@@ -33,11 +33,18 @@ public class ImageController {
             return new ResponseEntity("Category not found for ID: " + id, HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping(value = "/find-image-by-id-product")
-    public ResponseEntity<?> findImageByIdProduct(
-            @RequestBody FindImageByIdPrdRequest findImageByIdPrdRequest) {
-        return ResponseEntity.ok(imageService.findImageByIdProduct(findImageByIdPrdRequest));
+        @PostMapping(value = "/find-image-by-id-product")
+        public ResponseEntity<?> findImageByIdProduct(
+                @RequestBody FindImageByIdPrdRequest findImageByIdPrdRequest) {
+            return ResponseEntity.ok(imageService.findImageByIdProduct(findImageByIdPrdRequest));
+        }
+    @PostMapping("/delete-images-by-product-id")
+    public ResponseEntity<Object> deleteImagesByProductId(@RequestBody FindImageByIdPrdRequest findImageByIdPrdRequest) {
+        Long idProduct = findImageByIdPrdRequest.getIdProduct();
+        Object result = imageService.deleteImagesByProductId(idProduct);
+        return ResponseEntity.ok(result);
     }
+
 
 
 

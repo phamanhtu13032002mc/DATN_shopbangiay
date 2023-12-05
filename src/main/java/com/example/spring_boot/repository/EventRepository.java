@@ -15,4 +15,6 @@ public interface EventRepository extends JpaRepository<EventEntity,Long>{
     Page<EventEntity> findAllEvent(EventRequest eventRequest, Pageable pageable);
     @Query("SELECT E FROM EventEntity E WHERE :name IS NULL OR E.name LIKE %:name%")
     Page<EventEntity> findByNameLike(@Param("name") String name,Pageable pageable);
+
+    boolean existsByName(String name);
 }

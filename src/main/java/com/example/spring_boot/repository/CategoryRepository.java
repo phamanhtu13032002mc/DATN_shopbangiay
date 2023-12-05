@@ -25,5 +25,5 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity,Long> {
     List<CategoryEntity> findByCategoryID(Long id);
 
 
-
+    boolean existsByName(String name);
 }
