@@ -18,9 +18,8 @@ public class ProductDetailEntity implements Serializable {
 
     private Long quantity;
 
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_product", updatable = false, insertable = false)
+    @JoinColumn(name = "id_product")
     private ProductEntity idProduct;
 
 

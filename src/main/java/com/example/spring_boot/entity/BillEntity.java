@@ -21,7 +21,7 @@ public class BillEntity implements Serializable {
     @Id
     private Long id;
 
-    private EnumShipping statusShipping = EnumShipping.CHUA_XAC_NHAN;//tình trạng giao hàng
+    private EnumShipping statusShipping;//tình trạng giao hàng
 
     private Double transportFee;//phí vận chuyển
 
@@ -31,11 +31,11 @@ public class BillEntity implements Serializable {
 
     private Double downTotal;// giá sau khi giảm
 
-    private Boolean payment;// thanh toán bằng gì flase mua hàng r thanh toán, true thanh toán bằng ví
+    private int payment;// thanh toán bằng gì flase mua hàng r thanh toán, true thanh toán bằng ví
 
     private Double total;//thanh toán
 
-    private String sale_point;//điểm bán hàng
+    private String salePoint;//điểm bán hàng
 
     private String address;//địa chỉ
 
@@ -49,8 +49,7 @@ public class BillEntity implements Serializable {
     private String fullName;//họ tên nhận hàng
 
     private String sdt;
-
-    private EnumRefund refund;
+    private Boolean salesStatus;
 
     @Length(max = 2000)
     private String noteRefund;
@@ -62,17 +61,12 @@ public class BillEntity implements Serializable {
     @JsonIgnore
     private Boolean isDelete = false;
 
-    private Long idWard;
 
-
-
-    @JsonIgnore
     @OneToMany(mappedBy = "billEntity")
     private List<VoucherEntity> voucherEntities;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "billEntity")
-    List<OrderDetailEntity> oderDetailEntities;
+    private List<OrderDetailEntity> oderDetailEntities;
 
 
 }

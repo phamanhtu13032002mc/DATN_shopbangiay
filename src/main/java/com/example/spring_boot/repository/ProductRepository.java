@@ -16,13 +16,11 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
-    @Query("SELECT DISTINCT p " +
+    @Query("SELECT p " +
             "FROM ProductEntity p " +
-            "JOIN p.categoryEntity " +
-            "JOIN p.productDetailEntities " +
             "WHERE (:productId IS NULL OR p.id = :productId) " +
-            "AND (:nameProduct IS NULL OR p.nameProduct = :nameProduct) " +
-            "AND (:nameCate IS NULL OR p.categoryEntity.name = :nameCate) " +
+            "AND (:nameProduct IS NULL OR p.nameProduct LIKE CONCAT('%', :nameProduct, '%')) " +
+            "AND (:nameCate IS NULL OR p.categoryEntity.name LIKE CONCAT('%', :nameCate, '%')) " +
             "AND p.isDelete = false")
     Page<Object[]> findAllProduct(
             @Param("productId") Long productId,
@@ -44,6 +42,18 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     @Query(value = "SELECT * FROM product p WHERE p.id = ? ",nativeQuery = true)
     ProductEntity findByIdProduct(Long id);
 
+    @Query(value = "SELECT * FROM product p WHERE p.name_product = ? ",nativeQuery = true)
+    ProductEntity findByCorrectNameProduct(String name_product);
 
+
+    @Query(value = "SELECT product.id AS product_id, category.id AS category_id, product_detail.id AS product_detail_id, " +
+            "product.name_product, category.name AS category_name " +
+            "FROM product " +
+            "JOIN category ON product.id_category = category.id " +
+            "JOIN product_detail ON product.id = product_detail.id_product " +
+            "WHERE product.is_delete = FALSE " +
+            "AND product.name_product LIKE %:productName% " +
+            "GROUP BY product_detail.id ", nativeQuery = true)
+    List<Object[]> findProductsByName(@Param("productName") String productName);
 
 }

@@ -1,15 +1,11 @@
 package com.example.spring_boot.service.impl;
 
-import com.example.spring_boot.controller.AuthController;
 import com.example.spring_boot.controller.BaseController;
 import com.example.spring_boot.entity.*;
-
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.BillService;
-import com.example.spring_boot.service.UserDetailImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -32,19 +31,25 @@ public class BillServiceImpl extends BaseController implements BillService {
     OrderDetailRepository orderDetailRepository;
     @Autowired
     ProductDetailRepository productDetailRepository;
-    @Autowired
-    ObjectMapper objectMapper;
 
+    @Autowired
+    EmailServiceImpl emailService;
     @Autowired
     VoucherRepository voucherRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    PropertyRepository propertyRepository;
+
+    @Autowired
+    SizeRepository sizeRepository;
+
 
     @Override
-    public DataObj create(BillRequest billRequest) {
+    public DataObj create(CreateBillManger createBillManger) {
         try {
             long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
-            CustomerEntity customer = customerRepository.findByIdUser(getAuthUID());
+            Optional<CustomerEntity> customer = customerRepository.findById(createBillManger.getIdCustomer());
             BillEntity billEntity = new BillEntity();
             billEntity.setId(randomNumber);
             while (billRepository.existsById(billEntity.getId())) {
@@ -52,24 +57,24 @@ public class BillServiceImpl extends BaseController implements BillService {
 
             }
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
-            billEntity.setCustomerEntity(customer);
+            billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
-            billEntity.setAddress(billRequest.getAddress());
-            List<ProductDetailRequest> productDetailRequests = billRequest.getProductDetail();
-            for (ProductDetailRequest pdr : productDetailRequests) {
-                ProductDetailEntity productEntity = productDetailRepository.findByIdProductDetail(pdr.getId());
+            List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
+            for (OrderDetailRequest odr : orderDetailRequests) {
+                ProductDetailEntity productEntity = productDetailRepository.findByIdProductDetail(odr.getProductId());
                 ProductEntity product = productRepository.findByIdProduct(productEntity.getIdProduct().getId());
+
 
                 if (product == null) {
                     return new DataObj().setEdesc("400").setEdesc("Sản phẩm không tồn tại");
                 }
-                if (productEntity.getQuantity() < pdr.getQuantityBill()) {
+                if (productEntity.getQuantity() < odr.getQuantity()) {
                     return new DataObj().setEdesc("400").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
 
                 }
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
                 orderDetailEntity.setProductDetailEntities(productEntity);
-                orderDetailEntity.setQuantity_oder(pdr.getQuantityBill());
+                orderDetailEntity.setQuantity_oder(odr.getQuantity());
                 orderDetailEntity.setPrice(product.getPrice());
                 orderDetailEntity.setDownPrice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
                 orderDetailEntity.setIntoMoney(product.getPrice() - orderDetailEntity.getDownPrice());
@@ -77,30 +82,134 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderdetails.add(orderDetailEntity);
 
             }
-            if (billRequest.getVoucher_id() != null) {
-                VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(billRequest.getVoucher_id());
+            if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
+                VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(createBillManger.getVoucherId());
                 if (voucherEntity == null) {
                     return new DataObj().setEdesc("400").setEdesc("Không tìm thấy voucher");
 
                 }
-                if (billRequest.getTotal() < 350000L) {
+                if (createBillManger.getTotal() < 350000L) {
                     return new DataObj().setEdesc("400").setEdesc("Hóa Đơn Nhỏ Hơn 350k không thể ap dụng Voucher");
                 }
                 if (voucherEntity.getAmount() <= 0) {
                     return new DataObj().setEdesc("400").setEdesc("voucher đã hết hạn");
 
                 }
+
                 billEntity.setDiscount(voucherEntity.getDiscount());
                 billEntity.setVoucherId(voucherEntity.getId());
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
+                billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
+                billEntity.setAddress(createBillManger.getAddress());
+                billEntity.setSalesStatus(true);
+
+            billEntity.setSdt(createBillManger.getPhoneNumber());
+            billEntity.setTotal(createBillManger.getTotal());
+            billEntity.setTransportFee(billEntity.getTransportFee());
+            billEntity.setDownTotal(createBillManger.getDownTotal());
+            billEntity.setFullName(createBillManger.getFullName());
+            billEntity.setNote(createBillManger.getNote());
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
+//            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
+//            if (customer.get().getEmail() != null) {
+//                emailService.sendCreateBill(customerEntity, billEntity);
+//            }
             return new DataObj().setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEdesc("400").setEcode("Error");
+        }
+    }
+
+    @Override
+    public DataObj createOff(CreateBillManger createBillManger) {
+        try {
+            long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
+            Optional<CustomerEntity> customer = customerRepository.findById(createBillManger.getIdCustomer());
+            BillEntity billEntity = new BillEntity();
+            billEntity.setId(randomNumber);
+            while (billRepository.existsById(billEntity.getId())) {
+                billEntity.setId(randomNumber);
+
+            }
+            List<OrderDetailEntity> orderdetails = new ArrayList<>();
+            billEntity.setCustomerEntity(customer.get());
+            billEntity.setCreateAt(LocalDate.now());
+            List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
+            for (OrderDetailRequest odr : orderDetailRequests) {
+                ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(odr.getProductId(),odr.getPropertyId(),odr.getSizeId());
+                ProductEntity product = productRepository.findByIdProduct(odr.getProductId());
+                PropertyEntity property = propertyRepository.findByIdProperty(odr.getPropertyId());
+                SizeEntity sizeEntity = sizeRepository.findBySizeID(odr.getSizeId());
+                if (productEntity == null){
+                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+
+                }
+                if (product == null) {
+                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+                }
+                if (property == null){
+                    return new DataObj().setEdesc("420").setEdesc("Màu sắc không tồn tại");
+                }
+                if (sizeEntity == null){
+                    return new DataObj().setEdesc("420").setEdesc("size không tồn tại");
+                }
+                if (productEntity.getQuantity() < odr.getQuantity()) {
+                    return new DataObj().setEdesc("420").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
+                }
+
+                OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
+                orderDetailEntity.setProductDetailEntities(productEntity);
+                orderDetailEntity.setQuantity_oder(odr.getQuantity());
+                orderDetailEntity.setPrice(product.getPrice());
+                orderDetailEntity.setDownPrice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
+                orderDetailEntity.setIntoMoney(product.getPrice() - orderDetailEntity.getDownPrice());
+                orderDetailEntity.setBillEntity(billEntity);
+                orderdetails.add(orderDetailEntity);
+                    productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
+                    productDetailRepository.save(productEntity);
+            }
+            if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
+                VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(createBillManger.getVoucherId());
+                if (voucherEntity == null) {
+                    return new DataObj().setEdesc("420").setEdesc("Không tìm thấy voucher");
+
+                }
+                if (createBillManger.getTotal() < 350000L) {
+                    return new DataObj().setEdesc("420").setEdesc("Hóa Đơn Nhỏ Hơn 350k không thể ap dụng Voucher");
+                }
+                if (voucherEntity.getAmount() <= 0) {
+                    return new DataObj().setEdesc("420").setEdesc("voucher đã hết hạn");
+
+                }
+
+                billEntity.setDiscount(voucherEntity.getDiscount());
+                billEntity.setVoucherId(voucherEntity.getId());
+                voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
+                voucherRepository.save(voucherEntity);
+            }
+            billEntity.setStatusShipping(EnumShipping.KHACH_DA_NHAN_HANG);
+            billEntity.setAddress("shop bán giày");
+            billEntity.setSalesStatus(false);
+            billEntity.setSdt(createBillManger.getPhoneNumber());
+            billEntity.setTotal(createBillManger.getTotal());
+            billEntity.setTransportFee(billEntity.getTransportFee());
+            billEntity.setDownTotal(createBillManger.getDownTotal());
+            billEntity.setFullName(createBillManger.getFullName());
+            billEntity.setNote(createBillManger.getNote());
+            billRepository.save(billEntity);
+            orderDetailRepository.saveAll(orderdetails);
+//            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
+//            if (customer.get().getEmail() != null) {
+//                emailService.sendCreateBill(customerEntity, billEntity);
+//            }
+            return new DataObj().setEdesc("200").setEcode("success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEdesc("420").setEcode("Error");
         }
     }
 
@@ -199,47 +308,56 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public DataObj confirmBillManager(BillManager billManager) {
-        BillEntity billEntity = billRepository.findByidBill(billManager.getIdBill());
-        if (billEntity == null) {
-            return new DataObj().setEdesc("200").setEcode("Đơn hàng không tồn tại ");
-        }
+    public DataObj confirmBillManager(BillRequest billRequest) {
+        try {
+            BillEntity billEntity = billRepository.findByidBill(billRequest.getIdBill());
 
-        if (billEntity.getStatusShipping() == EnumShipping.CHUA_XAC_NHAN) {
-            billEntity.setStatusShipping(EnumShipping.DA_XAC_NHAN_VA_DONG_GOI);
-        }
-        if (billEntity.getStatusShipping() == EnumShipping.DA_GIAO_BEN_VAN_CHUYEN) {
-            return new DataObj().setEdesc("400").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
-        }
-        if (billEntity.getStatusShipping() == EnumShipping.HUY) {
-            return new DataObj().setEdesc("400").setEcode("Đơn hàng này đã được hủy trước đó");
-        }
-        if (billEntity.getStatusShipping() == EnumShipping.KHACH_DA_NHAN_HANG) {
-            return new DataObj().setEdesc("400").setEcode("khách đã nhận hàng không thể hủy");
-        }
-        if (billEntity.getStatusShipping() == EnumShipping.HOAN_HANG) {
-            return new DataObj().setEdesc("400").setEcode("đơn hàng đang được hoàn ề không thể hủy");
-        }
-        if (billEntity.getStatusShipping() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
-            return new DataObj().setEdesc("400").setEcode("đơn hàng đang trong trạng thái đã xác nhận và đóng gói rồi");
-        }
 
-        List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
-        List<OrderDetailEntity> orderDetailEntities = billEntity.getOderDetailEntities();
-        for (OrderDetailEntity orderDetailEntity : orderDetailEntities) {
-            ProductDetailEntity productDetailEntity = orderDetailEntity.getProductDetailEntities();
-            if (productDetailEntity.getQuantity() < orderDetailEntity.getQuantity_oder()) {
-                return new DataObj().setEdesc("400").setEcode("số lượng sản phẩm " + productDetailEntity.getIdProduct().getNameProduct() + " quá lớn hăc sản phẩm đã hết");
+            if (billRequest.getOrderDetailRequests() != null) {
+                List<OrderDetailRequest> orderDetail = billRequest.getOrderDetailRequests();
+                for (OrderDetailRequest orderDetailRequest : orderDetail) {
+                    if (orderDetailRequest.getOrderDetailId() != 0) {
+                        OrderDetailEntity orderDetailUpdate = orderDetailRepository.findByidOrOrderById(orderDetailRequest.getOrderDetailId());
+                        ProductDetailEntity productDetailEntity = orderDetailUpdate.getProductDetailEntities();
+                        if (productDetailEntity.getQuantity() < orderDetailRequest.getQuantity()) {
+                            return new DataObj().setEdesc("400").setEcode("Số Lượng sản phẩm quá lớn");
+
+                        }
+                        if (orderDetailUpdate == null) {
+                            return new DataObj().setEdesc("400").setEcode("Order không tồn tại");
+                        }
+                        orderDetailUpdate.setQuantity_oder(orderDetailRequest.getQuantity());
+                        orderDetailRepository.save(orderDetailUpdate);
+
+                    }
+                }
             }
-            productDetailEntity.setQuantity(productDetailEntity.getQuantity() - orderDetailEntity.getQuantity_oder());
-            productDetailEntityList.add(productDetailEntity);
+            if (billRequest.getStatus() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
+
+                List<OrderDetailEntity> orderDetailEntities = billEntity.getOderDetailEntities();
+                for (OrderDetailEntity orderDetailEntity : orderDetailEntities) {
+                    ProductDetailEntity productDetailEntity = orderDetailEntity.getProductDetailEntities();
+                    if (productDetailEntity.getQuantity() < orderDetailEntity.getQuantity_oder()) {
+                        return new DataObj().setEdesc("400").setEcode("số lượng sản phẩm " + productDetailEntity.getIdProduct().getNameProduct() + " quá lớn hăc sản phẩm đã hết");
+                    }
+                    productDetailEntity.setQuantity(productDetailEntity.getQuantity() - orderDetailEntity.getQuantity_oder());
+                    productDetailRepository.save(productDetailEntity);
+                }
+                billEntity.setUpdateAts(LocalDate.now());
+            }
+
+            billEntity.setStatusShipping(billRequest.getStatus());
+            billEntity.setUpdateAts(LocalDate.now());
+            billRepository.save(billEntity);
+
+            return new DataObj().setEdesc("200").setEcode("Cập nhật đơn hàng thành công");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEdesc("420").setEcode("Lỗi Cập nhật đơn hàng");
+
+
         }
-        productDetailRepository.saveAll(productDetailEntityList);
-        billEntity.setUpdateAts(LocalDate.now());
-        billRepository.save(billEntity);
 
-
-        return new DataObj().setEdesc("200").setEcode("Cập nhật đơn hàng thành công");
     }
 
     @Override
@@ -259,19 +377,42 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Override
     public Object findByDatePhoneStatus(SearchBill searchBill) {
 
-       try {
-           Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
-           Page<BillEntity> billEntities = billRepository.findAllBill(searchBill.getDateTo(),searchBill.getStartDate(),searchBill.getPhone(),searchBill.getEmail(),searchBill.getStatusShipping(), pageable);
+        try {
+            Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
 
-           DataObj dataObj = new DataObj();
-           dataObj.setEcode("200");
-           dataObj.setEdesc("success");
-           dataObj.setData(billEntities.getContent());
-           return dataObj;
-       }catch (Exception e){
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
-       }
+            Page<Object> billEntities = billRepository.findAllBill(
+                    searchBill.getStartDate(), searchBill.getPhone(), searchBill.getEmail(), searchBill.getStatusShipping(), searchBill.getPayment(),
+                    pageable);
+            DataObj dataObj = new DataObj();
+            dataObj.setEcode("200");
+            dataObj.setEdesc("success");
+            dataObj.setData(billEntities);
+            return dataObj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
+        }
+
     }
+
+    @Override
+    public Object findByIdBill(Long idBill) {
+        try {
+            Object billById = billRepository.findBillById(idBill);
+            if (billById == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy bill");
+            }
+            return billById;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi tìm bill theo id");
+        }
+    }
+
+    @Override
+    public DataObj NumberOfOrderStatuses() {
+        try {
+            return new DataObj().setEdesc("200").setEcode("thành công").setData(billRepository.NumberOfOrderStatuses());
 
     @Override
     public Object findAllByIdCustomer(FindIdByCustomer findIdByCustomer) {
@@ -289,7 +430,16 @@ public class BillServiceImpl extends BaseController implements BillService {
         }
     }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEdesc("400").setEcode("Lỗi tìm trạng thái");
 
+        }
+    }
 }
+
+
+
+
 
 

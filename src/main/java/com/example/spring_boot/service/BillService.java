@@ -2,6 +2,7 @@ package com.example.spring_boot.service;
 
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.CategoryEntity;
+import com.example.spring_boot.entity.OrderDetailEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
@@ -13,7 +14,9 @@ import java.util.List;
 public interface BillService {
 
 
-    DataObj create(BillRequest billRequest);
+
+    DataObj create(CreateBillManger createBillManger);
+    DataObj createOff(CreateBillManger createBillManger);
 
     DataObj updateBillCustomer(UpdateBillCustomer updateBillCustomer);
 
@@ -21,11 +24,14 @@ public interface BillService {
 
     DataObj cancelBillManager(BillManager billManager);
 
-    DataObj confirmBillManager(BillManager billManager);
+    DataObj confirmBillManager(BillRequest billRequest);
 
     Object findByNameLike(BillRequest billRequest);
 
     Object findByDatePhoneStatus(SearchBill searchBill);
 
     Object findAllByIdCustomer(FindIdByCustomer findIdByCustomer);
+
+    Object findByIdBill(Long idBill);
+    DataObj NumberOfOrderStatuses();
 }

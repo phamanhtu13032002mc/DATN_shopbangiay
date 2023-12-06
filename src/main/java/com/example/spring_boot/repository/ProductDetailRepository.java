@@ -14,17 +14,20 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductDetailRepository extends JpaRepository<ProductDetailEntity,Long> {
-    @Query(value = "SELECT * FROM product_detail WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
-    List<ProductDetailEntity> findAllByIsDeleteFase();
-    @Query(value ="SELECT * FROM product_detail WHERE idsize = ? AND idproperty = ? AND idProduct = ?",nativeQuery = true)
-    Optional<ProductDetailEntity> findAllProduct(Long idSize, long idproperty, Long idProduct);
 
-
-    @Query(value = "SELECT * FROM product_detail WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
-    Page<ProductDetailEntity> findAllProductDetail(ProductDetailRequest productDetailRequest, Pageable pageable);
 
     @Query(value = "SELECT * FROM product_detail p WHERE p.id_product = ?",nativeQuery = true)
     ProductDetailEntity findByIdProduct(Long id);
 
     @Query(value = "SELECT * FROM product_detail p WHERE p.id = ?",nativeQuery = true)
-    ProductDetailEntity findByIdProductDetail(Long id);}
+    ProductDetailEntity findByIdProductDetail(Long id);
+
+    @Query(value = "SELECT * FROM product_detail pd WHERE pd.id_product = ? AND pd.id_property = ? AND pd.id_size = ? ",nativeQuery = true)
+    ProductDetailEntity findByIdProductAndIdPropertyAndAndIdSize(Long idProduct,Long idProperty,Long idSize);
+
+    @Query(value = "select u from ProductDetailEntity u where u.idProduct.id = :idProduct " +
+            "and u.isDelete = false " )
+    Page<Object> findProductDetailByProduct(@Param("idProduct") Long idProduct, Pageable pageable);
+
+
+}

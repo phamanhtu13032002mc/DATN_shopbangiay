@@ -1,9 +1,6 @@
 package com.example.spring_boot.payload.request;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
@@ -12,13 +9,9 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class ProductDetailRequest {
     private Long id;
-    private Long quantity;
-    private Long idProduct;
-    private Long idProperty;
-    private Long idSize;
-    private Boolean isDelete ;
     private Long quantityBill;
     private Long page;
     private Long size;
 
+    private Long productId;
 }

@@ -4,6 +4,8 @@ import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.request.*;
 import com.example.spring_boot.service.BillService;
+import com.example.spring_boot.service.OrderDetailService;
+import com.example.spring_boot.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +20,20 @@ import org.springframework.web.bind.annotation.*;
 public class BillController {
     @Autowired
     BillService billService;
+    @Autowired
+    OrderDetailService orderDetailService;
+    @Autowired
+    EmailServiceImpl emailService;
 
     @PostMapping(value = "/create-bill")
-    public  ResponseEntity<?> createBill(@RequestBody BillRequest billRequest){
-        return  ResponseEntity.ok(billService.create(billRequest));
+    public  ResponseEntity<?> createBill(@RequestBody CreateBillManger createBillManger){
+
+        return  ResponseEntity.ok(billService.create(createBillManger));
+    }
+    @PostMapping(value = "/create-bill-off")
+    public  ResponseEntity<?> createBillOff(@RequestBody CreateBillManger createBillManger){
+
+        return  ResponseEntity.ok(billService.createOff(createBillManger));
     }
     @PostMapping(value = "/update-bill-customer")
     public  ResponseEntity<?> updateBillCustomer(@RequestBody UpdateBillCustomer updateBillCustomer){
@@ -37,8 +49,8 @@ public class BillController {
         return  ResponseEntity.ok(billService.cancelBillManager(billManager));
     }
     @PostMapping(value = "/confirm-bill-manager")
-    public  ResponseEntity<?> confirmBillManager(@RequestBody BillManager billManager){
-        return  ResponseEntity.ok(billService.confirmBillManager(billManager));
+    public  ResponseEntity<?> confirmBillManager(@RequestBody BillRequest billRequest){
+        return  ResponseEntity.ok(billService.confirmBillManager(billRequest));
     }
     @PostMapping(value = "/find-by-name-like")
     public ResponseEntity<?> findByNameLike(
@@ -55,6 +67,18 @@ public class BillController {
             @RequestBody FindIdByCustomer findIdByCustomer) {
         return ResponseEntity.ok(billService.findAllByIdCustomer(findIdByCustomer));
     }
+    @GetMapping(value = "/find-by-id_bill/{idBill}")
+    public ResponseEntity<?> findByIdBill(@PathVariable("idBill") Long idBill){
+        return ResponseEntity.ok(billService.findByIdBill(idBill));
+    }
+    @PostMapping(value = "/send-mail")
+    public ResponseEntity<?> sendMail(@RequestBody CustomerRequest customerRequest) {
+        try {
+            emailService.sendCreateBill(customerRequest);
+            return ResponseEntity.ok("Email sent successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email.");
 
 
 

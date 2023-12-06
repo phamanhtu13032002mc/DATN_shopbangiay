@@ -65,7 +65,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll() // Your API authentication endpoints
                 .antMatchers("/api/v1/**").permitAll() // Other API endpoints
-                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**").permitAll() // Swagger resources
+                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**","/image/get/**").permitAll() // Swagger resources
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
