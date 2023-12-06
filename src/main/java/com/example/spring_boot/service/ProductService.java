@@ -24,6 +24,7 @@ public interface ProductService {
 
     DataObj save( CreateProduct createProduct);
 
+    DataObj findAllProductByName(String name);
 
 
 

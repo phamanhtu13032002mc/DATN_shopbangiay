@@ -11,7 +11,7 @@ public class CreateProduct {
 
     private Double price;//giá gốc
 
-    private Double discount;//giảm %
+//    private Double discount;//giảm %
 
     @Length(max = 5000)
     private String description;//mô tả

@@ -1,22 +1,16 @@
 package com.example.spring_boot.service.impl;
 
-import com.example.spring_boot.entity.ProductEntity;
-import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CreateProduct;
-import com.example.spring_boot.payload.request.ProductDetailRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.repository.*;
-import com.example.spring_boot.service.CategoryService;
 import com.example.spring_boot.service.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,10 +18,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -60,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
                     productRequest.getSize().intValue()
             );
 
-            return productRepository.findAllProduct(productRequest.getId(),productRequest.getNameProduct(),productRequest.getCategoryName(), pageable);
+            return productRepository.findAllProduct(productRequest.getId(), productRequest.getNameProduct(), productRequest.getCategoryName(), pageable);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
@@ -100,8 +91,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
-
     @Override
     public Optional<ProductEntity> findByID(Long id) {
         return productRepository.findById(id);
@@ -109,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public DataObj save( CreateProduct createProduct) {
+    public DataObj save(CreateProduct createProduct) {
 
         try {
             ProductEntity productName = productRepository.findByCorrectNameProduct(createProduct.getNameProduct());
@@ -117,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
                 return  new DataObj().setEcode("420").setEdesc("Tên sản phẩm đã tồn tại");
 
             }
-            if(createProduct.getId() == null) {
+            if (createProduct.getId() == null) {
                 DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 ProductEntity product = new ProductEntity();
                 ProductDetailEntity productDetail = new ProductDetailEntity();
@@ -146,7 +135,7 @@ public class ProductServiceImpl implements ProductService {
                     product.setId(randomNumber);
                 }
                 product.setPrice(createProduct.getPrice());
-                product.setDiscount(createProduct.getDiscount());
+//                product.setDiscount(createProduct.getDiscount());
                 product.setStatus(createProduct.getStatus());
                 product.setNameProduct(createProduct.getNameProduct());
                 product.setDescription(createProduct.getDescription());
@@ -186,7 +175,7 @@ public class ProductServiceImpl implements ProductService {
             property = propertyRepository.findById(createProduct.getIdProperties());
             // save danh sách product
             product.setPrice(createProduct.getPrice());
-            product.setDiscount(createProduct.getDiscount());
+//            product.setDiscount(createProduct.getDiscount());
             product.setStatus(createProduct.getStatus());
             product.setNameProduct(createProduct.getNameProduct());
             product.setDescription(createProduct.getDescription());
@@ -203,8 +192,19 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
+            return new DataObj().setEcode("400").setEdesc("Error").setData(e);
+        }
+    }
+
+    public DataObj findAllProductByName(String name) {
+        try {
+            return new DataObj().setEcode("200").setEdesc("Success").setData(productRepository.findProductsByName(name));
+
+        } catch (Exception e) {
+            e.printStackTrace();
             return  new DataObj().setEcode("420").setEdesc("Error").setData(e);
         }
     }
+
 
 }
