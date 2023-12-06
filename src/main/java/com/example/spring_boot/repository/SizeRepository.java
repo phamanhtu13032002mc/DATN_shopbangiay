@@ -16,8 +16,8 @@ public interface SizeRepository extends JpaRepository<SizeEntity,Long> {
     @Query("SELECT S FROM SizeEntity S WHERE :name IS NULL OR S.name LIKE %:name%")
     Page<SizeEntity> findByNameLike(String name, Pageable pageable);
 
-    @Query(value = "select s from SizeEntity s where s.id =?1 ")
-    List<CategoryEntity> findBySizeID(Long id);
+//    @Query(value = "select s from SizeEntity s where s.id =?1 ")
+//    List<CategoryEntity> findBySizeID(Long id);
 
     boolean existsByName(String name);
     SizeEntity findBySizeID(Long id);

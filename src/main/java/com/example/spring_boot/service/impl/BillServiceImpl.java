@@ -411,9 +411,9 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     @Override
     public DataObj NumberOfOrderStatuses() {
-        try {
             return new DataObj().setEdesc("200").setEcode("thành công").setData(billRepository.NumberOfOrderStatuses());
 
+    }
     @Override
     public Object findAllByIdCustomer(FindIdByCustomer findIdByCustomer) {
         try {
@@ -430,12 +430,8 @@ public class BillServiceImpl extends BaseController implements BillService {
         }
     }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new DataObj().setEdesc("400").setEcode("Lỗi tìm trạng thái");
 
-        }
-    }
+
 }
 
 
