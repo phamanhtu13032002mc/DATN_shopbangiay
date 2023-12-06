@@ -72,6 +72,10 @@ public class BillController {
 
         }
     }
+    @GetMapping(value = "/find-number-of-order-statuses")
+    public ResponseEntity<?> NumberOfOrderStatuses(){
+        return ResponseEntity.ok(billService.NumberOfOrderStatuses());
+    }
 
 
 

@@ -112,6 +112,11 @@ public class ProductServiceImpl implements ProductService {
     public DataObj save( CreateProduct createProduct) {
 
         try {
+            ProductEntity productName = productRepository.findByCorrectNameProduct(createProduct.getNameProduct());
+            if (productName != null){
+                return  new DataObj().setEcode("420").setEdesc("Tên sản phẩm đã tồn tại");
+
+            }
             if(createProduct.getId() == null) {
                 DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 ProductEntity product = new ProductEntity();
@@ -198,7 +203,7 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
-            return  new DataObj().setEcode("400").setEdesc("Error").setData(e);
+            return  new DataObj().setEcode("420").setEdesc("Error").setData(e);
         }
     }
 

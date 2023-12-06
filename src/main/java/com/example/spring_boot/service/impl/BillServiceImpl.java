@@ -54,7 +54,6 @@ public class BillServiceImpl extends BaseController implements BillService {
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
             billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
-            billEntity.setAddress(createBillManger.getAddress());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
                 ProductDetailEntity productEntity = productDetailRepository.findByIdProductDetail(odr.getProductId());
@@ -76,6 +75,10 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderDetailEntity.setIntoMoney(product.getPrice() - orderDetailEntity.getDownPrice());
                 orderDetailEntity.setBillEntity(billEntity);
                 orderdetails.add(orderDetailEntity);
+                if (createBillManger.getSalesStatus()== false){
+                    productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
+                    productDetailRepository.save(productEntity);
+                }
 
             }
             if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
@@ -97,7 +100,18 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
-            billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
+            if (createBillManger.getSalesStatus()== true){
+                billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
+                billEntity.setAddress(createBillManger.getAddress());
+                billEntity.setSalesStatus(true);
+            }
+            else {
+                billEntity.setStatusShipping(EnumShipping.KHACH_DA_NHAN_HANG);
+                billEntity.setAddress("shop bán giày");
+                billEntity.setSalesStatus(false);
+
+            }
+
             billEntity.setSdt(createBillManger.getPhoneNumber());
             billEntity.setTotal(createBillManger.getTotal());
             billEntity.setTransportFee(billEntity.getTransportFee());
@@ -106,15 +120,20 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setNote(createBillManger.getNote());
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
-            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
-            if (customer.get().getEmail() != null) {
-                emailService.sendCreateBill(customerEntity, billEntity);
-            }
+//            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
+//            if (customer.get().getEmail() != null) {
+//                emailService.sendCreateBill(customerEntity, billEntity);
+//            }
             return new DataObj().setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEdesc("400").setEcode("Error");
         }
+    }
+
+    @Override
+    public DataObj createOff(CreateBillManger createBillManger) {
+        return null;
     }
 
     @Override
@@ -257,7 +276,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             return new DataObj().setEdesc("200").setEcode("Cập nhật đơn hàng thành công");
         } catch (Exception e) {
             e.printStackTrace();
-            return new DataObj().setEdesc("400").setEcode("Lỗi Cập nhật đơn hàng");
+            return new DataObj().setEdesc("420").setEcode("Lỗi Cập nhật đơn hàng");
 
 
         }
@@ -309,6 +328,19 @@ public class BillServiceImpl extends BaseController implements BillService {
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi tìm bill theo id");
+        }
+    }
+
+    @Override
+    public DataObj NumberOfOrderStatuses() {
+        try {
+            return new DataObj().setEdesc("200").setEcode("thành công").setData(billRepository.NumberOfOrderStatuses());
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new DataObj().setEdesc("400").setEcode("Lỗi tìm trạng thái");
+
         }
     }
 }

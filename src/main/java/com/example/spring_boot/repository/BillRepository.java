@@ -2,6 +2,7 @@ package com.example.spring_boot.repository;
 
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.EnumShipping;
+import com.example.spring_boot.payload.response.BillStatusShipping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface BillRepository extends JpaRepository<BillEntity, Long> {
 
@@ -53,6 +55,16 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "WHERE  " +
             "b.id = :idBill")
     Object findBillById(Long idBill);
+
+    @Query("SELECT NEW com.example.spring_boot.payload.response.BillStatusShipping(" +
+            "SUM(CASE WHEN b.statusShipping = 0 THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN b.statusShipping = 1 THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN b.statusShipping = 2 THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN b.statusShipping = 3 THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN b.statusShipping = 4 THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN b.statusShipping = 5 THEN 1 ELSE 0 END)) " +
+            "FROM BillEntity b")
+    List<BillStatusShipping> NumberOfOrderStatuses();
 
 
 }

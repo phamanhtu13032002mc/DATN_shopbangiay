@@ -35,7 +35,7 @@ public class BillEntity implements Serializable {
 
     private Double total;//thanh toán
 
-    private String sale_point;//điểm bán hàng
+    private String salePoint;//điểm bán hàng
 
     private String address;//địa chỉ
 

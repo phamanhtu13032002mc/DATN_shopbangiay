@@ -16,6 +16,7 @@ public interface BillService {
 
 
     DataObj create(CreateBillManger createBillManger);
+    DataObj createOff(CreateBillManger createBillManger);
 
     DataObj updateBillCustomer(UpdateBillCustomer updateBillCustomer);
 
@@ -30,4 +31,5 @@ public interface BillService {
     Object findByDatePhoneStatus(SearchBill searchBill);
 
     Object findByIdBill(Long idBill);
+    DataObj NumberOfOrderStatuses();
 }

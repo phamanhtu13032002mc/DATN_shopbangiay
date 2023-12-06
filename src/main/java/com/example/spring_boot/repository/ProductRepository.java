@@ -42,6 +42,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     @Query(value = "SELECT * FROM product p WHERE p.id = ? ",nativeQuery = true)
     ProductEntity findByIdProduct(Long id);
 
+    @Query(value = "SELECT * FROM product p WHERE p.name_product = ? ",nativeQuery = true)
+    ProductEntity findByCorrectNameProduct(String name_product);
+
 
 
 }
