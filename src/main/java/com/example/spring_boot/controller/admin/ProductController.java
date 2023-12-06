@@ -64,10 +64,14 @@ public class ProductController {
     }
 
     @GetMapping("/find-by-name/{id}")
-    public ResponseEntity<?> getProductByName(@PathVariable Long id) {
+    public ResponseEntity<?> getProductById(@PathVariable Long id) {
 
             return ResponseEntity.ok(productRepository.findByIdProduct(id));
     }
 
+    @PostMapping("/find-by-name")
+    public ResponseEntity<?> getProductByName(@RequestBody ProductRequest productRequest) {
+        return ResponseEntity.ok(productRepository.findProductsByName(productRequest.getNameProduct()));
+    }
 
 }

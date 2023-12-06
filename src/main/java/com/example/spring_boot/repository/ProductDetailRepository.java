@@ -26,4 +26,5 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
             "and u.isDelete = false " )
     Page<Object> findProductDetailByProduct(@Param("idProduct") Long idProduct, Pageable pageable);
 
+
 }

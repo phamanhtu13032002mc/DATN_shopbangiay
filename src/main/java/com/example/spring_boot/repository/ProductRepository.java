@@ -43,5 +43,14 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     ProductEntity findByIdProduct(Long id);
 
 
+    @Query(value = "SELECT product.id AS product_id, category.id AS category_id, product_detail.id AS product_detail_id, " +
+            "product.name_product, category.name AS category_name " +
+            "FROM product " +
+            "JOIN category ON product.id_category = category.id " +
+            "JOIN product_detail ON product.id = product_detail.id_product " +
+            "WHERE product.is_delete = FALSE " +
+            "AND product.name_product LIKE %:productName% " +
+            "GROUP BY product_detail.id ", nativeQuery = true)
+    List<Object[]> findProductsByName(@Param("productName") String productName);
 
 }
