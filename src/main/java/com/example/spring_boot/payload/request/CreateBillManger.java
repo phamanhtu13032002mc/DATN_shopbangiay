@@ -30,6 +30,5 @@ public class CreateBillManger {
     private String noteRefund;
 
     private Long idCustomer;
-    private Boolean salesStatus;
     private List<OrderDetailRequest> orderDetailRequests;
 }

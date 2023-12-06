@@ -18,9 +18,9 @@ import java.util.List;
 public class OrderDetailRequest {
     private long   orderDetailId;
     private long   productId;
+    private long   sizeId;
+    private long   propertyId;
     private String productName;
-    private String  image;
-    private  double price;
     private Long size;
     private Long page;
     private String property;

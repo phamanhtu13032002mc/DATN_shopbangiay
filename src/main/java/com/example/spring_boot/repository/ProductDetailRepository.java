@@ -22,6 +22,9 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
     @Query(value = "SELECT * FROM product_detail p WHERE p.id = ?",nativeQuery = true)
     ProductDetailEntity findByIdProductDetail(Long id);
 
+    @Query(value = "SELECT * FROM product_detail pd WHERE pd.id_product = ? AND pd.id_property = ? AND pd.id_size = ? ",nativeQuery = true)
+    ProductDetailEntity findByIdProductAndIdPropertyAndAndIdSize(Long idProduct,Long idProperty,Long idSize);
+
     @Query(value = "select u from ProductDetailEntity u where u.idProduct.id = :idProduct " +
             "and u.isDelete = false " )
     Page<Object> findProductDetailByProduct(@Param("idProduct") Long idProduct, Pageable pageable);

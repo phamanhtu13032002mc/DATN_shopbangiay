@@ -30,6 +30,11 @@ public class BillController {
 
         return  ResponseEntity.ok(billService.create(createBillManger));
     }
+    @PostMapping(value = "/create-bill-off")
+    public  ResponseEntity<?> createBillOff(@RequestBody CreateBillManger createBillManger){
+
+        return  ResponseEntity.ok(billService.createOff(createBillManger));
+    }
     @PostMapping(value = "/update-bill-customer")
     public  ResponseEntity<?> updateBillCustomer(@RequestBody UpdateBillCustomer updateBillCustomer){
         return  ResponseEntity.ok(billService.updateBillCustomer(updateBillCustomer));

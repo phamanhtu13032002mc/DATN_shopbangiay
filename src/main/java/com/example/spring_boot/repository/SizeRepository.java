@@ -17,6 +17,6 @@ public interface SizeRepository extends JpaRepository<SizeEntity,Long> {
     Page<SizeEntity> findByNameLike(String name, Pageable pageable);
 
     @Query(value = "select s from SizeEntity s where s.id =?1 ")
-    List<CategoryEntity> findBySizeID(Long id);
+    SizeEntity findBySizeID(Long id);
 }
 
