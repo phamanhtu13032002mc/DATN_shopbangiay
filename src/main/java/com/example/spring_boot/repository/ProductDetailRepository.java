@@ -32,4 +32,10 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
     Page<Object> findProductDetailByProduct(@Param("idProduct") Long idProduct, Pageable pageable);
 
 
+    @Query(value = "SELECT p from ProductDetailEntity p where " +
+            "p.idProduct.id = :idProduct " +
+            "and p.idProperty.idProperty= :idProperty " +
+            "and p.idSize.id = :idSize")
+    Object findQuantity(@Param("idProduct") Long idProduct, @Param("idProperty") Long idProperty, @Param("idSize") Long idSize);
+
 }

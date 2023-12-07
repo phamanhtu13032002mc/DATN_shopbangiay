@@ -16,7 +16,7 @@ public interface BillService {
 
 
     DataObj create(CreateBillManger createBillManger);
-    DataObj createOff(CreateBillManger createBillManger);
+    DataObj createOff(CreateBillMangerOff createBillManger);
 
     DataObj updateBillCustomer(UpdateBillCustomer updateBillCustomer);
 

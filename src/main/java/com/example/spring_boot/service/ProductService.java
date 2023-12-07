@@ -3,6 +3,7 @@ package com.example.spring_boot.service;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CreateProduct;
+import com.example.spring_boot.payload.request.FindQuantityProductRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.payload.request.UpdateQuantityProductRequest;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ public interface ProductService {
     DataObj findAllProductByName(String name);
     DataObj updateQuantityProduct(UpdateQuantityProductRequest quantityProductReques);
 
+    DataObj findQuantityProduct(FindQuantityProductRequest findQuantityProductRequest);
 
 
 }

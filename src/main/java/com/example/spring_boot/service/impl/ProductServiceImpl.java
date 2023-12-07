@@ -3,6 +3,7 @@ package com.example.spring_boot.service.impl;
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CreateProduct;
+import com.example.spring_boot.payload.request.FindQuantityProductRequest;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.payload.request.UpdateQuantityProductRequest;
 import com.example.spring_boot.repository.*;
@@ -103,8 +104,8 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             ProductEntity productName = productRepository.findByCorrectNameProduct(createProduct.getNameProduct());
-            if (productName != null){
-                return  new DataObj().setEcode("420").setEdesc("Tên sản phẩm đã tồn tại");
+            if (productName != null) {
+                return new DataObj().setEcode("420").setEdesc("Tên sản phẩm đã tồn tại");
 
             }
             if (createProduct.getId() == null) {
@@ -205,7 +206,20 @@ public class ProductServiceImpl implements ProductService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return  new DataObj().setEcode("420").setEdesc("Error").setData(e);
+            return new DataObj().setEcode("420").setEdesc("Error").setData(e);
+        }
+    }
+
+    public DataObj findQuantityProduct(FindQuantityProductRequest findQuantityProductRequest) {
+        try {
+
+            return new DataObj().setEdesc("Success").setEcode("200").setData(productDetailRepository.findQuantity(findQuantityProductRequest.getIdProduct()
+                    , findQuantityProductRequest.getIdProperty()
+                    , findQuantityProductRequest.getIdSize()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEcode("420").setEdesc("Error").setData(e);
+
         }
     }
 

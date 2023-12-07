@@ -50,17 +50,14 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Override
     public DataObj create(CreateBillManger createBillManger) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-            String formattedDate = LocalDateTime.now().format(formatter);
-            Long idBill = Long.parseLong(formattedDate);
-
+            long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
             Optional<CustomerEntity> customer = customerRepository.findById(createBillManger.getIdCustomer());
             BillEntity billEntity = new BillEntity();
-            billEntity.setId(9+idBill);
-//            while (billRepository.existsById(billEntity.getId())) {
-//                billEntity.setId(randomNumber);
-//
-//            }
+            billEntity.setId(randomNumber);
+            while (billRepository.existsById(billEntity.getId())) {
+                billEntity.setId(randomNumber);
+
+            }
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
             billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
@@ -130,12 +127,12 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public DataObj createOff(CreateBillManger createBillManger) {
+    public DataObj createOff(CreateBillMangerOff createBillManger) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
             String formattedDate = LocalDateTime.now().format(formatter);
             Long idBill = Long.parseLong(formattedDate);
-            Optional<CustomerEntity> customer = customerRepository.findById(createBillManger.getIdCustomer());
+            Optional<CustomerEntity> customer = customerRepository.findById(3L);
             BillEntity billEntity = new BillEntity();
             billEntity.setId(idBill);
 //            while (billRepository.existsById(billEntity.getId())) {
@@ -147,21 +144,21 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setCreateAt(LocalDate.now());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
-                ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(odr.getProductId(),odr.getPropertyId(),odr.getSizeId());
+                ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(odr.getProductId(), odr.getPropertyId(), odr.getSizeId());
                 ProductEntity product = productRepository.findByIdProduct(odr.getProductId());
                 PropertyEntity property = propertyRepository.findByIdProperty(odr.getPropertyId());
                 SizeEntity sizeEntity = sizeRepository.findBySizeID(odr.getSizeId());
-                if (productEntity == null){
+                if (productEntity == null) {
                     return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
 
                 }
                 if (product == null) {
                     return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
                 }
-                if (property == null){
+                if (property == null) {
                     return new DataObj().setEdesc("420").setEdesc("Màu sắc không tồn tại");
                 }
-                if (sizeEntity == null){
+                if (sizeEntity == null) {
                     return new DataObj().setEdesc("420").setEdesc("size không tồn tại");
                 }
                 if (productEntity.getQuantity() < odr.getQuantity()) {
@@ -176,8 +173,8 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderDetailEntity.setIntoMoney(product.getPrice() - orderDetailEntity.getDownPrice());
                 orderDetailEntity.setBillEntity(billEntity);
                 orderdetails.add(orderDetailEntity);
-                    productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
-                    productDetailRepository.save(productEntity);
+                productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
+                productDetailRepository.save(productEntity);
             }
             if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
                 VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(createBillManger.getVoucherId());
@@ -198,12 +195,15 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
+            Optional<CustomerEntity> customerEntity = customerRepository.findById(4L);
             billEntity.setStatusShipping(EnumShipping.KHACH_DA_NHAN_HANG);
             billEntity.setAddress("shop bán giày");
+            billEntity.setPayment(0);
+            billEntity.setCustomerEntity(customerEntity.get());
             billEntity.setSalesStatus(false);
             billEntity.setSdt(createBillManger.getPhoneNumber());
             billEntity.setTotal(createBillManger.getTotal());
-            billEntity.setTransportFee(billEntity.getTransportFee());
+            billEntity.setTransportFee(0.0);
             billEntity.setDownTotal(createBillManger.getDownTotal());
             billEntity.setFullName(createBillManger.getFullName());
             billEntity.setNote(createBillManger.getNote());
