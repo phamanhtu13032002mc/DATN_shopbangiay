@@ -3,10 +3,7 @@ package com.example.spring_boot.controller.admin;
 import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
-import com.example.spring_boot.payload.request.CategoryRequest;
-import com.example.spring_boot.payload.request.CreateProduct;
-import com.example.spring_boot.payload.request.PageableRequest;
-import com.example.spring_boot.payload.request.ProductRequest;
+import com.example.spring_boot.payload.request.*;
 import com.example.spring_boot.repository.ProductDetailRepository;
 import com.example.spring_boot.repository.ProductRepository;
 import com.example.spring_boot.service.CategoryService;
@@ -72,6 +69,11 @@ public class ProductController {
     @PostMapping("/find-by-name")
     public ResponseEntity<?> getProductByName(@RequestBody ProductRequest productRequest) {
         return ResponseEntity.ok(productRepository.findProductsByName(productRequest.getNameProduct()));
+    }
+
+    @PostMapping("find-quantity-product")
+    public ResponseEntity<?> findQuantityProduct(@RequestBody FindQuantityProductRequest findQuantityProductRequest){
+        return ResponseEntity.ok(productService.findQuantityProduct(findQuantityProductRequest));
     }
 
 }
