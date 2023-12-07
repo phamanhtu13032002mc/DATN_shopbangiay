@@ -125,10 +125,9 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public DataObj createOff(CreateBillManger createBillManger) {
+    public DataObj createOff(CreateBillMangerOff createBillManger) {
         try {
             long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
-            Optional<CustomerEntity> customer = customerRepository.findById(createBillManger.getIdCustomer());
             BillEntity billEntity = new BillEntity();
             billEntity.setId(randomNumber);
             while (billRepository.existsById(billEntity.getId())) {
@@ -136,7 +135,6 @@ public class BillServiceImpl extends BaseController implements BillService {
 
             }
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
-            billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
@@ -193,10 +191,11 @@ public class BillServiceImpl extends BaseController implements BillService {
             }
             billEntity.setStatusShipping(EnumShipping.KHACH_DA_NHAN_HANG);
             billEntity.setAddress("shop bán giày");
+            billEntity.setPayment(0);
             billEntity.setSalesStatus(false);
             billEntity.setSdt(createBillManger.getPhoneNumber());
             billEntity.setTotal(createBillManger.getTotal());
-            billEntity.setTransportFee(billEntity.getTransportFee());
+            billEntity.setTransportFee(0.0);
             billEntity.setDownTotal(createBillManger.getDownTotal());
             billEntity.setFullName(createBillManger.getFullName());
             billEntity.setNote(createBillManger.getNote());
