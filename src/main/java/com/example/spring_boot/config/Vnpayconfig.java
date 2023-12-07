@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Vnpayconfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://127.0.0.1:8080/payment/return?";
+    public static String vnp_ReturnUrl = "http://localhost:8081/checkout-done";
 
     public static String vnp_TmnCode = "I4RD1EH4";
     public static String vnp_HashSecret = "UGBYTNGICAHVQZODUHNPGOGYQUTPKUMB";
@@ -23,10 +23,10 @@ public class Vnpayconfig {
                                  BigDecimal tienShipHD,
                                  long hoaDonId,
                                  long idNguoiDung){
-        vnp_ReturnUrl = vnp_ReturnUrl
-                + "emailNguoiNhann=" + emailNguoiNhann + "&tienGiamGia=" + tienGiamGia + "&nameGiamGia="
-                + nameGiamGia + "&sdtNguoiNhan=" + sdtNguoiNhan + "&tienShipHD="
-                + tienShipHD + "&hoaDonId=" + hoaDonId + "&nguoiDungId=" + idNguoiDung;
+//        vnp_ReturnUrl = vnp_ReturnUrl
+//                + "emailNguoiNhann=" + emailNguoiNhann + "&tienGiamGia=" + tienGiamGia + "&nameGiamGia="
+//                + nameGiamGia + "&sdtNguoiNhan=" + sdtNguoiNhan + "&tienShipHD="
+//                + tienShipHD + "&hoaDonId=" + hoaDonId + "&nguoiDungId=" + idNguoiDung;
         return vnp_ReturnUrl;
     }
     public static String hmacSHA512(final String key, final String data) {
