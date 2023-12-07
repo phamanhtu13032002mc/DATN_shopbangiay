@@ -4,6 +4,7 @@ import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CreateProduct;
 import com.example.spring_boot.payload.request.ProductRequest;
+import com.example.spring_boot.payload.request.UpdateQuantityProductRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ public interface ProductService {
     DataObj save( CreateProduct createProduct);
 
     DataObj findAllProductByName(String name);
+    DataObj updateQuantityProduct(UpdateQuantityProductRequest quantityProductReques);
 
 
 
