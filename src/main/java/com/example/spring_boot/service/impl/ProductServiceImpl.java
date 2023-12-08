@@ -4,6 +4,7 @@ import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CreateProduct;
 import com.example.spring_boot.payload.request.FindQuantityProductRequest;
+import com.example.spring_boot.payload.request.FindQuantityProductRequestByName;
 import com.example.spring_boot.payload.request.ProductRequest;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.ProductService;
@@ -213,6 +214,21 @@ public class ProductServiceImpl implements ProductService {
             return new DataObj().setEdesc("Success").setEcode("200").setData(productDetailRepository.findQuantity(findQuantityProductRequest.getIdProduct()
                     , findQuantityProductRequest.getIdProperty()
                     , findQuantityProductRequest.getIdSize()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEcode("420").setEdesc("Error").setData(e);
+
+        }
+    }
+
+    @Override
+    public DataObj findQuantityProductByName(FindQuantityProductRequestByName findQuantityProductRequest) {
+        try {
+
+            return new DataObj().setEdesc("Success").setEcode("200").setData(
+                    productDetailRepository.findQuantityByName(findQuantityProductRequest.getNameProduct()
+                    , findQuantityProductRequest.getProperty()
+                    , findQuantityProductRequest.getSize()));
         } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEcode("420").setEdesc("Error").setData(e);

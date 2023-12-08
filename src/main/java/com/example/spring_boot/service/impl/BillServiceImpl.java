@@ -104,7 +104,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
                 billEntity.setAddress(createBillManger.getAddress());
                 billEntity.setSalesStatus(true);
-
+            billEntity.setPayment(createBillManger.getPayment());
             billEntity.setSdt(createBillManger.getPhoneNumber());
             billEntity.setTotal(createBillManger.getTotal());
             billEntity.setTransportFee(billEntity.getTransportFee());

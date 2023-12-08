@@ -36,4 +36,11 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
             "and p.idSize.id = :idSize")
     Object findQuantity(@Param("idProduct") Long idProduct, @Param("idProperty") Long idProperty, @Param("idSize") Long idSize);
 
+
+    @Query(value = "SELECT p from ProductDetailEntity p where " +
+            "p.idProduct.id = :nameProduct " +
+            "and p.idProperty.name= :nameProperty " +
+            "and p.idSize.name = :nameSize")
+    Object findQuantityByName(@Param("nameProduct") Long nameProduct, @Param("nameProperty") String nameProperty, @Param("nameSize") String nameSize);
+
 }
