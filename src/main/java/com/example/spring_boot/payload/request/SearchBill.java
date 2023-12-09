@@ -16,6 +16,8 @@ public class SearchBill {
     private String phone;
     private String email;
     private Integer payment;
+    private String fullName;
+    private Boolean salesStatus;
     private EnumShipping statusShipping;
     private int page;
     private int size;

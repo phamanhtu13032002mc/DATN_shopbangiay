@@ -22,7 +22,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
     @Query(value = "SELECT * FROM product_detail p WHERE p.id = ?",nativeQuery = true)
     ProductDetailEntity findByIdProductDetail(Long id);
 
-    @Query(value = "SELECT * FROM product_detail pd WHERE pd.id_product = ? AND pd.id_property = ? AND pd.id_size = ? ",nativeQuery = true)
+    @Query(value = "SELECT * FROM product_detail pd WHERE pd.id_product = ? AND pd.id_property = ? AND pd.id_size = ? for update ",nativeQuery = true)
     ProductDetailEntity findByIdProductAndIdPropertyAndAndIdSize(Long idProduct,Long idProperty,Long idSize);
 
     @Query(value = "select u from ProductDetailEntity u where u.idProduct.id = :idProduct " +
@@ -35,5 +35,12 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
             "and p.idProperty.idProperty= :idProperty " +
             "and p.idSize.id = :idSize")
     Object findQuantity(@Param("idProduct") Long idProduct, @Param("idProperty") Long idProperty, @Param("idSize") Long idSize);
+
+
+    @Query(value = "SELECT p from ProductDetailEntity p where " +
+            "p.idProduct.id = :nameProduct " +
+            "and p.idProperty.name= :nameProperty " +
+            "and p.idSize.name = :nameSize")
+    Object findQuantityByName(@Param("nameProduct") Long nameProduct, @Param("nameProperty") String nameProperty, @Param("nameSize") String nameSize);
 
 }

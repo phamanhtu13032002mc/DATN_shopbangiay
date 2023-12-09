@@ -19,7 +19,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             "AND (:nameProduct IS NULL OR p.nameProduct LIKE CONCAT('%', :nameProduct, '%')) " +
             "AND (:nameCate IS NULL OR p.categoryEntity.name LIKE CONCAT('%', :nameCate, '%')) " +
             "AND p.isDelete = false " +
-            "GROUP BY p.id")
+            "GROUP BY p.id " +
+            "ORDER BY p.date_create DESC")
     Page<Object[]> findAllProduct(
             @Param("productId") Long productId,
             @Param("nameProduct") String nameProduct,

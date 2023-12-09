@@ -15,7 +15,7 @@ public class CreateBillManger {
     private Long voucherId;
     private Double discount;
     private Double downTotal;
-    private Boolean payment;
+    private int payment;
 
     private Double total;
 
