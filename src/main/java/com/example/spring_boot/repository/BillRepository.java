@@ -25,34 +25,6 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "GROUP BY b.id")
     Page<Object> findByNameLike(String name, Pageable pageable);
 
-    @Query(value = "SELECT b, v, c, o FROM BillEntity b " +
-            "LEFT JOIN VoucherEntity v ON b.voucherId = v.id " +
-            "LEFT JOIN CustomerEntity c ON b.customerEntity.id = c.id " +
-            "LEFT JOIN OrderDetailEntity o ON o.billEntity.id = b.id " +
-            "WHERE b.createAt BETWEEN :startDate AND :endDate " +
-            "GROUP BY b.id")
-    Page<Object> findByDate(LocalDate startDate, LocalDate endDate,Pageable pageable);
-    @Query(value = "SELECT b, v, c, o FROM BillEntity b " +
-            "LEFT JOIN VoucherEntity v ON b.voucherId = v.id " +
-            "LEFT JOIN CustomerEntity c ON b.customerEntity.id = c.id " +
-            "LEFT JOIN OrderDetailEntity o ON o.billEntity.id = b.id " +
-            "WHERE  b.customerEntity.email = :email " +
-            "GROUP BY b.id")
-    Page<Object> findByEmail(String email, Pageable pageable);
-    @Query(value = "SELECT b, v, c, o FROM BillEntity b " +
-            "LEFT JOIN VoucherEntity v ON b.voucherId = v.id " +
-            "LEFT JOIN CustomerEntity c ON b.customerEntity.id = c.id " +
-            "LEFT JOIN OrderDetailEntity o ON o.billEntity.id = b.id " +
-            "WHERE  b.statusShipping = :status " +
-            "GROUP BY b.id")
-    Page<Object> findByStatus(String status, Pageable pageable);
-    @Query(value = "SELECT b, v, c, o FROM BillEntity b " +
-            "LEFT JOIN VoucherEntity v ON b.voucherId = v.id " +
-            "LEFT JOIN CustomerEntity c ON b.customerEntity.id = c.id " +
-            "LEFT JOIN OrderDetailEntity o ON o.billEntity.id = b.id " +
-            "WHERE b.createAt BETWEEN :startDate AND :endDate AND c.email = :email " +
-            "GROUP BY b.id")
-    Page<Object> findByDateAndEmail(LocalDate startDate,LocalDate endDate, String email, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM BillEntity b " +
@@ -65,14 +37,6 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "AND (:statusShipping IS NULL OR b.statusShipping = :statusShipping) " +
             "AND (:payment IS NULL OR b.payment = :payment) " +
             "GROUP BY b.id")
-    Page<BillEntity> findAllBill(LocalDate dateTo, LocalDate startDate, String phone, String email, EnumShipping statusShipping, Pageable pageable);
-    @Query(value = "SELECT DISTINCT b, v, c, o " +
-            "FROM BillEntity b " +
-            "LEFT JOIN VoucherEntity v ON b.voucherId = v.id " +
-            "LEFT JOIN CustomerEntity c ON b.customerEntity.id = c.id " +
-            "LEFT JOIN OrderDetailEntity o ON o.billEntity.id = b.id " +
-            "WHERE c.id = :idCustomer")
-    Page<BillEntity> findAllBillByIdCustomer(Long idCustomer, Pageable pageable);
     Page<Object> findAllBill(
             @Param("startDate") LocalDate startDate,
             @Param("phone") String phone,
@@ -101,6 +65,14 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "SUM(CASE WHEN b.statusShipping = 5 THEN 1 ELSE 0 END)) " +
             "FROM BillEntity b")
     List<BillStatusShipping> NumberOfOrderStatuses();
-
-
+    @Query(value = "SELECT DISTINCT b, v, c, o " +
+            "FROM BillEntity b " +
+            "LEFT JOIN VoucherEntity v ON b.voucherId = v.id " +
+            "LEFT JOIN CustomerEntity c ON b.customerEntity.id = c.id " +
+            "LEFT JOIN OrderDetailEntity o ON o.billEntity.id = b.id " +
+            "WHERE c.id = :idCustomer")
+    Page<BillEntity> findAllBillByIdCustomer(Long idCustomer, Pageable pageable);
 }
+
+
+
