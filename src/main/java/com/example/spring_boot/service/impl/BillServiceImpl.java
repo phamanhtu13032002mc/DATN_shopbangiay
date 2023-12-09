@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -101,6 +103,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
+
                 billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
                 billEntity.setAddress(createBillManger.getAddress());
                 billEntity.setSalesStatus(true);
@@ -127,14 +130,18 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Override
     public DataObj createOff(CreateBillMangerOff createBillManger) {
         try {
-            long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String formattedDate = LocalDateTime.now().format(formatter);
+            Long idBill = Long.parseLong(formattedDate);
+            Optional<CustomerEntity> customer = customerRepository.findById(3L);
             BillEntity billEntity = new BillEntity();
-            billEntity.setId(randomNumber);
-            while (billRepository.existsById(billEntity.getId())) {
-                billEntity.setId(randomNumber);
-
-            }
+            billEntity.setId(idBill);
+//            while (billRepository.existsById(billEntity.getId())) {
+//                billEntity.setId(randomNumber);
+//
+//            }
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
+            billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {

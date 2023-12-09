@@ -24,6 +24,8 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
 
     @Query(value = "SELECT * FROM product_detail pd WHERE pd.id_product = ? AND pd.id_property = ? AND pd.id_size = ? for update ",nativeQuery = true)
     ProductDetailEntity findByIdProductAndIdPropertyAndAndIdSize(Long idProduct,Long idProperty,Long idSize);
+    @Query(value = "select pd from ProductDetailEntity pd where pd.idProduct.id = :idProduct and pd.idSize.name = :nameSize and pd.idProperty.name = :nameProperty")
+    ProductDetailEntity updateQuantityProduct(@Param("idProduct") Long idProduct, @Param("nameSize") String nameSize, @Param("nameProperty") String nameProperty);
 
     @Query(value = "select u from ProductDetailEntity u where u.idProduct.id = :idProduct " +
             "and u.isDelete = false " )
