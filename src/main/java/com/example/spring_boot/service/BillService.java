@@ -30,6 +30,8 @@ public interface BillService {
 
     Object findByDatePhoneStatus(SearchBill searchBill);
 
+    Object findAllByIdCustomer(FindIdByCustomer findIdByCustomer);
+
     Object findByIdBill(Long idBill);
     DataObj NumberOfOrderStatuses();
 }

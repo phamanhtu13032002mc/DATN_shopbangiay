@@ -70,6 +70,14 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "SUM(CASE WHEN b.statusShipping = 5 THEN 1 ELSE 0 END)) " +
             "FROM BillEntity b")
     List<BillStatusShipping> NumberOfOrderStatuses();
-
-
+    @Query(value = "SELECT DISTINCT b, v, c, o " +
+            "FROM BillEntity b " +
+            "LEFT JOIN VoucherEntity v ON b.voucherId = v.id " +
+            "LEFT JOIN CustomerEntity c ON b.customerEntity.id = c.id " +
+            "LEFT JOIN OrderDetailEntity o ON o.billEntity.id = b.id " +
+            "WHERE c.id = :idCustomer")
+    Page<BillEntity> findAllBillByIdCustomer(Long idCustomer, Pageable pageable);
 }
+
+
+

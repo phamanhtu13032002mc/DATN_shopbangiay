@@ -381,6 +381,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     }
 
+
     @Override
     public Object findByDatePhoneStatus(SearchBill searchBill) {
 
@@ -419,15 +420,27 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     @Override
     public DataObj NumberOfOrderStatuses() {
-        try {
             return new DataObj().setEdesc("200").setEcode("thành công").setData(billRepository.NumberOfOrderStatuses());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new DataObj().setEdesc("400").setEcode("Lỗi tìm trạng thái");
-
+    }
+    @Override
+    public Object findAllByIdCustomer(FindIdByCustomer findIdByCustomer) {
+        try {
+            Pageable pageable = PageRequest.of(Math.toIntExact(findIdByCustomer.getPage()), Math.toIntExact(findIdByCustomer.getSize()));
+            Page<BillEntity> billEntities = billRepository.findAllBillByIdCustomer(findIdByCustomer.getId_customer(), pageable);
+            System.out.println(billEntities);
+            DataObj dataObj = new DataObj();
+            dataObj.setEcode("200");
+            dataObj.setEdesc("success");
+            dataObj.setData(billEntities.getContent());
+            return dataObj;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
         }
     }
+
+
+
 }
 
 

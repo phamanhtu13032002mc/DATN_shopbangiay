@@ -32,16 +32,26 @@ public class SizeServiceImpl implements SizeService {
     @Override
     public Object create(SizeRequest sizeRequest) {
         try {
-            if (sizeRequest.getName() == null){
+            if (sizeRequest.getName() == null) {
                 return new DataObj().setEdesc("Name event not null !!!");
             }
-            else {
+
+            // Kiểm tra xem tên đã tồn tại hay chưa
+            boolean isNameExists = sizeRepository.existsByName(sizeRequest.getName());
+
+            if (isNameExists) {
+                return new DataObj().setEdesc("Tên đã tồn tại trong cơ sở dữ liệu");
+            } else {
                 SizeEntity size = new SizeEntity();
                 size.setName(sizeRequest.getName());
-                return new DataObj().setEcode("200").setEdesc("Create Complete").setData(sizeRepository.save(size));
+
+                return new DataObj()
+                        .setEcode("200")
+                        .setEdesc("Create Complete")
+                        .setData(sizeRepository.save(size));
             }
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error creating");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating", e);
         }
     }
 

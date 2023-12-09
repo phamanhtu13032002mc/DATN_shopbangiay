@@ -34,29 +34,39 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public DataObj create(EventRequest eventRequest) {
-     try {
-        if (eventRequest.getName() == null){
-           return new DataObj().setEdesc("Name event not null !!!");
-        }
-         if (eventRequest.getStartDay() == null){
-             return new DataObj().setEdesc("Start day not null !!!");
-         }
-         if (eventRequest.getEndDay() == null){
-             return new DataObj().setEdesc("End day not null !!!");
-         }
-         if (eventRequest.getStartDay().isAfter(eventRequest.getEndDay()) || eventRequest.getStartDay().isEqual(eventRequest.getEndDay())) {
-             return new DataObj().setEdesc("The end day cannot be less than the start day !!!");
-         } else {
-            EventEntity event = new EventEntity();
-            event.setName(eventRequest.getName());
-            event.setEndDay(eventRequest.getEndDay());
-            event.setStartDay(eventRequest.getStartDay());
-            return new DataObj().setEcode("200").setEdesc("Create Complete").setData(eventRepossitory.save(event));
+        try {
+            if (eventRequest.getName() == null) {
+                return new DataObj().setEdesc("Name event not null !!!");
+            }
+            if (eventRequest.getStartDay() == null) {
+                return new DataObj().setEdesc("Start day not null !!!");
+            }
+            if (eventRequest.getEndDay() == null) {
+                return new DataObj().setEdesc("End day not null !!!");
+            }
+            if (eventRequest.getStartDay().isAfter(eventRequest.getEndDay()) || eventRequest.getStartDay().isEqual(eventRequest.getEndDay())) {
+                return new DataObj().setEdesc("The end day cannot be less than the start day !!!");
+            }
 
+            // Kiểm tra xem tên đã tồn tại hay chưa
+            boolean isNameExists = eventRepossitory.existsByName(eventRequest.getName());
+
+            if (isNameExists) {
+                return new DataObj().setEdesc("Tên đã tồn tại trong cơ sở dữ liệu");
+            } else {
+                EventEntity event = new EventEntity();
+                event.setName(eventRequest.getName());
+                event.setEndDay(eventRequest.getEndDay());
+                event.setStartDay(eventRequest.getStartDay());
+
+                return new DataObj()
+                        .setEcode("200")
+                        .setEdesc("Create Complete")
+                        .setData(eventRepossitory.save(event));
+            }
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi xử lý ngày tháng", e);
         }
-     }catch (Exception e){
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi xử lý ngày tháng");
-     }
     }
 
     @Override
