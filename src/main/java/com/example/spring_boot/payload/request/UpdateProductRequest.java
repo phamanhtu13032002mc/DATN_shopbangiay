@@ -9,16 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductRequest {
-
+public class UpdateProductRequest {
     private Long id;
     private String nameProduct;
 
     private Double price;//giá gốc
-    private Double minPrice;//giá thấp nhất
-    private Double maxPrice;//giá cao nhât
 
-    private Double discount;//giảm %
+// private Double discount;//giảm %
 
     @Length(max = 5000)
     private String description;//mô tả
@@ -28,19 +25,13 @@ public class ProductRequest {
 
     private String status;//trạng thái
 
-    private String date_update;
-    private String date_create;
     private Long quantity;
 
     private MultipartFile image;//hình ảnh
     private Long idCategory;
     private String categoryName;
 
-    private Long page;
-    private Long size;
     private Long idSize;
     private Long idProperties;
-
-
 
 }

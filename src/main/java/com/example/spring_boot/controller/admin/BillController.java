@@ -3,6 +3,7 @@ package com.example.spring_boot.controller.admin;
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.request.*;
+import com.example.spring_boot.repository.BillRepository;
 import com.example.spring_boot.service.BillService;
 import com.example.spring_boot.service.OrderDetailService;
 import com.example.spring_boot.service.impl.EmailServiceImpl;
@@ -24,6 +25,9 @@ public class BillController {
     OrderDetailService orderDetailService;
     @Autowired
     EmailServiceImpl emailService;
+
+    @Autowired
+    BillRepository billRepository;
 
     @PostMapping(value = "/create-bill")
     public  ResponseEntity<?> createBill(@RequestBody CreateBillManger createBillManger){
@@ -80,6 +84,11 @@ public class BillController {
     @GetMapping(value = "/find-number-of-order-statuses")
     public ResponseEntity<?> NumberOfOrderStatuses(){
         return ResponseEntity.ok(billService.NumberOfOrderStatuses());
+    }
+
+ @GetMapping(value = "/statistical")
+    public ResponseEntity<?> statistical(){
+        return ResponseEntity.ok(billRepository.statistical());
     }
 
 

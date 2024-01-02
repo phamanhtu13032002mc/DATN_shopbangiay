@@ -195,7 +195,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
-            Optional<CustomerEntity> customerEntity = customerRepository.findById(4L);
+            Optional<CustomerEntity> customerEntity = customerRepository.findById(3L);
             billEntity.setStatusShipping(EnumShipping.KHACH_DA_NHAN_HANG);
             billEntity.setAddress("shop bán giày");
             billEntity.setPayment(0);

@@ -79,5 +79,11 @@ public class ProductController {
     public ResponseEntity<?> findQuantityProduct(@RequestBody FindQuantityProductRequest findQuantityProductRequest){
         return ResponseEntity.ok(productService.findQuantityProduct(findQuantityProductRequest));
     }
+    @PostMapping("/update")
+    public ResponseEntity<?> updateProduct(@ModelAttribute UpdateProductRequest updateProductRequest) {
+
+        return ResponseEntity.ok(productService.updateProduct(updateProductRequest));
+
+    }
 
 }

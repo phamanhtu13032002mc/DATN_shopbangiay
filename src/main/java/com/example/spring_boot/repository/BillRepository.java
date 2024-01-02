@@ -3,6 +3,8 @@ package com.example.spring_boot.repository;
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.EnumShipping;
 import com.example.spring_boot.payload.response.BillStatusShipping;
+import com.example.spring_boot.payload.response.Statistical;
+import com.example.spring_boot.payload.response.statisticalResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -65,6 +67,15 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "SUM(CASE WHEN b.statusShipping = 5 THEN 1 ELSE 0 END)) " +
             "FROM BillEntity b")
     List<BillStatusShipping> NumberOfOrderStatuses();
+
+    @Query("SELECT DAY(b.createAt) as Date, SUM(b.downTotal) AS Sum  " +
+            "FROM BillEntity b " +
+            "WHERE MONTH(b.createAt) = 12 " +
+            "  AND YEAR(b.createAt) = 2023 " +
+            "GROUP BY DAY(b.createAt) " +
+            "ORDER BY DAY(b.createAt)")
+    List<Statistical> statistical();
+
 
 
 }

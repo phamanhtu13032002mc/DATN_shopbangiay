@@ -18,12 +18,16 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             "WHERE (:productId IS NULL OR p.id = :productId) " +
             "AND (:nameProduct IS NULL OR p.nameProduct LIKE CONCAT('%', :nameProduct, '%')) " +
             "AND (:nameCate IS NULL OR p.categoryEntity.name LIKE CONCAT('%', :nameCate, '%')) " +
+            "AND (:minPrice IS NULL OR :maxPrice IS NULL OR (p.price BETWEEN :minPrice AND :maxPrice))"+
+
             "AND p.isDelete = false " +
             "GROUP BY p.id")
     Page<Object[]> findAllProduct(
             @Param("productId") Long productId,
             @Param("nameProduct") String nameProduct,
-            @Param("nameCate") String nameCate
+            @Param("nameCate") String nameCate,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice
             , Pageable pageable);
 
     @Query("SELECT DISTINCT  p " +

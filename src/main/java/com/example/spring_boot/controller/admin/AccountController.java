@@ -1,6 +1,7 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.UserEntity;
+import com.example.spring_boot.payload.request.SaveUserRequest;
 import com.example.spring_boot.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,11 @@ public class AccountController {
     }
     @PostMapping(value = "/update/{id}")
         public ResponseEntity<?> updateAccount(@RequestBody UserEntity userEntity) {
-        return new  ResponseEntity(accountService.save(userEntity), HttpStatus.OK);
+        return new ResponseEntity(accountService.save(userEntity), HttpStatus.OK);
+    }
+  @PostMapping(value = "/save-customer")
+        public ResponseEntity<?> SaveCustomer(@RequestBody SaveUserRequest saveUserRequest) {
+        return new  ResponseEntity(accountService.SaveUser(saveUserRequest), HttpStatus.OK);
     }
 
 }
