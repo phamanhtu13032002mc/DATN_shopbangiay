@@ -38,13 +38,18 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "AND (:email IS NULL OR b.fullName LIKE CONCAT('%', :email, '%')) " +
             "AND (:statusShipping IS NULL OR b.statusShipping = :statusShipping) " +
             "AND (:payment IS NULL OR b.payment = :payment) " +
-            "GROUP BY b.id")
+            "AND (:fullName IS NULL OR b.fullName LIKE CONCAT('%', :fullName, '%')) " +
+            "AND (:salesStatus IS NULL OR b.salesStatus = :salesStatus) " +
+            "GROUP BY b.id " +
+            "ORDER BY b.createAt DESC")
     Page<Object> findAllBill(
             @Param("startDate") LocalDate startDate,
             @Param("phone") String phone,
             @Param("email") String email,
             @Param("statusShipping") EnumShipping statusShipping,
             @Param("payment") Integer payment,
+            @Param("fullName") String fullName,
+            @Param("salesStatus") Boolean salesStatus,
             Pageable pageable
     );
 

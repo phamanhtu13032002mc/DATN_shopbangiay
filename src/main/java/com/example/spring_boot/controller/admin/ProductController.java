@@ -75,7 +75,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateQuantityProduct(quantityProductRequest));
     }
 
-    @PostMapping("find-quantity-product")
+    @PostMapping("/find-quantity-product")
     public ResponseEntity<?> findQuantityProduct(@RequestBody FindQuantityProductRequest findQuantityProductRequest){
         return ResponseEntity.ok(productService.findQuantityProduct(findQuantityProductRequest));
     }
@@ -86,4 +86,8 @@ public class ProductController {
 
     }
 
+    @PostMapping("/find-quantity-product-name")
+    public ResponseEntity<?> findQuantityProductByName(@RequestBody FindQuantityProductRequestByName findQuantityProductRequest){
+        return ResponseEntity.ok(productService.findQuantityProductByName(findQuantityProductRequest));
+    }
 }

@@ -103,10 +103,11 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
+
                 billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
                 billEntity.setAddress(createBillManger.getAddress());
                 billEntity.setSalesStatus(true);
-
+            billEntity.setPayment(createBillManger.getPayment());
             billEntity.setSdt(createBillManger.getPhoneNumber());
             billEntity.setTotal(createBillManger.getTotal());
             billEntity.setTransportFee(billEntity.getTransportFee());
@@ -149,20 +150,20 @@ public class BillServiceImpl extends BaseController implements BillService {
                 PropertyEntity property = propertyRepository.findByIdProperty(odr.getPropertyId());
                 SizeEntity sizeEntity = sizeRepository.findBySizeID(odr.getSizeId());
                 if (productEntity == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Sản phẩm không tồn tại");
 
                 }
                 if (product == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Sản phẩm không tồn tại");
                 }
                 if (property == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Màu sắc không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Màu sắc không tồn tại");
                 }
                 if (sizeEntity == null) {
-                    return new DataObj().setEdesc("420").setEdesc("size không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("size không tồn tại");
                 }
                 if (productEntity.getQuantity() < odr.getQuantity()) {
-                    return new DataObj().setEdesc("420").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
+                    return new DataObj().setEcode("420").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
                 }
 
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
@@ -207,13 +208,13 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setDownTotal(createBillManger.getDownTotal());
             billEntity.setFullName(createBillManger.getFullName());
             billEntity.setNote(createBillManger.getNote());
-            billRepository.save(billEntity);
+            billEntity = billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
 //            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
 //            if (customer.get().getEmail() != null) {
 //                emailService.sendCreateBill(customerEntity, billEntity);
 //            }
-            return new DataObj().setEdesc("200").setEcode("success");
+            return new DataObj().setData(billEntity).setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEdesc("420").setEcode("Error");
@@ -387,7 +388,8 @@ public class BillServiceImpl extends BaseController implements BillService {
             Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
 
             Page<Object> billEntities = billRepository.findAllBill(
-                    searchBill.getStartDate(), searchBill.getPhone(), searchBill.getEmail(), searchBill.getStatusShipping(), searchBill.getPayment(),
+                    searchBill.getStartDate(), searchBill.getPhone(), searchBill.getEmail(), searchBill.getStatusShipping(), searchBill.getPayment(),searchBill.getFullName()
+                    ,searchBill.getSalesStatus(),
                     pageable);
             DataObj dataObj = new DataObj();
             dataObj.setEcode("200");

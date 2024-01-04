@@ -3,6 +3,11 @@ package com.example.spring_boot.service.impl;
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
+import com.example.spring_boot.payload.request.CreateProduct;
+import com.example.spring_boot.payload.request.FindQuantityProductRequest;
+import com.example.spring_boot.payload.request.FindQuantityProductRequestByName;
+import com.example.spring_boot.payload.request.ProductRequest;
+import com.example.spring_boot.payload.request.UpdateQuantityProductRequest;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -234,6 +239,33 @@ public class ProductServiceImpl implements ProductService {
         }
         catch (Exception e ){
             return new DataObj().setEcode("420").setEdesc("Update thất bại");
+    }
+
+    public DataObj findQuantityProduct(FindQuantityProductRequest findQuantityProductRequest) {
+        try {
+
+            return new DataObj().setEdesc("Success").setEcode("200").setData(productDetailRepository.findQuantity(findQuantityProductRequest.getIdProduct()
+                    , findQuantityProductRequest.getIdProperty()
+                    , findQuantityProductRequest.getIdSize()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEcode("420").setEdesc("Error").setData(e);
+
+        }
+    }
+
+    @Override
+    public DataObj findQuantityProductByName(FindQuantityProductRequestByName findQuantityProductRequest) {
+        try {
+
+            return new DataObj().setEdesc("Success").setEcode("200").setData(
+                    productDetailRepository.findQuantityByName(findQuantityProductRequest.getNameProduct()
+                    , findQuantityProductRequest.getProperty()
+                    , findQuantityProductRequest.getSize()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new DataObj().setEcode("420").setEdesc("Error").setData(e);
+
         }
         }
 
