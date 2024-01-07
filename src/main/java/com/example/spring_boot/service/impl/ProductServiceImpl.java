@@ -172,18 +172,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public DataObj findQuantityProduct(FindQuantityProductRequest findQuantityProductRequest) {
-        try {
-
-            return new DataObj().setEdesc("Success").setEcode("200").setData(productDetailRepository.findQuantity(findQuantityProductRequest.getIdProduct()
-                    , findQuantityProductRequest.getIdProperty()
-                    , findQuantityProductRequest.getIdSize()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new DataObj().setEcode("420").setEdesc("Error").setData(e);
-
-        }
-    }
 
     @Override
     public DataObj updateProduct(UpdateProductRequest updateProductRequest) {
@@ -191,11 +179,11 @@ public class ProductServiceImpl implements ProductService {
 
             DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             ProductEntity product = productRepository.findByIdProduct(updateProductRequest.getId());
-            if (product == null){
+            if (product == null) {
                 return new DataObj().setEcode("420").setEdesc("sản phẩm không tồn tại");
             }
             ProductDetailEntity productDetail = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(updateProductRequest.getId(), updateProductRequest.getIdSize(), updateProductRequest.getIdProperties());
-            if (productDetail == null){
+            if (productDetail == null) {
                 return new DataObj().setEcode("420").setEdesc("sản phẩm không tồn tại");
 
             }
@@ -227,18 +215,18 @@ public class ProductServiceImpl implements ProductService {
             product.setCategoryEntity(category.get());
             product.setDate_create(LocalDate.now());
             ProductEntity entity = productRepository.save(product);
-            if (property.get() != null){
+            if (property.get() != null) {
                 productDetail.setIdProperty(property.get());
             }
-            if(size.get() != null){
+            if (size.get() != null) {
                 productDetail.setIdSize(size.get());
             }
             productDetail.setQuantity(updateProductRequest.getQuantity());
             productDetailRepository.save(productDetail);
-            return new DataObj().setEcode("200").setEdesc("Update thành công" );
-        }
-        catch (Exception e ){
+            return new DataObj().setEcode("200").setEdesc("Update thành công");
+        } catch (Exception e) {
             return new DataObj().setEcode("420").setEdesc("Update thất bại");
+        }
     }
 
     public DataObj findQuantityProduct(FindQuantityProductRequest findQuantityProductRequest) {

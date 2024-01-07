@@ -50,6 +50,7 @@ public class BillRequest {
     private String phoneNumber;
 
     private String refund;
+    private String email;
 
     private String noteRefund;
     private int page;

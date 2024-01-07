@@ -74,6 +74,8 @@ public class BillServiceImpl extends BaseController implements BillService {
                     return new DataObj().setEdesc("400").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
 
                 }
+                    productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
+                    productDetailRepository.save(productEntity);
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
                 orderDetailEntity.setProductDetailEntities(productEntity);
                 orderDetailEntity.setQuantity_oder(odr.getQuantity());
@@ -116,10 +118,10 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setNote(createBillManger.getNote());
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
-//            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
-//            if (customer.get().getEmail() != null) {
-//                emailService.sendCreateBill(customerEntity, billEntity);
-//            }
+            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
+            if (customer.get().getEmail() != null) {
+                emailService.sendCreateBill(customerEntity, billEntity);
+            }
             return new DataObj().setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();
@@ -237,6 +239,19 @@ public class BillServiceImpl extends BaseController implements BillService {
             return new DataObj().setEdesc("400").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
 
         }
+        if (updateBillCustomer.getEnumShipping()== EnumShipping.HUY){
+            //hoàn số lượng về kho
+            List<ProductDetailEntity> quantities = new ArrayList<>();
+            List<OrderDetailEntity> orderdetails = entity.getOderDetailEntities();
+            for (OrderDetailEntity orderdetail : orderdetails) {
+                ProductDetailEntity product = orderdetail.getProductDetailEntities();
+
+                product.setQuantity(product.getQuantity() + orderdetail.getQuantity_oder());
+                quantities.add(product);
+            }
+            productDetailRepository.saveAll(quantities);
+        }
+        entity.setStatusShipping(updateBillCustomer.getEnumShipping());
         entity.setAddress(updateBillCustomer.getAddress());
         entity.setSdt(updateBillCustomer.getSdt());
         entity.setFullName(updateBillCustomer.getFullname());
@@ -285,6 +300,15 @@ public class BillServiceImpl extends BaseController implements BillService {
 
         if (billEntity.getStatusShipping() == EnumShipping.CHUA_XAC_NHAN || billEntity.getStatusShipping() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
             billEntity.setStatusShipping(EnumShipping.HUY);
+            List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
+            List<OrderDetailEntity> orderDetailEntity = billEntity.getOderDetailEntities();
+            for (OrderDetailEntity orderDetail : orderDetailEntity) {
+                ProductDetailEntity productDetailEntity = orderDetail.getProductDetailEntities();
+                productDetailEntity.setQuantity(productDetailEntity.getQuantity() + orderDetail.getQuantity_oder());
+                productDetailEntityList.add(productDetailEntity);
+            }
+            productDetailRepository.saveAll(productDetailEntityList);
+
         }
         if (billEntity.getStatusShipping() == EnumShipping.DA_GIAO_BEN_VAN_CHUYEN) {
             return new DataObj().setEdesc("400").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
@@ -297,18 +321,6 @@ public class BillServiceImpl extends BaseController implements BillService {
         }
         if (billEntity.getStatusShipping() == EnumShipping.HOAN_HANG) {
             return new DataObj().setEdesc("400").setEcode("đơn hàng đang được hoàn ề không thể hủy");
-        }
-        if (billEntity.getStatusShipping() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
-
-            List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
-            List<OrderDetailEntity> orderDetailEntity = billEntity.getOderDetailEntities();
-            for (OrderDetailEntity orderDetail : orderDetailEntity) {
-                ProductDetailEntity productDetailEntity = orderDetail.getProductDetailEntities();
-                productDetailEntity.setQuantity(productDetailEntity.getQuantity() + orderDetail.getQuantity_oder());
-                productDetailEntityList.add(productDetailEntity);
-            }
-            productDetailRepository.saveAll(productDetailEntityList);
-
         }
         billEntity.setUpdateAts(LocalDate.now());
 
@@ -328,11 +340,11 @@ public class BillServiceImpl extends BaseController implements BillService {
                         OrderDetailEntity orderDetailUpdate = orderDetailRepository.findByidOrOrderById(orderDetailRequest.getOrderDetailId());
                         ProductDetailEntity productDetailEntity = orderDetailUpdate.getProductDetailEntities();
                         if (productDetailEntity.getQuantity() < orderDetailRequest.getQuantity()) {
-                            return new DataObj().setEdesc("400").setEcode("Số Lượng sản phẩm quá lớn");
+                            return new DataObj().setEdesc("420").setEcode("Số Lượng sản phẩm quá lớn");
 
                         }
                         if (orderDetailUpdate == null) {
-                            return new DataObj().setEdesc("400").setEcode("Order không tồn tại");
+                            return new DataObj().setEdesc("420").setEcode("Order không tồn tại");
                         }
                         orderDetailUpdate.setQuantity_oder(orderDetailRequest.getQuantity());
                         orderDetailRepository.save(orderDetailUpdate);
@@ -340,24 +352,25 @@ public class BillServiceImpl extends BaseController implements BillService {
                     }
                 }
             }
-            if (billRequest.getStatus() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
-
-                List<OrderDetailEntity> orderDetailEntities = billEntity.getOderDetailEntities();
-                for (OrderDetailEntity orderDetailEntity : orderDetailEntities) {
-                    ProductDetailEntity productDetailEntity = orderDetailEntity.getProductDetailEntities();
-                    if (productDetailEntity.getQuantity() < orderDetailEntity.getQuantity_oder()) {
-                        return new DataObj().setEdesc("400").setEcode("số lượng sản phẩm " + productDetailEntity.getIdProduct().getNameProduct() + " quá lớn hăc sản phẩm đã hết");
+                if (billRequest.getStatus() == EnumShipping.HUY) {
+                    List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
+                    List<OrderDetailEntity> orderDetailEntity = billEntity.getOderDetailEntities();
+                    for (OrderDetailEntity order : orderDetailEntity) {
+                        ProductDetailEntity productDetailEntity = order.getProductDetailEntities();
+                        productDetailEntity.setQuantity(productDetailEntity.getQuantity() + order.getQuantity_oder());
+                        productDetailEntityList.add(productDetailEntity);
                     }
-                    productDetailEntity.setQuantity(productDetailEntity.getQuantity() - orderDetailEntity.getQuantity_oder());
-                    productDetailRepository.save(productDetailEntity);
+                    productDetailRepository.saveAll(productDetailEntityList);
+
                 }
-                billEntity.setUpdateAts(LocalDate.now());
-            }
 
             billEntity.setStatusShipping(billRequest.getStatus());
             billEntity.setUpdateAts(LocalDate.now());
             billRepository.save(billEntity);
 
+            if (billRequest.getEmail() != null) {
+                emailService.sendUpdateBill(billEntity);
+            }
             return new DataObj().setEdesc("200").setEcode("Cập nhật đơn hàng thành công");
         } catch (Exception e) {
             e.printStackTrace();
