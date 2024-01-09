@@ -20,6 +20,5 @@ public interface SizeRepository extends JpaRepository<SizeEntity,Long> {
 //    List<CategoryEntity> findBySizeID(Long id);
 
     boolean existsByName(String name);
-    SizeEntity findBySizeID(Long id);
 }
 

@@ -108,4 +108,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         return dataObj;
     }
+
+    @Override
+    public DataObj findCustomerByIdUser(Long idUser){
+        return new DataObj().setEdesc("Success").setEcode("200").setData(customerRepository.findCustomerById(idUser));
+    }
 }

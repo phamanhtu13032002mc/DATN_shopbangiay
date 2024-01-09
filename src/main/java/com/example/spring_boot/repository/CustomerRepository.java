@@ -19,4 +19,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity,Long> {
     CustomerEntity findByIdUser(Long id);
     @Query(value = "SELECT * FROM customer WHERE customer.email = ? AND customer.is_delete = false",nativeQuery = true)
     CustomerEntity findByEmail(String email);
+
+    @Query(value = "SELECT u from CustomerEntity u where u.userEntity.id = :idUser")
+    CustomerEntity findCustomerById(@Param("idUser") Long idUser);
 }

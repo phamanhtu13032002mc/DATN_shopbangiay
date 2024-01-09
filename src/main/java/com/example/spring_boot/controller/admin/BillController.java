@@ -79,11 +79,16 @@ public class BillController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email.");
-
-
-
-
-
 }
+    }
+
+    @GetMapping("/revenue-for-current-month")
+    public ResponseEntity<?> getRevenueStatisticsForCurrentMonth() {
+        return ResponseEntity.ok(billService.getRevenueStatisticsForCurrentMonth());
+    }
+
+    @GetMapping("/count-status-daylly")
+    public ResponseEntity<?> getCountStatusDaily(){
+            return ResponseEntity.ok(billService.getStatusDaily());
     }
 }
