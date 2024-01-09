@@ -13,6 +13,8 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<EventEntity,Long>{
     @Query(value = "SELECT * FROM event WHERE is_delete = 0 ORDER BY id_event DESC",nativeQuery = true)
     Page<EventEntity> findAllEvent(EventRequest eventRequest, Pageable pageable);
-    @Query("SELECT E FROM EventEntity E WHERE E.name LIKE %:name%")
+    @Query("SELECT E FROM EventEntity E WHERE :name IS NULL OR E.name LIKE %:name%")
     Page<EventEntity> findByNameLike(@Param("name") String name,Pageable pageable);
+
+    boolean existsByName(String name);
 }

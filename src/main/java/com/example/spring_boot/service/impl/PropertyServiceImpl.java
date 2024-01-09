@@ -50,16 +50,26 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Object create(PropertiesRequest propertiesRequest) {
         try {
-            if (propertiesRequest.getName() == null){
+            if (propertiesRequest.getName() == null) {
                 return new DataObj().setEdesc("Name event not null !!!");
             }
-             else {
+
+            // Kiểm tra xem tên đã tồn tại hay chưa
+            boolean isNameExists = propertyRepository.existsByName(propertiesRequest.getName());
+
+            if (isNameExists) {
+                return new DataObj().setEdesc("Tên đã tồn tại trong cơ sở dữ liệu");
+            } else {
                 PropertyEntity property = new PropertyEntity();
                 property.setName(propertiesRequest.getName());
-                return new DataObj().setEcode("200").setEdesc("Create Complete").setData(propertyRepository.save(property));
+
+                return new DataObj()
+                        .setEcode("200")
+                        .setEdesc("Create Complete")
+                        .setData(propertyRepository.save(property));
             }
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error creating");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating", e);
         }
     }
 

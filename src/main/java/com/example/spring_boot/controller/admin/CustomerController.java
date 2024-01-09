@@ -4,6 +4,7 @@ import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.CustomerRequest;
 import com.example.spring_boot.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,4 +38,8 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.findByNameLike(customerRequest));
     }
 
+    @GetMapping("/find-customer-by-user/{idUser}")
+    public ResponseEntity<?> findByUserId(@PathVariable("idUser") Long idUser){
+        return ResponseEntity.ok(customerService.findCustomerByIdUser(idUser));
+    }
 }

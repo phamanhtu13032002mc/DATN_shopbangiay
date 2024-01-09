@@ -10,12 +10,12 @@ public class CreateBillManger {
 
     private EnumShipping status;
 
-    private String transportFee;
+    private Double transportFee;
 
     private Long voucherId;
     private Double discount;
     private Double downTotal;
-    private Boolean payment;
+    private int payment;
 
     private Double total;
 

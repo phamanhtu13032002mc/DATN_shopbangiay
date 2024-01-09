@@ -4,6 +4,8 @@ import com.example.spring_boot.controller.BaseController;
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
+import com.example.spring_boot.payload.response.DailyStatusCountDTO;
+import com.example.spring_boot.payload.response.RevenueStatisticsDTO;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,10 +70,10 @@ public class BillServiceImpl extends BaseController implements BillService {
 
 
                 if (product == null) {
-                    return new DataObj().setEdesc("400").setEdesc("Sản phẩm không tồn tại");
+                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
                 }
                 if (productEntity.getQuantity() < odr.getQuantity()) {
-                    return new DataObj().setEdesc("400").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
+                    return new DataObj().setEcode("420").setEdesc("Rất tiếc Số Lượng Sản Phẩm trên hóa đơn Lớn hơn số hàng tồn trong kho");
 
                 }
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
@@ -101,13 +105,14 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
+
             billEntity.setStatusShipping(EnumShipping.CHUA_XAC_NHAN);
             billEntity.setAddress(createBillManger.getAddress());
             billEntity.setSalesStatus(true);
-
+            billEntity.setPayment(createBillManger.getPayment());
             billEntity.setSdt(createBillManger.getPhoneNumber());
             billEntity.setTotal(createBillManger.getTotal());
-            billEntity.setTransportFee(billEntity.getTransportFee());
+            billEntity.setTransportFee(createBillManger.getTransportFee());
             billEntity.setDownTotal(createBillManger.getDownTotal());
             billEntity.setFullName(createBillManger.getFullName());
             billEntity.setNote(createBillManger.getNote());
@@ -127,36 +132,40 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Override
     public DataObj createOff(CreateBillMangerOff createBillManger) {
         try {
-            long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String formattedDate = LocalDateTime.now().format(formatter);
+            Long idBill = Long.parseLong(formattedDate);
+            Optional<CustomerEntity> customer = customerRepository.findById(3L);
             BillEntity billEntity = new BillEntity();
-            billEntity.setId(randomNumber);
-            while (billRepository.existsById(billEntity.getId())) {
-                billEntity.setId(randomNumber);
-
-            }
+            billEntity.setId(idBill);
+//            while (billRepository.existsById(billEntity.getId())) {
+//                billEntity.setId(randomNumber);
+//
+//            }
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
+            billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
                 ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(odr.getProductId(), odr.getPropertyId(), odr.getSizeId());
                 ProductEntity product = productRepository.findByIdProduct(odr.getProductId());
                 PropertyEntity property = propertyRepository.findByIdProperty(odr.getPropertyId());
-                SizeEntity sizeEntity = sizeRepository.findBySizeID(odr.getSizeId());
+                Optional<SizeEntity> sizeEntity = sizeRepository.findById(odr.getSizeId());
                 if (productEntity == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Sản phẩm không tồn tại");
 
                 }
                 if (product == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Sản phẩm không tồn tại");
                 }
                 if (property == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Màu sắc không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Màu sắc không tồn tại");
                 }
-                if (sizeEntity == null) {
-                    return new DataObj().setEdesc("420").setEdesc("size không tồn tại");
+                if (sizeEntity.isEmpty()) {
+                    return new DataObj().setEcode("420").setEdesc("size không tồn tại");
                 }
                 if (productEntity.getQuantity() < odr.getQuantity()) {
-                    return new DataObj().setEdesc("420").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
+                    return new DataObj().setEcode("420").setEdesc("Số Lượng Sản Phẩm trên bill Lớn hơn số hàng tồn trong kho");
                 }
 
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
@@ -189,7 +198,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucherEntity.setAmount(voucherEntity.getAmount() - 1L);
                 voucherRepository.save(voucherEntity);
             }
-            Optional<CustomerEntity> customerEntity = customerRepository.findById(4L);
+            Optional<CustomerEntity> customerEntity = customerRepository.findById(3L);
             billEntity.setStatusShipping(EnumShipping.KHACH_DA_NHAN_HANG);
             billEntity.setAddress("shop bán giày");
             billEntity.setPayment(0);
@@ -201,13 +210,13 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setDownTotal(createBillManger.getDownTotal());
             billEntity.setFullName(createBillManger.getFullName());
             billEntity.setNote(createBillManger.getNote());
-            billRepository.save(billEntity);
+            billEntity = billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
 //            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
 //            if (customer.get().getEmail() != null) {
 //                emailService.sendCreateBill(customerEntity, billEntity);
 //            }
-            return new DataObj().setEdesc("200").setEcode("success");
+            return new DataObj().setData(billEntity).setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEdesc("420").setEcode("Error");
@@ -374,6 +383,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     }
 
+
     @Override
     public Object findByDatePhoneStatus(SearchBill searchBill) {
 
@@ -381,7 +391,8 @@ public class BillServiceImpl extends BaseController implements BillService {
             Pageable pageable = PageRequest.of(Math.toIntExact(searchBill.getPage()), Math.toIntExact(searchBill.getSize()));
 
             Page<Object> billEntities = billRepository.findAllBill(
-                    searchBill.getStartDate(), searchBill.getPhone(), searchBill.getEmail(), searchBill.getStatusShipping(), searchBill.getPayment(),
+                    searchBill.getStartDate(), searchBill.getPhone(), searchBill.getEmail(), searchBill.getStatusShipping(), searchBill.getPayment(), searchBill.getFullName()
+                    , searchBill.getSalesStatus(),
                     pageable);
             DataObj dataObj = new DataObj();
             dataObj.setEcode("200");
@@ -411,15 +422,35 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     @Override
     public DataObj NumberOfOrderStatuses() {
+        return new DataObj().setEdesc("200").setEcode("thành công").setData(billRepository.NumberOfOrderStatuses());
+
+    }
+
+    @Override
+    public Object findAllByIdCustomer(FindIdByCustomer findIdByCustomer) {
         try {
-            return new DataObj().setEdesc("200").setEcode("thành công").setData(billRepository.NumberOfOrderStatuses());
+            Pageable pageable = PageRequest.of(Math.toIntExact(findIdByCustomer.getPage()), Math.toIntExact(findIdByCustomer.getSize()));
 
+            DataObj dataObj = new DataObj();
+            dataObj.setEcode("200");
+            dataObj.setEdesc("success");
+            dataObj.setData(billRepository.findAllBillByIdCustomer(findIdByCustomer.getId_customer(), pageable));
+            return dataObj;
         } catch (Exception e) {
-            e.printStackTrace();
-            return new DataObj().setEdesc("400").setEcode("Lỗi tìm trạng thái");
-
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error bill search");
         }
     }
+
+    @Override
+    public List<RevenueStatisticsDTO> getRevenueStatisticsForCurrentMonth() {
+        return billRepository.getRevenueStatisticsForCurrentMonth();
+    }
+
+    @Override
+    public List<DailyStatusCountDTO> getStatusDaily() {
+        return billRepository.getStatusCountsForCurrentMonth();
+    }
+
 }
 
 

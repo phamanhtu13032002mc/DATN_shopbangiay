@@ -3,6 +3,8 @@ package com.example.spring_boot.repository;
 import com.example.spring_boot.entity.BillEntity;
 import com.example.spring_boot.entity.EnumShipping;
 import com.example.spring_boot.payload.response.BillStatusShipping;
+import com.example.spring_boot.payload.response.DailyStatusCountDTO;
+import com.example.spring_boot.payload.response.RevenueStatisticsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,13 +38,18 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "AND (:email IS NULL OR b.fullName LIKE CONCAT('%', :email, '%')) " +
             "AND (:statusShipping IS NULL OR b.statusShipping = :statusShipping) " +
             "AND (:payment IS NULL OR b.payment = :payment) " +
-            "GROUP BY b.id")
+            "AND (:fullName IS NULL OR b.fullName LIKE CONCAT('%', :fullName, '%')) " +
+            "AND (:salesStatus IS NULL OR b.salesStatus = :salesStatus) " +
+            "GROUP BY b.id " +
+            "ORDER BY b.createAt DESC")
     Page<Object> findAllBill(
             @Param("startDate") LocalDate startDate,
             @Param("phone") String phone,
             @Param("email") String email,
             @Param("statusShipping") EnumShipping statusShipping,
             @Param("payment") Integer payment,
+            @Param("fullName") String fullName,
+            @Param("salesStatus") Boolean salesStatus,
             Pageable pageable
     );
 
@@ -66,5 +73,31 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "FROM BillEntity b")
     List<BillStatusShipping> NumberOfOrderStatuses();
 
+    @Query("SELECT b " +
+            "FROM BillEntity b " +
+            "JOIN b.oderDetailEntities " +
+            "LEFT JOIN b.voucherEntities " +
+            "LEFT JOIN b.customerEntity  " +
+            "WHERE b.customerEntity.id = :idCustomer " +
+            "ORDER BY b.createAt DESC")
+    Page<Object> findAllBillByIdCustomer(@Param("idCustomer") Long idCustomer, Pageable pageable);
+
+    @Query("SELECT new com.example.spring_boot.payload.response.RevenueStatisticsDTO(b.createAt, SUM(b.total)) " +
+            "FROM BillEntity b " +
+            "WHERE MONTH(b.createAt) = MONTH(CURRENT_DATE) AND YEAR(b.createAt) = YEAR(CURRENT_DATE) " +
+            "GROUP BY b.createAt")
+    List<RevenueStatisticsDTO> getRevenueStatisticsForCurrentMonth();
+
+    @Query("SELECT new com.example.spring_boot.payload.response.DailyStatusCountDTO(" +
+            "b.createAt, " +
+            "SUM(CASE WHEN b.statusShipping = com.example.spring_boot.entity.EnumShipping.HUY THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN b.statusShipping = com.example.spring_boot.entity.EnumShipping.KHACH_DA_NHAN_HANG THEN 1 ELSE 0 END)) " +
+            "FROM BillEntity b " +
+            "WHERE MONTH(b.createAt) = MONTH(CURRENT_DATE) AND YEAR(b.createAt) = YEAR(CURRENT_DATE) " +
+            "GROUP BY b.createAt")
+    List<DailyStatusCountDTO> getStatusCountsForCurrentMonth();
 
 }
+
+
+
