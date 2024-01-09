@@ -53,21 +53,31 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Object create(CategoryRequest categoryRequest) {
         try {
-            if (categoryRequest.getName() == null){
+            if (categoryRequest.getName() == null) {
                 return new DataObj().setEdesc("Name event not null !!!");
             }
-            if (categoryRequest.getGender() == null){
+
+            if (categoryRequest.getGender() == null) {
                 return new DataObj().setEdesc("Gender not null !!!");
             }
-            else {
+
+            // Kiểm tra xem tên đã tồn tại hay chưa
+            boolean isNameExists = categoryRepository.existsByName(categoryRequest.getName());
+
+            if (isNameExists) {
+                return new DataObj().setEdesc("Tên đã tồn tại trong cơ sở dữ liệu");
+            } else {
                 CategoryEntity category = new CategoryEntity();
                 category.setName(categoryRequest.getName());
                 category.setGender(categoryRequest.getGender());
-                return new DataObj().setEcode("200").setEdesc("Create Complete").setData(categoryRepository.save(category));
 
+                return new DataObj()
+                        .setEcode("200")
+                        .setEdesc("Create Complete")
+                        .setData(categoryRepository.save(category));
             }
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi Category");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi Category", e);
         }
     }
 

@@ -66,6 +66,11 @@ public class BillController {
             @RequestBody SearchBill searchBill) {
         return ResponseEntity.ok(billService.findByDatePhoneStatus(searchBill));
     }
+    @PostMapping(value = "/find-all-by-id-customer")
+    public ResponseEntity<?> findAllByIdCustomer(
+            @RequestBody FindIdByCustomer findIdByCustomer) {
+        return ResponseEntity.ok(billService.findAllByIdCustomer(findIdByCustomer));
+    }
     @GetMapping(value = "/find-by-id_bill/{idBill}")
     public ResponseEntity<?> findByIdBill(@PathVariable("idBill") Long idBill){
         return ResponseEntity.ok(billService.findByIdBill(idBill));
@@ -78,8 +83,7 @@ public class BillController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email.");
-
-        }
+}
     }
     @GetMapping(value = "/find-number-of-order-statuses")
     public ResponseEntity<?> NumberOfOrderStatuses(){
@@ -92,6 +96,13 @@ public class BillController {
     }
 
 
+    @GetMapping("/revenue-for-current-month")
+    public ResponseEntity<?> getRevenueStatisticsForCurrentMonth() {
+        return ResponseEntity.ok(billService.getRevenueStatisticsForCurrentMonth());
+    }
 
-
+    @GetMapping("/count-status-daylly")
+    public ResponseEntity<?> getCountStatusDaily(){
+            return ResponseEntity.ok(billService.getStatusDaily());
+    }
 }

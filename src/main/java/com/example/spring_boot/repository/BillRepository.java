@@ -5,6 +5,8 @@ import com.example.spring_boot.entity.EnumShipping;
 import com.example.spring_boot.payload.response.BillStatusShipping;
 import com.example.spring_boot.payload.response.Statistical;
 import com.example.spring_boot.payload.response.statisticalResponse;
+import com.example.spring_boot.payload.response.DailyStatusCountDTO;
+import com.example.spring_boot.payload.response.RevenueStatisticsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -73,6 +75,29 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "FROM BillEntity b")
     List<BillStatusShipping> NumberOfOrderStatuses();
 
+    @Query("SELECT b " +
+            "FROM BillEntity b " +
+            "JOIN b.oderDetailEntities " +
+            "LEFT JOIN b.voucherEntities " +
+            "LEFT JOIN b.customerEntity  " +
+            "WHERE b.customerEntity.id = :idCustomer " +
+            "ORDER BY b.createAt DESC")
+    Page<Object> findAllBillByIdCustomer(@Param("idCustomer") Long idCustomer, Pageable pageable);
+
+    @Query("SELECT new com.example.spring_boot.payload.response.RevenueStatisticsDTO(b.createAt, SUM(b.total)) " +
+            "FROM BillEntity b " +
+            "WHERE MONTH(b.createAt) = MONTH(CURRENT_DATE) AND YEAR(b.createAt) = YEAR(CURRENT_DATE) " +
+            "GROUP BY b.createAt")
+    List<RevenueStatisticsDTO> getRevenueStatisticsForCurrentMonth();
+
+    @Query("SELECT new com.example.spring_boot.payload.response.DailyStatusCountDTO(" +
+            "b.createAt, " +
+            "SUM(CASE WHEN b.statusShipping = com.example.spring_boot.entity.EnumShipping.HUY THEN 1 ELSE 0 END), " +
+            "SUM(CASE WHEN b.statusShipping = com.example.spring_boot.entity.EnumShipping.KHACH_DA_NHAN_HANG THEN 1 ELSE 0 END)) " +
+            "FROM BillEntity b " +
+            "WHERE MONTH(b.createAt) = MONTH(CURRENT_DATE) AND YEAR(b.createAt) = YEAR(CURRENT_DATE) " +
+            "GROUP BY b.createAt")
+    List<DailyStatusCountDTO> getStatusCountsForCurrentMonth();
     @Query("SELECT DAY(b.createAt) as Date, SUM(b.downTotal) AS Sum  " +
             "FROM BillEntity b " +
             "WHERE MONTH(b.createAt) = 12 " +
@@ -84,3 +109,6 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
 
 
 }
+
+
+

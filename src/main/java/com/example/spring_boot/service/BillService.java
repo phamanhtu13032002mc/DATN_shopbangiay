@@ -6,6 +6,8 @@ import com.example.spring_boot.entity.OrderDetailEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
+import com.example.spring_boot.payload.response.DailyStatusCountDTO;
+import com.example.spring_boot.payload.response.RevenueStatisticsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -30,6 +32,12 @@ public interface BillService {
 
     Object findByDatePhoneStatus(SearchBill searchBill);
 
+    Object findAllByIdCustomer(FindIdByCustomer findIdByCustomer);
+
     Object findByIdBill(Long idBill);
     DataObj NumberOfOrderStatuses();
+
+    List<RevenueStatisticsDTO> getRevenueStatisticsForCurrentMonth();
+
+    List<DailyStatusCountDTO> getStatusDaily();
 }

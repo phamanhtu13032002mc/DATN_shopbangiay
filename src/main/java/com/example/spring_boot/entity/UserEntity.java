@@ -32,6 +32,7 @@ public class UserEntity {
 
     @NotBlank
     @Size(max = 120)
+    @JsonIgnore
     private String password;
 
     @NotBlank
