@@ -4,6 +4,8 @@ import com.example.spring_boot.entity.CategoryEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
+import com.example.spring_boot.repository.BillRepository;
+import com.example.spring_boot.repository.OrderDetailRepository;
 import com.example.spring_boot.repository.ProductDetailRepository;
 import com.example.spring_boot.repository.ProductRepository;
 import com.example.spring_boot.service.CategoryService;
@@ -32,7 +34,8 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
-
+    @Autowired
+    ProductDetailRepository billRepository;
     @PostMapping(value = "/find-all")
     public ResponseEntity<?> getProductList(
             @RequestBody ProductRequest productRequest) {
@@ -87,7 +90,12 @@ public class ProductController {
     }
 
     @PostMapping("/find-quantity-product-name")
-    public ResponseEntity<?> findQuantityProductByName(@RequestBody FindQuantityProductRequestByName findQuantityProductRequest){
+    public ResponseEntity<?> findQuantityProductByName(@RequestBody FindQuantityProductRequestByName findQuantityProductRequest) {
         return ResponseEntity.ok(productService.findQuantityProductByName(findQuantityProductRequest));
     }
+    @PostMapping("/find-product-name-db")
+    public ResponseEntity<?> findQuantityProductByName(@RequestBody OrderDetailRequest findQuantityProductRequest){
+        return ResponseEntity.ok(billRepository.findByIdProductAndNamePropertyAndNameIdSize(findQuantityProductRequest.getProductId(),findQuantityProductRequest.getProperty(),String.valueOf(findQuantityProductRequest.getSize())));
+    }
+
 }

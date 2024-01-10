@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
 
@@ -44,5 +45,8 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
             "and p.idProperty.name= :nameProperty " +
             "and p.idSize.name = :nameSize")
     Object findQuantityByName(@Param("nameProduct") Long nameProduct, @Param("nameProperty") String nameProperty, @Param("nameSize") String nameSize);
+
+    @Query(value = "SELECT pd FROM ProductDetailEntity pd WHERE pd.idProduct.id = :idProduct AND pd.idProperty.name = :nameProperty AND pd.idSize.name = :nameSize ")
+    ProductDetailEntity findByIdProductAndNamePropertyAndNameIdSize(@Param("idProduct") Long idProduct, @Param("nameProperty") String nameProperty,@Param("nameSize") String nameSize);
 
 }

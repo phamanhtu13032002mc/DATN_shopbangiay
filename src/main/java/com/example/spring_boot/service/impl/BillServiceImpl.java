@@ -60,13 +60,14 @@ public class BillServiceImpl extends BaseController implements BillService {
                 billEntity.setId(randomNumber);
 
             }
+
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
             billEntity.setCustomerEntity(customer.get());
             billEntity.setCreateAt(LocalDate.now());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
-                ProductDetailEntity productEntity = productDetailRepository.findByIdProductDetail(odr.getProductId());
-                ProductEntity product = productRepository.findByIdProduct(productEntity.getIdProduct().getId());
+                ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndNamePropertyAndNameIdSize(odr.getProductId(), odr.getProperty(),String.valueOf(odr.getSize()));
+                ProductEntity product = productRepository.findByIdProduct(odr.getProductId());
                 if (product.getIsDelete() == true){
                     return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
 
