@@ -69,11 +69,11 @@ public class BillServiceImpl extends BaseController implements BillService {
                 ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndNamePropertyAndNameIdSize(odr.getProductId(), odr.getProperty(),String.valueOf(odr.getSize()));
                 ProductEntity product = productRepository.findByIdProduct(odr.getProductId());
                 if (product.getIsDelete() == true){
-                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Sản phẩm không tồn tại");
 
                 }
                 if (product == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Sản phẩm không tồn tại");
+                    return new DataObj().setEcode("420").setEdesc("Sản phẩm không tồn tại");
                 }
                 if (productEntity.getQuantity() < odr.getQuantity()) {
                     return new DataObj().setEcode("420").setEdesc("Rất tiếc Số Lượng Sản Phẩm trên hóa đơn Lớn hơn số hàng tồn trong kho");
@@ -94,14 +94,14 @@ public class BillServiceImpl extends BaseController implements BillService {
             if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
                 VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(createBillManger.getVoucherId());
                 if (voucherEntity == null) {
-                    return new DataObj().setEdesc("400").setEdesc("Không tìm thấy voucher");
+                    return new DataObj().setEdesc("420").setEdesc("Không tìm thấy voucher");
 
                 }
                 if (createBillManger.getTotal() < 350000L) {
-                    return new DataObj().setEdesc("400").setEdesc("Hóa Đơn Nhỏ Hơn 350k không thể ap dụng Voucher");
+                    return new DataObj().setEdesc("420").setEdesc("Hóa Đơn Nhỏ Hơn 350k không thể ap dụng Voucher");
                 }
                 if (voucherEntity.getAmount() <= 0) {
-                    return new DataObj().setEdesc("400").setEdesc("voucher đã hết hạn");
+                    return new DataObj().setEdesc("420").setEdesc("voucher đã hết hạn");
 
                 }
 
@@ -232,16 +232,16 @@ public class BillServiceImpl extends BaseController implements BillService {
     public DataObj updateBillCustomer(UpdateBillCustomer updateBillCustomer) {
         BillEntity entity = billRepository.findByidBill(updateBillCustomer.getIdBill());
         if (entity == null) {
-            return new DataObj().setEdesc("400").setEcode("Đơn hàng không tồn tại");
+            return new DataObj().setEdesc("420").setEcode("Đơn hàng không tồn tại");
 
         }
         if (!entity.getStatusShipping().equals(EnumShipping.CHUA_XAC_NHAN)) {
-            return new DataObj().setEdesc("400").setEcode("không thể hủy đơn hàng khi đã xác nhận");
+            return new DataObj().setEdesc("420").setEcode("không thể hủy đơn hàng khi đã xác nhận");
 
         }
         CustomerEntity customer = customerRepository.findByIdUser(getAuthUID());
         if (!Objects.equals(customer.getId(), entity.getCustomerEntity().getId())) {
-            return new DataObj().setEdesc("400").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
+            return new DataObj().setEdesc("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
 
         }
         if (updateBillCustomer.getEnumShipping()== EnumShipping.HUY){
@@ -271,23 +271,23 @@ public class BillServiceImpl extends BaseController implements BillService {
         BillEntity billEntity = billRepository.findByidBill(updateBillCustomer.getIdBill());
         CustomerEntity customer = customerRepository.findByIdUser(getAuthUID());
         if (!Objects.equals(customer.getId(), billEntity.getCustomerEntity().getId())) {
-            return new DataObj().setEdesc("400").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
+            return new DataObj().setEdesc("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
 
         }
         if (billEntity.getStatusShipping() == EnumShipping.CHUA_XAC_NHAN || billEntity.getStatusShipping() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
             billEntity.setStatusShipping(EnumShipping.HUY);
         }
         if (billEntity.getStatusShipping() == EnumShipping.DA_GIAO_BEN_VAN_CHUYEN) {
-            return new DataObj().setEdesc("400").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
+            return new DataObj().setEdesc("420").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HUY) {
-            return new DataObj().setEdesc("400").setEcode("Đơn hàng này đã được hủy trước đó");
+            return new DataObj().setEdesc("420").setEcode("Đơn hàng này đã được hủy trước đó");
         }
         if (billEntity.getStatusShipping() == EnumShipping.KHACH_DA_NHAN_HANG) {
-            return new DataObj().setEdesc("400").setEcode("khách đã nhận hàng không thể hủy");
+            return new DataObj().setEdesc("420").setEcode("khách đã nhận hàng không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HOAN_HANG) {
-            return new DataObj().setEdesc("400").setEcode("đơn hàng đang được hoàn ề không thể hủy");
+            return new DataObj().setEdesc("420").setEcode("đơn hàng đang được hoàn ề không thể hủy");
         }
         billEntity.setUpdateAts(LocalDate.now());
         billRepository.save(billEntity);
@@ -299,7 +299,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     public DataObj cancelBillManager(BillManager billManager) {
         BillEntity billEntity = billRepository.findByidBill(billManager.getIdBill());
         if (billEntity == null) {
-            return new DataObj().setEdesc("400").setEcode("không tìm thấy đơn hàng");
+            return new DataObj().setEdesc("420").setEcode("không tìm thấy đơn hàng");
         }
         CustomerEntity customer = billEntity.getCustomerEntity();
 
@@ -316,16 +316,16 @@ public class BillServiceImpl extends BaseController implements BillService {
 
         }
         if (billEntity.getStatusShipping() == EnumShipping.DA_GIAO_BEN_VAN_CHUYEN) {
-            return new DataObj().setEdesc("400").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
+            return new DataObj().setEdesc("420").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HUY) {
-            return new DataObj().setEdesc("400").setEcode("Đơn hàng này đã được hủy trước đó");
+            return new DataObj().setEdesc("420").setEcode("Đơn hàng này đã được hủy trước đó");
         }
         if (billEntity.getStatusShipping() == EnumShipping.KHACH_DA_NHAN_HANG) {
-            return new DataObj().setEdesc("400").setEcode("khách đã nhận hàng không thể hủy");
+            return new DataObj().setEdesc("420").setEcode("khách đã nhận hàng không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HOAN_HANG) {
-            return new DataObj().setEdesc("400").setEcode("đơn hàng đang được hoàn ề không thể hủy");
+            return new DataObj().setEdesc("420").setEcode("đơn hàng đang được hoàn ề không thể hủy");
         }
         billEntity.setUpdateAts(LocalDate.now());
 
