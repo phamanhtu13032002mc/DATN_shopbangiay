@@ -1,8 +1,6 @@
 package com.example.spring_boot.service.impl;
 
-import com.example.spring_boot.entity.CategoryEntity;
-import com.example.spring_boot.entity.EventEntity;
-import com.example.spring_boot.entity.VoucherEntity;
+import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.VoucherRequest;
 import com.example.spring_boot.repository.VoucherRepository;
@@ -15,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,33 +44,24 @@ public class VoucherServieceImpl implements VoucherService {
     @Override
     public Object create(VoucherRequest voucherRequest) {
         try {
-            if (voucherRequest.getName() == null){
-                return new DataObj().setEdesc("Name  not null !!!");
-            }
-            if (voucherRequest.getAmount() == null){
-                return new DataObj().setEdesc("amount not null !!!");
-            }
-            if (voucherRequest.getDiscount() == null){
-                return new DataObj().setEdesc("Discount not null !!!");
-            }
-            if (voucherRequest.getMinimumValue() == null){
-                return new DataObj().setEdesc("Minimum Value not null !!!");
-            }
-            if (voucherRequest.getIdEvent() == null){
-                return new DataObj().setEdesc("id_event Value not null !!!");
-            }
-            else {
-                VoucherEntity voucher = new VoucherEntity();
+            VoucherEntity voucher = new VoucherEntity();
+
+            EventEntity eventEntity =  voucherRepository.findByIdEven(voucherRequest.getIdEvent());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String formattedDate = LocalDateTime.now().format(formatter);
+            Long idVoucher = Long.parseLong(formattedDate);
+                voucher.setId(idVoucher);
                 voucher.setName(voucherRequest.getName());
                 voucher.setAmount(voucherRequest.getAmount());
                 voucher.setDiscount(voucherRequest.getDiscount());
                 voucher.setMinimumValue(voucherRequest.getMinimumValue());
-                voucher.setIdEvent(voucherRequest.getIdEvent());
+                voucher.setEventEntity(eventEntity);
 
                 return new DataObj().setEcode("200").setEdesc("Create Complete").setData(voucherRepository.save(voucher));
 
-            }
+
         }catch (Exception e){
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi Voucher");
         }
 
@@ -102,7 +93,6 @@ public class VoucherServieceImpl implements VoucherService {
                 voucher.setAmount(voucherRequest.getAmount());
                 voucher.setDiscount(voucherRequest.getDiscount());
                 voucher.setMinimumValue(voucherRequest.getMinimumValue());
-                voucher.setIdEvent(voucherRequest.getIdEvent());
                 return new DataObj().setEcode("200").setEdesc("Success").setData(voucherRepository.save(voucher));
             } else {
                 return new DataObj().setEcode("505").setEdesc("ID does not exit !");

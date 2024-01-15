@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Table(name = "voucherbill")
 public class VoucherBillEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

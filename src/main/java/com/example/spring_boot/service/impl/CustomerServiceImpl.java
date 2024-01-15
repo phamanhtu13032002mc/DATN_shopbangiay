@@ -1,11 +1,11 @@
 package com.example.spring_boot.service.impl;
 
-import com.example.spring_boot.entity.CategoryEntity;
-import com.example.spring_boot.entity.CustomerEntity;
+import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.CategoryRequest;
 import com.example.spring_boot.payload.request.CustomerRequest;
 import com.example.spring_boot.repository.CustomerRepository;
+import com.example.spring_boot.repository.UserRepository;
 import com.example.spring_boot.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +13,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
+    PasswordEncoder encoder;
+    @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public Page<CustomerEntity> findAllCustomer(CustomerRequest customerRequest) {
@@ -44,9 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
             if (customerRequest.getEmail() == null) {
                 return new DataObj().setEdesc("phone not null !!!");
             }
-            if (customerRequest.getId_address() == null) {
-                return new DataObj().setEdesc("id_address not null !!!");
-            } else {
+           else {
                 CustomerEntity customer = new CustomerEntity();
                 customer.setFullName(customerRequest.getFullName());
                 customer.setAddress(customerRequest.getAddress());
@@ -79,16 +84,23 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Object update(CustomerRequest customerRequest) {
         try {
-            Optional<CustomerEntity> optionalCustomer = customerRepository.findById(customerRequest.getId());
-            if (optionalCustomer.isPresent()) {
-                CustomerEntity customer = optionalCustomer.get();
-                customer.setFullName(customerRequest.getFullName());
+            CustomerEntity customer = customerRepository.findCuustomerById(customerRequest.getId());
+            if (customer != null) {
+                UserEntity user = customer.getUserEntity();
+                user.setUsername(customerRequest.getUserName());
+                user.setEmail(customerRequest.getEmail());
+                user.setPhone(customerRequest.getPhone());
+                user.setPassword (encoder.encode(customerRequest.getPassWord()));
+                UserEntity userEntity =  userRepository.save(user);
                 customer.setAddress(customerRequest.getAddress());
-                customer.setPhone(customerRequest.getPhone());
                 customer.setEmail(customerRequest.getEmail());
+                customer.setPhone(customerRequest.getPhone());
+                customer.setFullName(customerRequest.getFullName());
+                customer.setUserEntity(userEntity);
+                customerRepository.save(customer);
                 return new DataObj().setEcode("200").setEdesc("Success").setData(customerRepository.save(customer));
             } else {
-                return new DataObj().setEcode("505").setEdesc("ID does not exit !");
+                return new DataObj().setEcode("420").setEdesc("ID does not exit !");
             }
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");

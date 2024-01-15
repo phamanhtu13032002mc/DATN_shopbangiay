@@ -13,17 +13,11 @@ import javax.validation.constraints.NotBlank;
 public class CustomerRequest {
     private Long id;
     private String fullName;
-
+    private String userName;
     private String address;
-
-
     private String phone;
-
-
-    private Long id_address;
-
-
     private String email;
+    private String passWord;
     private Long size;
     private Long page;
 }
