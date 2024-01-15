@@ -2,6 +2,7 @@ package com.example.spring_boot.service.impl;
 
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.CheckVoucherRequest;
 import com.example.spring_boot.payload.request.VoucherRequest;
 import com.example.spring_boot.repository.VoucherRepository;
 import com.example.spring_boot.service.VoucherService;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -113,6 +115,38 @@ public class VoucherServieceImpl implements VoucherService {
         dataObj.setData(voucherEntities.getContent());
 
         return dataObj;
+    }
+
+    @Override
+    public DataObj checkVoucher(CheckVoucherRequest voucherRequest) {
+        try {
+            LocalDate currentDate = LocalDate.now();
+            VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(voucherRequest.getId());
+            if (voucherEntity == null) {
+                return new DataObj().setEdesc("420").setEdesc("Không tìm thấy voucher");
+            }
+            if (voucherRequest.getTotal() <  voucherEntity.getMinimumValue()) {
+                return new DataObj().setEdesc("420").setEdesc("Hóa Đơn Nhỏ Hơn giá trị yêu cầu của voucher không thể ap dụng Voucher");
+            }
+            if (voucherEntity.getAmount() <= 0) {
+                return new DataObj().setEdesc("420").setEdesc("số lượng voucher đã hết");
+
+            }
+            if (voucherEntity.getEventEntity().getEndDay().isBefore(currentDate)) {
+                return new DataObj().setEdesc("420").setEdesc("voucher đã hết hạn");
+
+            }
+            if (voucherEntity.getEventEntity().getStartDay().isAfter(currentDate)) {
+                return new DataObj().setEdesc("420").setEdesc("voucher Chưa bắt đầu");
+            }
+            return new DataObj(voucherEntity).setEdesc("200").setEdesc("Thành Công");
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return new DataObj().setEdesc("400").setEdesc("lỗi");
+
+        }
     }
 
 
