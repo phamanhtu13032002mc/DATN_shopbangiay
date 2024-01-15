@@ -1,5 +1,7 @@
 package com.example.spring_boot.service;
 import com.example.spring_boot.entity.VoucherEntity;
+import com.example.spring_boot.payload.DataObj;
+import com.example.spring_boot.payload.request.CheckVoucherRequest;
 import com.example.spring_boot.payload.request.VoucherRequest;
 import org.springframework.data.domain.Page;
 
@@ -24,4 +26,6 @@ public interface VoucherService {
     Object update(VoucherRequest voucherRequest);
 
     Object findByNameLike(VoucherRequest voucherRequest);
+
+    DataObj checkVoucher(CheckVoucherRequest voucherRequest);
 }
