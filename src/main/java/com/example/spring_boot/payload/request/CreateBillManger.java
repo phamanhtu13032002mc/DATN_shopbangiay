@@ -31,5 +31,7 @@ public class CreateBillManger {
 
     private Long idCustomer;
     private String email;
+    private String toWardCode;
+    private int toDistrictId;
     private List<OrderDetailRequest> orderDetailRequests;
 }

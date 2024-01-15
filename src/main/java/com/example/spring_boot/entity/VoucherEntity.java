@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Table(name = "voucher")
 public class VoucherEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long amount;
@@ -30,12 +29,8 @@ public class VoucherEntity implements Serializable {
     private Boolean isDelete = false;
 
     @ManyToOne
-    @JoinColumn(name = "id_event", updatable = false, insertable = false)
+    @JoinColumn(name = "id_event")
     private EventEntity eventEntity;
-
-
-    @Column(name = "id_event")
-    private Long idEvent;
 
     @JsonIgnore
     @ManyToOne

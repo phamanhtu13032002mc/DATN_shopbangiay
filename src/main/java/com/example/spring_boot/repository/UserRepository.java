@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value = "select * from users where is_delete = 0 order by id desc ",nativeQuery = true)
     List<UserEntity> findAllByDeleteFalse();
 
+
     @Query(value = "select * from users where username LIKE %:username%  order by id desc ",nativeQuery = true)
     List<UserEntity> findUserByLike(@Param("username") String username);
     Optional<UserEntity> findByUsername(String username);
