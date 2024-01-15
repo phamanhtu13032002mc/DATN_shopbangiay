@@ -519,8 +519,8 @@ public class BillServiceImpl extends BaseController implements BillService {
         orderData.put("to_name", createBillManger.getFullName());
         orderData.put("to_phone", createBillManger.getPhoneNumber());
         orderData.put("to_address", createBillManger.getAddress());
-        orderData.put("to_ward_code", "907557");
-        orderData.put("to_district_id", 3440);
+        orderData.put("to_ward_code", createBillManger.getToWardCode());
+        orderData.put("to_district_id", createBillManger.getToDistrictId());
         orderData.put("cod_amount", createBillManger.getDownTotal().intValue());
         orderData.put("content", createBillManger.getNoteRefund());
         orderData.put("weight", 200);
@@ -560,6 +560,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             } else {
                 System.out.println("Đã có lỗi xảy ra:");
                 System.out.println(response.body());
+                return "Đã có lỗi xảy ra: "+ response.body();
             }
             return extractTrackingCode(response);
         } catch (Exception e) {

@@ -41,6 +41,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserEntity save(UserEntity userEntity) {
+
         userEntity.setPassword(encoder.encode(userEntity.getPassword()));
         return userRepository.save(userEntity);
     }
@@ -91,4 +92,32 @@ public class AccountServiceImpl implements AccountService {
 
         }
     }
+
+    @Override
+    public DataObj SaveStaff(SaveUserRequest saveUserRequest) {
+        try {
+            UserEntity user = new UserEntity();
+            Set<RoleEntity> roleEntities = new HashSet<>();
+            RoleEntity userRoleEntity = roleRepository.findByName(ERole.ROLE_STAFF)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roleEntities.add(userRoleEntity);
+            user.setUsername(saveUserRequest.getUsername());
+            user.setEmail(saveUserRequest.getEmail());
+            user.setPhone(saveUserRequest.getPhone());
+            user.setPassword (encoder.encode(saveUserRequest.getPassword()));
+            user.setRoles(roleEntities);
+            UserEntity userEntity =  userRepository.save(user);
+            CustomerEntity customer = new CustomerEntity();
+            customer.setAddress(saveUserRequest.getAddress());
+            customer.setEmail(saveUserRequest.getEmail());
+            customer.setPhone(saveUserRequest.getPhone());
+            customer.setFullName(saveUserRequest.getFullName());
+            customer.setUserEntity(userEntity);
+            customerRepository.save(customer);
+            return new DataObj().setEdesc("200").setEdesc("tạo tài khoản mới thành công");
+
+        }catch (Exception e){
+            return new DataObj().setEdesc("420").setEdesc("tạo tài khoản mới không thành công");
+
+        }    }
 }

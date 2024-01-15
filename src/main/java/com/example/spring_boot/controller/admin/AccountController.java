@@ -29,13 +29,18 @@ public class AccountController {
     public ResponseEntity<?> deleteAccount(@PathVariable("id") long id) {
         return new  ResponseEntity(accountService.delete(id), HttpStatus.OK);
     }
-    @PostMapping(value = "/update/{id}")
+    @PostMapping(value = "/update")
         public ResponseEntity<?> updateAccount(@RequestBody UserEntity userEntity) {
         return new ResponseEntity(accountService.save(userEntity), HttpStatus.OK);
     }
   @PostMapping(value = "/save-customer")
         public ResponseEntity<?> SaveCustomer(@RequestBody SaveUserRequest saveUserRequest) {
         return new  ResponseEntity(accountService.SaveUser(saveUserRequest), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/save-staff")
+    public ResponseEntity<?> SaveStaff(@RequestBody SaveUserRequest saveUserRequest) {
+        return new  ResponseEntity(accountService.SaveStaff(saveUserRequest), HttpStatus.OK);
     }
 
 }

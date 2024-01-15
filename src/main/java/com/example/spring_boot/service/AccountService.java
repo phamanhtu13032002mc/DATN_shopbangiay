@@ -19,5 +19,6 @@ public interface AccountService {
     UserEntity delete (Long id);
 
     DataObj SaveUser(SaveUserRequest saveUserRequest);
+    DataObj SaveStaff(SaveUserRequest saveUserRequest);
 
 }
