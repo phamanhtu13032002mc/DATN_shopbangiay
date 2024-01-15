@@ -123,7 +123,6 @@ public class CategoryServiceImpl implements CategoryService {
         dataObj.setEcode("200");
         dataObj.setEdesc("success");
         dataObj.setData(categoryPage.getContent());
-
         return dataObj;
     }
 
