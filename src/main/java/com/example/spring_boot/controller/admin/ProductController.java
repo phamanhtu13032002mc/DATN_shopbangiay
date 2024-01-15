@@ -39,6 +39,7 @@ public class ProductController {
     @PostMapping(value = "/find-all")
     public ResponseEntity<?> getProductList(
             @RequestBody ProductRequest productRequest) {
+        System.out.println(productRequest);
         return ResponseEntity.ok(productService.findAllProduct(productRequest));
     }
 
