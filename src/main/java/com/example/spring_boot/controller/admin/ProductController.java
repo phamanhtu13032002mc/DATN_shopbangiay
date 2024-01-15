@@ -1,6 +1,7 @@
 package com.example.spring_boot.controller.admin;
 
 import com.example.spring_boot.entity.CategoryEntity;
+import com.example.spring_boot.entity.ProductDetailEntity;
 import com.example.spring_boot.entity.ProductEntity;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
@@ -95,6 +96,7 @@ public class ProductController {
     }
     @PostMapping("/find-product-name-db")
     public ResponseEntity<?> findQuantityProductByName(@RequestBody OrderDetailRequest findQuantityProductRequest){
+        ProductDetailEntity pr = billRepository.findByIdProductAndNamePropertyAndNameIdSize(findQuantityProductRequest.getProductId(),findQuantityProductRequest.getProperty(),String.valueOf(findQuantityProductRequest.getSize()));
         return ResponseEntity.ok(billRepository.findByIdProductAndNamePropertyAndNameIdSize(findQuantityProductRequest.getProductId(),findQuantityProductRequest.getProperty(),String.valueOf(findQuantityProductRequest.getSize())));
     }
 

@@ -8,6 +8,8 @@ import com.example.spring_boot.payload.response.DailyStatusCountDTO;
 import com.example.spring_boot.payload.response.RevenueStatisticsDTO;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.BillService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,17 +18,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class BillServiceImpl extends BaseController implements BillService {
+    public static String GHN_URL = "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create";
+    public static String GHN_Token = "1b430556-d481-11ed-9eaf-eac62dba9bd9";
+    public static int ShopId = 4085648;
+
     @Autowired
     BillRepository billRepository;
     @Autowired
@@ -66,9 +73,9 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setCreateAt(LocalDate.now());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
-                ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndNamePropertyAndNameIdSize(odr.getProductId(), odr.getProperty(),String.valueOf(odr.getSize()));
+                ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndNamePropertyAndNameIdSize(odr.getProductId(), odr.getProperty(), String.valueOf(odr.getSize()));
                 ProductEntity product = productRepository.findByIdProduct(odr.getProductId());
-                if (product.getIsDelete() == true){
+                if (product.getIsDelete() == true) {
                     return new DataObj().setEcode("420").setEdesc("Sản phẩm không tồn tại");
 
                 }
@@ -79,8 +86,8 @@ public class BillServiceImpl extends BaseController implements BillService {
                     return new DataObj().setEcode("420").setEdesc("Rất tiếc Số Lượng Sản Phẩm trên hóa đơn Lớn hơn số hàng tồn trong kho");
 
                 }
-                    productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
-                    productDetailRepository.save(productEntity);
+                productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
+                productDetailRepository.save(productEntity);
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
                 orderDetailEntity.setProductDetailEntities(productEntity);
                 orderDetailEntity.setQuantity_oder(odr.getQuantity());
@@ -121,13 +128,17 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setDownTotal(createBillManger.getDownTotal());
             billEntity.setFullName(createBillManger.getFullName());
             billEntity.setNote(createBillManger.getNote());
+            billEntity.setOrderCode(get_order_code(createBillManger));
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
             CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
             if (customer.get().getEmail() != null) {
                 emailService.sendCreateBill(customerEntity, billEntity);
             }
-            return new DataObj().setEdesc("200").setEcode("success");
+            Map<String, Object> GHN = new HashMap<>();
+            GHN.put("orderCode", get_order_code(createBillManger));
+
+            return new DataObj(GHN).setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEdesc("400").setEcode("Error");
@@ -244,7 +255,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             return new DataObj().setEdesc("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
 
         }
-        if (updateBillCustomer.getEnumShipping()== EnumShipping.HUY){
+        if (updateBillCustomer.getEnumShipping() == EnumShipping.HUY) {
             //hoàn số lượng về kho
             List<ProductDetailEntity> quantities = new ArrayList<>();
             List<OrderDetailEntity> orderdetails = entity.getOderDetailEntities();
@@ -357,17 +368,17 @@ public class BillServiceImpl extends BaseController implements BillService {
                     }
                 }
             }
-                if (billRequest.getStatus() == EnumShipping.HUY) {
-                    List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
-                    List<OrderDetailEntity> orderDetailEntity = billEntity.getOderDetailEntities();
-                    for (OrderDetailEntity order : orderDetailEntity) {
-                        ProductDetailEntity productDetailEntity = order.getProductDetailEntities();
-                        productDetailEntity.setQuantity(productDetailEntity.getQuantity() + order.getQuantity_oder());
-                        productDetailEntityList.add(productDetailEntity);
-                    }
-                    productDetailRepository.saveAll(productDetailEntityList);
-
+            if (billRequest.getStatus() == EnumShipping.HUY) {
+                List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
+                List<OrderDetailEntity> orderDetailEntity = billEntity.getOderDetailEntities();
+                for (OrderDetailEntity order : orderDetailEntity) {
+                    ProductDetailEntity productDetailEntity = order.getProductDetailEntities();
+                    productDetailEntity.setQuantity(productDetailEntity.getQuantity() + order.getQuantity_oder());
+                    productDetailEntityList.add(productDetailEntity);
                 }
+                productDetailRepository.saveAll(productDetailEntityList);
+
+            }
 
             billEntity.setStatusShipping(billRequest.getStatus());
             billEntity.setUpdateAts(LocalDate.now());
@@ -467,8 +478,98 @@ public class BillServiceImpl extends BaseController implements BillService {
         return billRepository.getStatusCountsForCurrentMonth();
     }
 
-}
+    private String toJsonString(Object obj) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(obj);
+    }
+    private static String extractTrackingCode(HttpResponse<String> response) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readTree(response.body()).path("data").path("order_code").asText();
+    }
+    public String get_order_code(CreateBillManger createBillManger) throws JsonProcessingException {
+        List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
+        List<Map<String, Object>> externalItemList = new ArrayList<>();
+        for (OrderDetailRequest odr : orderDetailRequests) {
+            ProductDetailEntity productEntity = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(odr.getProductId(), odr.getPropertyId(), odr.getSizeId());
+            ProductEntity product = productRepository.findByIdProduct(odr.getProductId());
 
+            externalItemList.add(
+                    Map.of(
+                            "name", product.getNameProduct(),
+                            "code", product.getId().toString(),
+                            "quantity", odr.getQuantity(),
+                            "price", product.getPrice().intValue(),
+                            "length", 15,
+                            "width", 15,
+                            "weight", 1500,
+                            "height", 15,
+                            "category", Map.of(
+                                    "level1", product.getCategoryEntity().getName())
+                    )
+            );
+
+        }
+        Map<String, Object> orderData = new HashMap<>();
+        orderData.put("payment_type_id", 2);
+        orderData.put("note", createBillManger.getNote());
+        orderData.put("required_note", "KHONGCHOXEMHANG");
+        orderData.put("return_phone", createBillManger.getPhoneNumber());
+        orderData.put("return_address", createBillManger.getAddress());
+        orderData.put("client_order_code", "");
+        orderData.put("to_name", createBillManger.getFullName());
+        orderData.put("to_phone", createBillManger.getPhoneNumber());
+        orderData.put("to_address", createBillManger.getAddress());
+        orderData.put("to_ward_code", "907557");
+        orderData.put("to_district_id", 3440);
+        orderData.put("cod_amount", createBillManger.getDownTotal().intValue());
+        orderData.put("content", createBillManger.getNoteRefund());
+        orderData.put("weight", 200);
+        orderData.put("length", 1);
+        orderData.put("width", 19);
+        orderData.put("height", 10);
+        orderData.put("cod_failed_amount", 20000);
+        orderData.put("pick_station_id", 1444);
+        orderData.put("deliver_station_id", null);
+        orderData.put("insurance_value", createBillManger.getDownTotal().intValue());
+        orderData.put("service_id", 0);
+        orderData.put("service_type_id", 2);
+        orderData.put("coupon", null);
+        orderData.put("pick_shift", List.of(2));
+        orderData.put("items", externalItemList);
+        int statusCode = 0;
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(GHN_URL))
+                    .header("Content-Type", "application/json")
+                    .header("ShopId", String.valueOf(190785))
+                    .header("Token", "44f4ef01-b387-11ee-8bfa-8a2dda8ec551")
+                    .POST(HttpRequest.BodyPublishers.ofString(toJsonString(orderData)))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Kiểm tra trạng thái và xử lý phản hồi
+            statusCode = response.statusCode();
+            System.out.println("HTTP Status Code: " + statusCode);
+
+            if (statusCode == 200) {
+                System.out.println("Đơn hàng đã được tạo thành công.");
+                System.out.println("Mã vận đơn: " + extractTrackingCode(response));
+            } else {
+                System.out.println("Đã có lỗi xảy ra:");
+                System.out.println(response.body());
+            }
+            return extractTrackingCode(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Lỗi";
+
+        }
+
+    }
+}
 
 
 

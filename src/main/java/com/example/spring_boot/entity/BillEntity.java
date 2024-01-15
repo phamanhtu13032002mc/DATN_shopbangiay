@@ -50,6 +50,7 @@ public class BillEntity implements Serializable {
 
     private String sdt;
     private Boolean salesStatus;
+    private String orderCode;
 
     @Length(max = 2000)
     private String noteRefund;
