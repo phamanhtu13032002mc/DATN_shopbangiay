@@ -104,21 +104,21 @@ public class BillServiceImpl extends BaseController implements BillService {
             if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
                 VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(createBillManger.getVoucherId());
                 if (voucherEntity == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Không tìm thấy voucher");
+                    return new DataObj().setEcode("420").setEdesc("Không tìm thấy voucher");
                 }
                 if (createBillManger.getTotal() <  voucherEntity.getMinimumValue()) {
-                    return new DataObj().setEdesc("420").setEdesc("Hóa Đơn Nhỏ Hơn giá trị yêu cầu của voucher không thể ap dụng Voucher");
+                    return new DataObj().setEcode("420").setEdesc("Hóa Đơn Nhỏ Hơn giá trị yêu cầu của voucher không thể ap dụng Voucher");
                 }
                 if (voucherEntity.getAmount() <= 0) {
-                    return new DataObj().setEdesc("420").setEdesc("số lượng voucher đã hết");
+                    return new DataObj().setEcode("420").setEdesc("số lượng voucher đã hết");
 
                 }
                 if (voucherEntity.getEventEntity().getEndDay().isBefore(currentDate)) {
-                    return new DataObj().setEdesc("420").setEdesc("voucher đã hết hạn");
+                    return new DataObj().setEcode("420").setEdesc("voucher đã hết hạn");
 
                 }
                 if (voucherEntity.getEventEntity().getStartDay().isAfter(currentDate)) {
-                    return new DataObj().setEdesc("420").setEdesc("voucher Chưa bắt đầu");
+                    return new DataObj().setEcode("420").setEdesc("voucher Chưa bắt đầu");
                 }
                 billEntity.setDiscount(voucherEntity.getDiscount());
                 billEntity.setVoucherId(voucherEntity.getId());
