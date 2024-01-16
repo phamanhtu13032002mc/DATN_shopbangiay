@@ -100,6 +100,7 @@ public class VoucherServieceImpl implements VoucherService {
                 return new DataObj().setEcode("505").setEdesc("ID does not exit !");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");
         }
     }
@@ -123,23 +124,23 @@ public class VoucherServieceImpl implements VoucherService {
             LocalDate currentDate = LocalDate.now();
             VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(voucherRequest.getId());
             if (voucherEntity == null) {
-                return new DataObj().setEdesc("420").setEdesc("Không tìm thấy voucher");
+                return new DataObj().setEcode("420").setEdesc("Không tìm thấy voucher");
             }
             if (voucherRequest.getTotal() <  voucherEntity.getMinimumValue()) {
-                return new DataObj().setEdesc("420").setEdesc("Hóa Đơn Nhỏ Hơn giá trị yêu cầu của voucher không thể ap dụng Voucher");
+                return new DataObj().setEcode("420").setEdesc("Hóa Đơn Nhỏ Hơn giá trị yêu cầu của voucher không thể ap dụng Voucher");
             }
             if (voucherEntity.getAmount() <= 0) {
-                return new DataObj().setEdesc("420").setEdesc("số lượng voucher đã hết");
+                return new DataObj().setEcode("420").setEdesc("số lượng voucher đã hết");
 
             }
-            if (voucherEntity.getEventEntity().getEndDay().isBefore(currentDate)) {
-                return new DataObj().setEdesc("420").setEdesc("voucher đã hết hạn");
-
-            }
+//            if (voucherEntity.getEventEntity().getEndDay().isBefore(currentDate)) {
+//                return new DataObj().setEcode("420").setEdesc("voucher đã hết hạn");
+//
+//            }
             if (voucherEntity.getEventEntity().getStartDay().isAfter(currentDate)) {
-                return new DataObj().setEdesc("420").setEdesc("voucher Chưa bắt đầu");
+                return new DataObj().setEcode("420").setEdesc("voucher Chưa bắt đầu");
             }
-            return new DataObj(voucherEntity).setEdesc("200").setEdesc("Thành Công");
+            return new DataObj(voucherEntity).setEcode("200").setEdesc("Thành Công");
 
         }catch (Exception e)
         {

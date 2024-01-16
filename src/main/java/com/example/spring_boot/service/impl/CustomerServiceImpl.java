@@ -103,6 +103,8 @@ public class CustomerServiceImpl implements CustomerService {
                 return new DataObj().setEcode("420").setEdesc("ID does not exit !");
             }
         } catch (Exception e) {
+            e.printStackTrace();
+
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi update");
         }
     }

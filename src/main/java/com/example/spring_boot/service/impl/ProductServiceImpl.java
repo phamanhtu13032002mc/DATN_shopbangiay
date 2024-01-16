@@ -3,11 +3,6 @@ package com.example.spring_boot.service.impl;
 import com.example.spring_boot.entity.*;
 import com.example.spring_boot.payload.DataObj;
 import com.example.spring_boot.payload.request.*;
-import com.example.spring_boot.payload.request.CreateProduct;
-import com.example.spring_boot.payload.request.FindQuantityProductRequest;
-import com.example.spring_boot.payload.request.FindQuantityProductRequestByName;
-import com.example.spring_boot.payload.request.ProductRequest;
-import com.example.spring_boot.payload.request.UpdateQuantityProductRequest;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
                     productRequest.getSize().intValue()
             );
 
-            return productRepository.findAllProduct(productRequest.getId(), productRequest.getNameProduct(), productRequest.getCategoryName(),productRequest.getMinPrice(),productRequest.getMaxPrice(), pageable);
+            return productRepository.findAllProduct(productRequest.getId(), productRequest.getNameProduct(), productRequest.getCategoryName(), productRequest.getMinPrice(), productRequest.getMaxPrice(), pageable);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
@@ -110,50 +105,50 @@ public class ProductServiceImpl implements ProductService {
                 return new DataObj().setEcode("420").setEdesc("Tên sản phẩm đã tồn tại");
 
             }
-                DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                ProductEntity product = new ProductEntity();
-                ProductDetailEntity productDetail = new ProductDetailEntity();
-                Optional<CategoryEntity> category;
-                Optional<SizeEntity> size;
-                Optional<PropertyEntity> property;
-                Optional<ProductEntity> productId;
-                ProductDetailEntity productDetailEntity = new ProductDetailEntity();
-                if (createProduct.getImage() != null) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-                    String formattedDate = LocalDateTime.now().format(formatter);
-                    String fileName = createProduct.getImage().getOriginalFilename();
-                    fileName = formattedDate + ".jpg";
-                    Files.copy(createProduct.getImage().getInputStream(), this.root.resolve(fileName));
+            DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            ProductEntity product = new ProductEntity();
+            ProductDetailEntity productDetail = new ProductDetailEntity();
+            Optional<CategoryEntity> category;
+            Optional<SizeEntity> size;
+            Optional<PropertyEntity> property;
+            Optional<ProductEntity> productId;
+            ProductDetailEntity productDetailEntity = new ProductDetailEntity();
+            if (createProduct.getImage() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                String formattedDate = LocalDateTime.now().format(formatter);
+                String fileName = createProduct.getImage().getOriginalFilename();
+                fileName = formattedDate + ".jpg";
+                Files.copy(createProduct.getImage().getInputStream(), this.root.resolve(fileName));
 
-                    product.setImage("http://localhost:8080/image/get/" + fileName);
-                }
+                product.setImage("http://localhost:8080/image/get/" + fileName);
+            }
 
-                category = categoryRepository.findById(createProduct.getIdCategory());
-                size = sizeRepository.findById(createProduct.getIdSize());
-                property = propertyRepository.findById(createProduct.getIdProperties());
-                // save danh sách product
-                long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
+            category = categoryRepository.findById(createProduct.getIdCategory());
+            size = sizeRepository.findById(createProduct.getIdSize());
+            property = propertyRepository.findById(createProduct.getIdProperties());
+            // save danh sách product
+            long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
+            product.setId(randomNumber);
+            while (productRepository.existsById(product.getId())) {
                 product.setId(randomNumber);
-                while (productRepository.existsById(product.getId())) {
-                    product.setId(randomNumber);
-                }
-                product.setPrice(createProduct.getPrice());
+            }
+            product.setPrice(createProduct.getPrice());
 //                product.setDiscount(createProduct.getDiscount());
-                product.setStatus(createProduct.getStatus());
-                product.setNameProduct(createProduct.getNameProduct());
-                product.setDescription(createProduct.getDescription());
-                product.setDescriptionDetail(createProduct.getDescriptionDetail());
-                product.setCategoryEntity(category.get());
-                product.setDate_create(LocalDate.now());
-                ProductEntity entity = productRepository.save(product);
-                //sai the nay ma bao dung a Kien
-                productDetail.setIdProduct(entity);
-                productDetail.setIdProperty(property.get());
-                productDetail.setQuantity(createProduct.getQuantity());
-                productDetail.setIdProperty(property.get());
-                productDetail.setIdSize(size.get());
-                productDetailRepository.save(productDetail);
-                return new DataObj().setEcode("200").setEdesc("Success");
+            product.setStatus(createProduct.getStatus());
+            product.setNameProduct(createProduct.getNameProduct());
+            product.setDescription(createProduct.getDescription());
+            product.setDescriptionDetail(createProduct.getDescriptionDetail());
+            product.setCategoryEntity(category.get());
+            product.setDate_create(LocalDate.now());
+            ProductEntity entity = productRepository.save(product);
+            //sai the nay ma bao dung a Kien
+            productDetail.setIdProduct(entity);
+            productDetail.setIdProperty(property.get());
+            productDetail.setQuantity(createProduct.getQuantity());
+            productDetail.setIdProperty(property.get());
+            productDetail.setIdSize(size.get());
+            productDetailRepository.save(productDetail);
+            return new DataObj().setEcode("200").setEdesc("Success");
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -175,6 +170,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public DataObj updateProduct(UpdateProductRequest updateProductRequest) {
+
         try {
 
             DateTimeFormatter formatterCreate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -182,11 +178,11 @@ public class ProductServiceImpl implements ProductService {
             if (product == null) {
                 return new DataObj().setEcode("420").setEdesc("sản phẩm không tồn tại");
             }
-            ProductDetailEntity productDetail = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(updateProductRequest.getId(), updateProductRequest.getIdSize(), updateProductRequest.getIdProperties());
-            if (productDetail == null) {
-                return new DataObj().setEcode("420").setEdesc("sản phẩm không tồn tại");
-
-            }
+//            ProductDetailEntity productDetail = productDetailRepository.findByIdProductAndIdPropertyAndAndIdSize(updateProductRequest.getId(), updateProductRequest.getIdSize(), updateProductRequest.getIdProperties());
+//            if (productDetail == null) {
+//                return new DataObj().setEcode("420").setEdesc("sản phẩm không tồn tại");
+//
+//            }
             Optional<CategoryEntity> category;
             Optional<SizeEntity> size;
             Optional<PropertyEntity> property;
@@ -202,9 +198,9 @@ public class ProductServiceImpl implements ProductService {
                 product.setImage("http://localhost:8080/image/get/" + fileName);
             }
 
-            category = categoryRepository.findById(updateProductRequest.getIdCategory());
-            size = sizeRepository.findById(updateProductRequest.getIdSize());
-            property = propertyRepository.findById(updateProductRequest.getIdProperties());
+//            category = categoryRepository.findById(updateProductRequest.getIdCategory());
+//            size = sizeRepository.findById(updateProductRequest.getIdSize());
+//            property = propertyRepository.findById(updateProductRequest.getIdProperties());
             // save danh sách product
             product.setPrice(updateProductRequest.getPrice());
 //            product.setDiscount(createProduct.getDiscount());
@@ -212,19 +208,20 @@ public class ProductServiceImpl implements ProductService {
             product.setNameProduct(updateProductRequest.getNameProduct());
             product.setDescription(updateProductRequest.getDescription());
             product.setDescriptionDetail(updateProductRequest.getDescriptionDetail());
-            product.setCategoryEntity(category.get());
+//            product.setCategoryEntity(category.get());
             product.setDate_create(LocalDate.now());
             ProductEntity entity = productRepository.save(product);
-            if (property.get() != null) {
-                productDetail.setIdProperty(property.get());
-            }
-            if (size.get() != null) {
-                productDetail.setIdSize(size.get());
-            }
-            productDetail.setQuantity(updateProductRequest.getQuantity());
-            productDetailRepository.save(productDetail);
+//            if (property.get() != null) {
+//                productDetail.setIdProperty(property.get());
+//            }
+//            if (size.get() != null) {
+//                productDetail.setIdSize(size.get());
+//            }
+//            productDetail.setQuantity(updateProductRequest.getQuantity());
+//            productDetailRepository.save(productDetail);
             return new DataObj().setEcode("200").setEdesc("Update thành công");
         } catch (Exception e) {
+            e.printStackTrace();
             return new DataObj().setEcode("420").setEdesc("Update thất bại");
         }
     }
@@ -248,25 +245,25 @@ public class ProductServiceImpl implements ProductService {
 
             return new DataObj().setEdesc("Success").setEcode("200").setData(
                     productDetailRepository.findQuantityByName(findQuantityProductRequest.getNameProduct()
-                    , findQuantityProductRequest.getProperty()
-                    , findQuantityProductRequest.getSize()));
+                            , findQuantityProductRequest.getProperty()
+                            , findQuantityProductRequest.getSize()));
         } catch (Exception e) {
             e.printStackTrace();
             return new DataObj().setEcode("420").setEdesc("Error").setData(e);
 
         }
-        }
+    }
 
     @Override
-    public DataObj updateQuantityProduct(UpdateQuantityProductRequest  quantityProductRequest) {
+    public DataObj updateQuantityProduct(UpdateQuantityProductRequest quantityProductRequest) {
         try {
-            ProductDetailEntity productDetail = productDetailRepository.updateQuantityProduct(quantityProductRequest.getProductId(),quantityProductRequest.getNameSize(),quantityProductRequest.getNameProperty());
+            ProductDetailEntity productDetail = productDetailRepository.updateQuantityProduct(quantityProductRequest.getProductId(), quantityProductRequest.getNameSize(), quantityProductRequest.getNameProperty());
             productDetail.setQuantity(quantityProductRequest.getQuantity());
             productDetailRepository.save(productDetail);
-            return  new DataObj().setEcode("200").setEdesc("Thành công");
-        }catch (Exception e){
+            return new DataObj().setEcode("200").setEdesc("Thành công");
+        } catch (Exception e) {
             e.printStackTrace();
-            return  new DataObj().setEcode("420").setEdesc("thất bại");
+            return new DataObj().setEcode("420").setEdesc("thất bại");
 
         }
 
