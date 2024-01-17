@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
                     productRequest.getSize().intValue());
 
 
-            return productRepository.findProductsAndDetails(productRequest.getId(),productRequest.getNameProduct(),productRequest.getCategoryName(),productRequest.getIdColor(),productRequest.getIdSize(),pageable);
+            return productRepository.findProductsAndDetails(productRequest.getId(),productRequest.getNameProduct(),productRequest.getCategoryName(),productRequest.getIdColor(),productRequest.getIdSize(),productRequest.getMinPrice(),productRequest.getMaxPrice(),pageable);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;

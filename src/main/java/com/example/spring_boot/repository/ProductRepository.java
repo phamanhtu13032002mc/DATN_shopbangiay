@@ -69,7 +69,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             "AND (:nameProduct IS NULL OR p.name_product like CONCAT('%', :nameProduct, '%')) " +
             "AND (:nameCate IS NULL OR c.name like CONCAT('%', :nameCate, '%')) " +
             "AND (:propertiesId IS NULL OR pr.id_property = :propertiesId)" +
-            "AND (:sizeID IS NULL OR s.id = :sizeID)" +
+            "AND (:sizeID IS NULL OR s.id = :sizeID) " +
+            "AND (:minPrice IS NULL OR :maxPrice IS NULL OR (p.price BETWEEN :minPrice AND :maxPrice)) " +
             "AND p.is_delete = 0 " +
             "ORDER BY p.id DESC ",
             countQuery = "SELECT COUNT(DISTINCT p.id) " +
@@ -83,6 +84,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                     " AND (:nameCate IS NULL OR c.name like CONCAT('%', :nameCate, '%'))" +
                     " AND (:propertiesId IS NULL OR pr.id_property = :propertiesId)" +
                     " AND (:sizeID IS NULL OR s.id = :sizeID) " +
+                    " AND (:minPrice IS NULL OR :maxPrice IS NULL OR (p.price BETWEEN :minPrice AND :maxPrice)) " +
                     "  AND p.is_delete = 0 ",
             nativeQuery = true)
     Page<ProductEntity> findProductsAndDetails(
@@ -91,6 +93,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             @Param("nameCate") String nameCate,
             @Param("propertiesId") Long propertiesId,
             @Param("sizeID") Long sizeID,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice,
              Pageable pageable
 
     );
