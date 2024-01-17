@@ -7,14 +7,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PropertyRepository extends JpaRepository<PropertyEntity,Long> {
 
-    @Query(value = "SELECT * FROM property WHERE is_delete = 0 ORDER BY id_property DESC",nativeQuery = true)
-    Page<PropertyEntity> findAllProperties(PropertiesRequest propertiesRequest, Pageable pageable);
+    @Query("SELECT p  FROM PropertyEntity p " +
+            "WHERE (:name IS NULL OR p.name LIKE CONCAT('%', :name, '%'))" +
+            "AND p.isDelete = false ORDER BY p.idProperty DESC")
+    Page<PropertyEntity> findAllProperties(@Param("name") String name, Pageable pageable);
 
     PropertyEntity findByIdProperty(Long idProperty);
 

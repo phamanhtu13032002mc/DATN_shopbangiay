@@ -29,7 +29,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Page<EventEntity> findAllEvent(EventRequest eventRequest) {
         Pageable pageable = PageRequest.of(Math.toIntExact(eventRequest.getPage()), Math.toIntExact(eventRequest.getSize()));
-        return eventRepossitory.findAllEvent(eventRequest, pageable);
+        return eventRepossitory.findAllEvent(eventRequest.getName(), pageable);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class AccountServiceImpl implements AccountService {
             return new DataObj().setEdesc("200").setEdesc("tạo tài khoản mới thành công");
 
         }catch (Exception e){
-            return new DataObj().setEdesc("420").setEdesc("tạo tài khoản mới không thành công");
+            return new DataObj().setEcode("420").setEdesc("tạo tài khoản mới không thành công");
 
         }
     }
@@ -117,7 +117,7 @@ public class AccountServiceImpl implements AccountService {
             return new DataObj().setEdesc("200").setEdesc("tạo tài khoản mới thành công");
 
         }catch (Exception e){
-            return new DataObj().setEdesc("420").setEdesc("tạo tài khoản mới không thành công");
+            return new DataObj().setEcode("420").setEdesc("tạo tài khoản mới không thành công");
 
         }    }
 }

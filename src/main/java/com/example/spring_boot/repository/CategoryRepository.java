@@ -14,8 +14,10 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity,Long> {
 
-    @Query(value = "SELECT * FROM category WHERE is_delete = 0 ORDER BY id DESC",nativeQuery = true)
-    Page<CategoryEntity> findAllCategory(CategoryRequest categoryRequest, Pageable pageable);
+    @Query("SELECT c  FROM CategoryEntity c " +
+            "WHERE (:name IS NULL OR c.name LIKE CONCAT('%', :name, '%'))" +
+            "AND c.isDelete = false ORDER BY c.id DESC")
+    Page<CategoryEntity> findAllCategory(@Param("name") String name , Pageable pageable);
     @Query(value = "select c.id as id ,c.name as nameCategory from CategoryEntity c")
     List<CategoryResponse> findNameCategory();
     @Query("SELECT C FROM CategoryEntity C WHERE  C.name LIKE %:name%")

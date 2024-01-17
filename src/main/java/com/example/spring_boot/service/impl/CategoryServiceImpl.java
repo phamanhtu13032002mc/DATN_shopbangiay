@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<CategoryEntity> findAllCategory(CategoryRequest categoryRequest) {
         Pageable pageable = PageRequest.of(Math.toIntExact(categoryRequest.getPage()), Math.toIntExact(categoryRequest.getSize()));
-        return categoryRepository.findAllCategory(categoryRequest, pageable);
+        return categoryRepository.findAllCategory(categoryRequest.getName(), pageable);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class SizeServiceImpl implements SizeService {
     @Override
     public Page<SizeEntity> findAllSize(SizeRequest sizeRequest) {
         Pageable pageable = PageRequest.of(Math.toIntExact(sizeRequest.getPage()), Math.toIntExact(sizeRequest.getSize()));
-        return sizeRepository.findAllProduct(sizeRequest, pageable);
+        return sizeRepository.findAllProduct(sizeRequest.getName(), pageable);
     }
 
     @Override

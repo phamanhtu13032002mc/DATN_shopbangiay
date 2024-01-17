@@ -40,7 +40,7 @@ public class VoucherServieceImpl implements VoucherService {
     @Override
     public Page<VoucherEntity> findAllVoucher(VoucherRequest voucherRequest) {
         Pageable pageable = PageRequest.of(Math.toIntExact(voucherRequest.getPage()), Math.toIntExact(voucherRequest.getSize()));
-        return voucherRepository.findAllHistoryPay(voucherRequest, pageable);
+        return voucherRepository.findAllHistoryPay(voucherRequest.getName(), pageable);
     }
 
     @Override

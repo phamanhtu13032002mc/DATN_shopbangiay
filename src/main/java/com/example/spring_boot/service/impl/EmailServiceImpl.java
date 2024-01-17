@@ -37,6 +37,7 @@ public class EmailServiceImpl {
                 + "<p>Họ tên người nhận: <b>" + billEntity.getFullName() + "</b></p>"
                 + "<p>Tổng giá trị đơn hàng: <b>" + billEntity.getDownTotal() + "đ </b></p>"
                 + "<p>Địa chỉ nhận hàng: <b>" + billEntity.getAddress() + "</b></p>"
+                + "<p>Mã vận đơn Trên Ghn: <b>" + billEntity.getOrderCode() + "</b></p>"
                 + "<br>"
                 + "<p><u>Mọi thắc mắc vui lòng liên hệ:</u> stridestyleshoes@gmail.com</p>";
 

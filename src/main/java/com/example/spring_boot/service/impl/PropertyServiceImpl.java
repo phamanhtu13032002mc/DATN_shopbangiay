@@ -44,7 +44,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Page<PropertyEntity> findAllProperties(PropertiesRequest propertiesRequest) {
         Pageable pageable = PageRequest.of(Math.toIntExact(propertiesRequest.getPage()), Math.toIntExact(propertiesRequest.getSize()));
-        return propertyRepository.findAllProperties(propertiesRequest, pageable);
+        return propertyRepository.findAllProperties(propertiesRequest.getName(), pageable);
     }
 
     @Override

@@ -8,14 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     @Query("SELECT p " +
-            "FROM ProductEntity p " +
-            "WHERE (:productId IS NULL OR p.id = :productId) " +
+            "FROM ProductEntity p WHERE (:productId IS NULL OR p.id = :productId) " +
             "AND (:nameProduct IS NULL OR p.nameProduct LIKE CONCAT('%', :nameProduct, '%')) " +
             "AND (:nameCate IS NULL OR p.categoryEntity.name LIKE CONCAT('%', :nameCate, '%')) " +
             "AND (:minPrice IS NULL OR :maxPrice IS NULL OR (p.price BETWEEN :minPrice AND :maxPrice))"+
@@ -58,6 +58,44 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             "AND product.name_product LIKE %:productName% " +
             "GROUP BY product_detail.id ", nativeQuery = true)
     List<Object[]> findProductsByName(@Param("productName") String productName);
+
+    @Query(value = "SELECT DISTINCT p.* " +
+            "FROM product p " +
+            "LEFT JOIN product_detail pd ON p.id = pd.id_product " +
+            "LEFT JOIN category c ON p.id_category = c.id " +
+            "LEFT JOIN property pr ON pr.id_property = pd.id_property " +
+            "LEFT JOIN size s ON s.id = pd.id_size " +
+            "WHERE (:productId IS NULL OR p.id = :productId) " +
+            "AND (:nameProduct IS NULL OR p.name_product like CONCAT('%', :nameProduct, '%')) " +
+            "AND (:nameCate IS NULL OR c.name like CONCAT('%', :nameCate, '%')) " +
+            "AND (:propertiesId IS NULL OR pr.id_property = :propertiesId)" +
+            "AND (:sizeID IS NULL OR s.id = :sizeID)" +
+            "AND p.is_delete = 0 " +
+            "ORDER BY p.id DESC ",
+            countQuery = "SELECT COUNT(DISTINCT p.id) " +
+                    "FROM product p " +
+                    "LEFT JOIN product_detail pd ON p.id = pd.id_product " +
+                    "LEFT JOIN category c ON p.id_category = c.id " +
+                    "LEFT JOIN property pr ON pr.id_property = pd.id_property " +
+                    "LEFT JOIN size s ON s.id = pd.id_size " +
+                    "WHERE (:productId IS NULL OR p.id = :productId)" +
+                    " AND (:nameProduct IS NULL OR p.name_product like CONCAT('%', :nameProduct, '%'))" +
+                    " AND (:nameCate IS NULL OR c.name like CONCAT('%', :nameCate, '%'))" +
+                    " AND (:propertiesId IS NULL OR pr.id_property = :propertiesId)" +
+                    " AND (:sizeID IS NULL OR s.id = :sizeID) " +
+                    "  AND p.is_delete = 0 ",
+            nativeQuery = true)
+    Page<ProductEntity> findProductsAndDetails(
+            @Param("productId") Long productId,
+            @Param("nameProduct") String nameProduct,
+            @Param("nameCate") String nameCate,
+            @Param("propertiesId") Long propertiesId,
+            @Param("sizeID") Long sizeID,
+             Pageable pageable
+
+    );
+
+
 
 
 }

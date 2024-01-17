@@ -9,7 +9,9 @@ import com.example.spring_boot.payload.response.RevenueStatisticsDTO;
 import com.example.spring_boot.repository.*;
 import com.example.spring_boot.service.BillService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,8 +33,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class BillServiceImpl extends BaseController implements BillService {
     public static String GHN_URL = "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create";
-    public static String GHN_Token = "1b430556-d481-11ed-9eaf-eac62dba9bd9";
-    public static int ShopId = 4085648;
+
 
     @Autowired
     BillRepository billRepository;
@@ -61,8 +62,9 @@ public class BillServiceImpl extends BaseController implements BillService {
         try {
             LocalDate currentDate = LocalDate.now();
 
+
             long randomNumber = ThreadLocalRandom.current().nextLong(10000000L, 100000000L);
-            Optional<CustomerEntity> customer = customerRepository.findById(createBillManger.getIdCustomer());
+            CustomerEntity customer = customerRepository.findByIdUser(createBillManger.getIdCustomer());
             BillEntity billEntity = new BillEntity();
             billEntity.setId(randomNumber);
             while (billRepository.existsById(billEntity.getId())) {
@@ -71,7 +73,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             }
 
             List<OrderDetailEntity> orderdetails = new ArrayList<>();
-            billEntity.setCustomerEntity(customer.get());
+            billEntity.setCustomerEntity(customer);
             billEntity.setCreateAt(LocalDate.now());
             List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
             for (OrderDetailRequest odr : orderDetailRequests) {
@@ -106,7 +108,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 if (voucherEntity == null) {
                     return new DataObj().setEcode("420").setEdesc("Không tìm thấy voucher");
                 }
-                if (createBillManger.getTotal() <  voucherEntity.getMinimumValue()) {
+                if (createBillManger.getTotal() < voucherEntity.getMinimumValue()) {
                     return new DataObj().setEcode("420").setEdesc("Hóa Đơn Nhỏ Hơn giá trị yêu cầu của voucher không thể ap dụng Voucher");
                 }
                 if (voucherEntity.getAmount() <= 0) {
@@ -139,9 +141,8 @@ public class BillServiceImpl extends BaseController implements BillService {
             billEntity.setOrderCode(get_order_code(createBillManger));
             billRepository.save(billEntity);
             orderDetailRepository.saveAll(orderdetails);
-            CustomerEntity customerEntity = customerRepository.findByIdUser(customer.get().getId());
-            if (customer.get().getEmail() != null) {
-                emailService.sendCreateBill(customerEntity, billEntity);
+            if (customer.getEmail() != null) {
+                emailService.sendCreateBill(customer, billEntity);
             }
             Map<String, Object> GHN = new HashMap<>();
             GHN.put("orderCode", get_order_code(createBillManger));
@@ -206,14 +207,14 @@ public class BillServiceImpl extends BaseController implements BillService {
             if (createBillManger.getVoucherId() != null && createBillManger.getVoucherId() != 0) {
                 VoucherEntity voucherEntity = voucherRepository.findByIdVoucher(createBillManger.getVoucherId());
                 if (voucherEntity == null) {
-                    return new DataObj().setEdesc("420").setEdesc("Không tìm thấy voucher");
+                    return new DataObj().setEcode("420").setEdesc("Không tìm thấy voucher");
 
                 }
                 if (createBillManger.getTotal() < 350000L) {
-                    return new DataObj().setEdesc("420").setEdesc("Hóa Đơn Nhỏ Hơn 350k không thể ap dụng Voucher");
+                    return new DataObj().setEcode("420").setEdesc("Hóa Đơn Nhỏ Hơn 350k không thể ap dụng Voucher");
                 }
                 if (voucherEntity.getAmount() <= 0) {
-                    return new DataObj().setEdesc("420").setEdesc("voucher đã hết hạn");
+                    return new DataObj().setEcode("420").setEdesc("voucher đã hết hạn");
 
                 }
 
@@ -243,7 +244,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             return new DataObj().setData(billEntity).setEdesc("200").setEcode("success");
         } catch (Exception e) {
             e.printStackTrace();
-            return new DataObj().setEdesc("420").setEcode("Error");
+            return new DataObj().setEcode("420").setEcode("Error");
         }
     }
 
@@ -251,16 +252,16 @@ public class BillServiceImpl extends BaseController implements BillService {
     public DataObj updateBillCustomer(UpdateBillCustomer updateBillCustomer) {
         BillEntity entity = billRepository.findByidBill(updateBillCustomer.getIdBill());
         if (entity == null) {
-            return new DataObj().setEdesc("420").setEcode("Đơn hàng không tồn tại");
+            return new DataObj().setEcode("420").setEcode("Đơn hàng không tồn tại");
 
         }
         if (!entity.getStatusShipping().equals(EnumShipping.CHUA_XAC_NHAN)) {
-            return new DataObj().setEdesc("420").setEcode("không thể hủy đơn hàng khi đã xác nhận");
+            return new DataObj().setEcode("420").setEcode("không thể hủy đơn hàng khi đã xác nhận");
 
         }
         CustomerEntity customer = customerRepository.findByIdUser(getAuthUID());
         if (!Objects.equals(customer.getId(), entity.getCustomerEntity().getId())) {
-            return new DataObj().setEdesc("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
+            return new DataObj().setEcode("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
 
         }
         if (updateBillCustomer.getEnumShipping() == EnumShipping.HUY) {
@@ -290,23 +291,23 @@ public class BillServiceImpl extends BaseController implements BillService {
         BillEntity billEntity = billRepository.findByidBill(updateBillCustomer.getIdBill());
         CustomerEntity customer = customerRepository.findByIdUser(getAuthUID());
         if (!Objects.equals(customer.getId(), billEntity.getCustomerEntity().getId())) {
-            return new DataObj().setEdesc("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
+            return new DataObj().setEcode("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
 
         }
         if (billEntity.getStatusShipping() == EnumShipping.CHUA_XAC_NHAN || billEntity.getStatusShipping() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
             billEntity.setStatusShipping(EnumShipping.HUY);
         }
         if (billEntity.getStatusShipping() == EnumShipping.DA_GIAO_BEN_VAN_CHUYEN) {
-            return new DataObj().setEdesc("420").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
+            return new DataObj().setEcode("420").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HUY) {
-            return new DataObj().setEdesc("420").setEcode("Đơn hàng này đã được hủy trước đó");
+            return new DataObj().setEcode("420").setEcode("Đơn hàng này đã được hủy trước đó");
         }
         if (billEntity.getStatusShipping() == EnumShipping.KHACH_DA_NHAN_HANG) {
-            return new DataObj().setEdesc("420").setEcode("khách đã nhận hàng không thể hủy");
+            return new DataObj().setEcode("420").setEcode("khách đã nhận hàng không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HOAN_HANG) {
-            return new DataObj().setEdesc("420").setEcode("đơn hàng đang được hoàn ề không thể hủy");
+            return new DataObj().setEcode("420").setEcode("đơn hàng đang được hoàn ề không thể hủy");
         }
         billEntity.setUpdateAts(LocalDate.now());
         billRepository.save(billEntity);
@@ -318,7 +319,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     public DataObj cancelBillManager(BillManager billManager) {
         BillEntity billEntity = billRepository.findByidBill(billManager.getIdBill());
         if (billEntity == null) {
-            return new DataObj().setEdesc("420").setEcode("không tìm thấy đơn hàng");
+            return new DataObj().setEcode("420").setEcode("không tìm thấy đơn hàng");
         }
         CustomerEntity customer = billEntity.getCustomerEntity();
 
@@ -335,16 +336,16 @@ public class BillServiceImpl extends BaseController implements BillService {
 
         }
         if (billEntity.getStatusShipping() == EnumShipping.DA_GIAO_BEN_VAN_CHUYEN) {
-            return new DataObj().setEdesc("420").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
+            return new DataObj().setEcode("420").setEcode("Đơn hàng đã giao bên vận chuyển không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HUY) {
-            return new DataObj().setEdesc("420").setEcode("Đơn hàng này đã được hủy trước đó");
+            return new DataObj().setEcode("420").setEcode("Đơn hàng này đã được hủy trước đó");
         }
         if (billEntity.getStatusShipping() == EnumShipping.KHACH_DA_NHAN_HANG) {
-            return new DataObj().setEdesc("420").setEcode("khách đã nhận hàng không thể hủy");
+            return new DataObj().setEcode("420").setEcode("khách đã nhận hàng không thể hủy");
         }
         if (billEntity.getStatusShipping() == EnumShipping.HOAN_HANG) {
-            return new DataObj().setEdesc("420").setEcode("đơn hàng đang được hoàn ề không thể hủy");
+            return new DataObj().setEcode("420").setEcode("đơn hàng đang được hoàn ề không thể hủy");
         }
         billEntity.setUpdateAts(LocalDate.now());
 
@@ -364,11 +365,11 @@ public class BillServiceImpl extends BaseController implements BillService {
                         OrderDetailEntity orderDetailUpdate = orderDetailRepository.findByidOrOrderById(orderDetailRequest.getOrderDetailId());
                         ProductDetailEntity productDetailEntity = orderDetailUpdate.getProductDetailEntities();
                         if (productDetailEntity.getQuantity() < orderDetailRequest.getQuantity()) {
-                            return new DataObj().setEdesc("420").setEcode("Số Lượng sản phẩm quá lớn");
+                            return new DataObj().setEcode("420").setEcode("Số Lượng sản phẩm quá lớn");
 
                         }
                         if (orderDetailUpdate == null) {
-                            return new DataObj().setEdesc("420").setEcode("Order không tồn tại");
+                            return new DataObj().setEcode("420").setEcode("Order không tồn tại");
                         }
                         orderDetailUpdate.setQuantity_oder(orderDetailRequest.getQuantity());
                         orderDetailRepository.save(orderDetailUpdate);
@@ -398,7 +399,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             return new DataObj().setEdesc("200").setEcode("Cập nhật đơn hàng thành công");
         } catch (Exception e) {
             e.printStackTrace();
-            return new DataObj().setEdesc("420").setEcode("Lỗi Cập nhật đơn hàng");
+            return new DataObj().setEcode("420").setEcode("Lỗi Cập nhật đơn hàng");
 
 
         }
@@ -490,10 +491,12 @@ public class BillServiceImpl extends BaseController implements BillService {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
     }
+
     private static String extractTrackingCode(HttpResponse<String> response) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readTree(response.body()).path("data").path("order_code").asText();
     }
+
     public String get_order_code(CreateBillManger createBillManger) throws JsonProcessingException {
         List<OrderDetailRequest> orderDetailRequests = createBillManger.getOrderDetailRequests();
         List<Map<String, Object>> externalItemList = new ArrayList<>();
@@ -558,6 +561,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+
             // Kiểm tra trạng thái và xử lý phản hồi
             statusCode = response.statusCode();
             System.out.println("HTTP Status Code: " + statusCode);
@@ -568,7 +572,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             } else {
                 System.out.println("Đã có lỗi xảy ra:");
                 System.out.println(response.body());
-                return "Đã có lỗi xảy ra: "+ response.body();
+                return "Đã có lỗi xảy ra: " + response.body();
             }
             return extractTrackingCode(response);
         } catch (Exception e) {

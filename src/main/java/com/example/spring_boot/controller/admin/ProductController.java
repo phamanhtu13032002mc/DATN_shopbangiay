@@ -43,6 +43,12 @@ public class ProductController {
         System.out.println(productRequest);
         return ResponseEntity.ok(productService.findAllProduct(productRequest));
     }
+    @PostMapping(value = "/find-all-customer")
+    public ResponseEntity<?> findProductsAndDetails(
+            @RequestBody findProductsAndDetailsRequest productRequest) {
+        System.out.println(productRequest);
+        return ResponseEntity.ok(productService.findProductsAndDetails(productRequest));
+    }
 
     @GetMapping(value = "/find-by-id/{idProduct}")
     public ResponseEntity<?> findById(@PathVariable Long idProduct){
