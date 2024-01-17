@@ -19,7 +19,7 @@ public class SizeEntity implements Serializable {
     private String name;
     @JsonIgnore
     @Column(name = "isDelete")
-    private Boolean isDelete;
+    private Boolean isDelete = false;
 
     @JsonIgnore
     @OneToMany(mappedBy = "idSize")

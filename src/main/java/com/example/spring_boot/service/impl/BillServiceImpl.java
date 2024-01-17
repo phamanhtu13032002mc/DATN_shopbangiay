@@ -90,8 +90,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                     return new DataObj().setEcode("420").setEdesc("Rất tiếc Số Lượng Sản Phẩm trên hóa đơn Lớn hơn số hàng tồn trong kho");
 
                 }
-                productEntity.setQuantity(productEntity.getQuantity() - odr.getQuantity());
-                productDetailRepository.save(productEntity);
+
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
                 orderDetailEntity.setProductDetailEntities(productEntity);
                 orderDetailEntity.setQuantity_oder(odr.getQuantity());
@@ -264,7 +263,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             return new DataObj().setEcode("420").setEcode("không thể hủy đơn hàng này (không đủ quyền hạn)");
 
         }
-        if (updateBillCustomer.getEnumShipping() == EnumShipping.HUY) {
+        if (updateBillCustomer.getEnumShipping() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
             //hoàn số lượng về kho
             List<ProductDetailEntity> quantities = new ArrayList<>();
             List<OrderDetailEntity> orderdetails = entity.getOderDetailEntities();
@@ -325,14 +324,6 @@ public class BillServiceImpl extends BaseController implements BillService {
 
         if (billEntity.getStatusShipping() == EnumShipping.CHUA_XAC_NHAN || billEntity.getStatusShipping() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
             billEntity.setStatusShipping(EnumShipping.HUY);
-            List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
-            List<OrderDetailEntity> orderDetailEntity = billEntity.getOderDetailEntities();
-            for (OrderDetailEntity orderDetail : orderDetailEntity) {
-                ProductDetailEntity productDetailEntity = orderDetail.getProductDetailEntities();
-                productDetailEntity.setQuantity(productDetailEntity.getQuantity() + orderDetail.getQuantity_oder());
-                productDetailEntityList.add(productDetailEntity);
-            }
-            productDetailRepository.saveAll(productDetailEntityList);
 
         }
         if (billEntity.getStatusShipping() == EnumShipping.DA_GIAO_BEN_VAN_CHUYEN) {
@@ -377,12 +368,12 @@ public class BillServiceImpl extends BaseController implements BillService {
                     }
                 }
             }
-            if (billRequest.getStatus() == EnumShipping.HUY) {
+            if (billRequest.getStatus() == EnumShipping.DA_XAC_NHAN_VA_DONG_GOI) {
                 List<ProductDetailEntity> productDetailEntityList = new ArrayList<>();
                 List<OrderDetailEntity> orderDetailEntity = billEntity.getOderDetailEntities();
                 for (OrderDetailEntity order : orderDetailEntity) {
                     ProductDetailEntity productDetailEntity = order.getProductDetailEntities();
-                    productDetailEntity.setQuantity(productDetailEntity.getQuantity() + order.getQuantity_oder());
+                    productDetailEntity.setQuantity(productDetailEntity.getQuantity() - order.getQuantity_oder());
                     productDetailEntityList.add(productDetailEntity);
                 }
                 productDetailRepository.saveAll(productDetailEntityList);

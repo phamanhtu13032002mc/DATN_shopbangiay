@@ -51,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
                     productRequest.getSize().intValue()
             );
 
+
             return productRepository.findAllProduct(productRequest.getId(), productRequest.getNameProduct(), productRequest.getCategoryName(), productRequest.getMinPrice(), productRequest.getMaxPrice(), pageable);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -64,9 +65,7 @@ public class ProductServiceImpl implements ProductService {
             Pageable pageable = PageRequest.of(
                     productRequest.getPage().intValue(),
                     productRequest.getSize().intValue());
-
-
-            return productRepository.findProductsAndDetails(productRequest.getId(),productRequest.getNameProduct(),productRequest.getCategoryName(),productRequest.getIdColor(),productRequest.getIdSize(),productRequest.getMinPrice(),productRequest.getMaxPrice(),pageable);
+            return productRepository.findProductsAndDetails(productRequest.getId(),productRequest.getNameProduct(),productRequest.getCategoryName(),productRequest.getIdColor() ,productRequest.getIdSize(),productRequest.getMinPrice(),productRequest.getMaxPrice(),pageable);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
@@ -163,10 +162,8 @@ public class ProductServiceImpl implements ProductService {
                 return new DataObj().setEcode("200").setEdesc("Success");
             }else {
                 ProductDetailEntity productDetail = new ProductDetailEntity();
-                Optional<CategoryEntity> category;
                 Optional<SizeEntity> size;
                 Optional<PropertyEntity> property;
-                category = categoryRepository.findById(createProduct.getIdCategory());
                 size = sizeRepository.findById(createProduct.getIdSize());
                 property = propertyRepository.findById(createProduct.getIdProperties());
                 productDetail.setIdProduct(productName);
