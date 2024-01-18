@@ -133,10 +133,10 @@ public class VoucherServieceImpl implements VoucherService {
                 return new DataObj().setEcode("420").setEdesc("số lượng voucher đã hết");
 
             }
-//            if (voucherEntity.getEventEntity().getEndDay().isBefore(currentDate)) {
-//                return new DataObj().setEcode("420").setEdesc("voucher đã hết hạn");
-//
-//            }
+            if (voucherEntity.getEventEntity().getEndDay().isBefore(currentDate)) {
+                return new DataObj().setEcode("420").setEdesc("voucher đã hết hạn");
+
+            }
             if (voucherEntity.getEventEntity().getStartDay().isAfter(currentDate)) {
                 return new DataObj().setEcode("420").setEdesc("voucher Chưa bắt đầu");
             }

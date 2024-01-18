@@ -112,11 +112,9 @@ public class BillServiceImpl extends BaseController implements BillService {
                 }
                 if (voucherEntity.getAmount() <= 0) {
                     return new DataObj().setEcode("420").setEdesc("số lượng voucher đã hết");
-
                 }
-                if (voucherEntity.getEventEntity().getEndDay().isBefore(currentDate)) {
+                if (voucherEntity.getEventEntity().getEndDay().compareTo(currentDate) < 0) {
                     return new DataObj().setEcode("420").setEdesc("voucher đã hết hạn");
-
                 }
                 if (voucherEntity.getEventEntity().getStartDay().isAfter(currentDate)) {
                     return new DataObj().setEcode("420").setEdesc("voucher Chưa bắt đầu");
